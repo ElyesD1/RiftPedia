@@ -1,4 +1,3 @@
-//
 //  ContentView.swift
 //  RiftPedia
 //
@@ -6,81 +5,63 @@
 //
 
 import SwiftUI
-import CoreData
+
+extension Color {
+    static let appAccent = Color("Accent")
+    static let appBackground = Color("Background")
+    static let appButton = Color("Button")
+    static let appLabel = Color("Label")
+}
 
 struct ContentView: View {
-    @Environment(\.managedObjectContext) private var viewContext
-
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
-        animation: .default)
-    private var items: FetchedResults<Item>
-
     var body: some View {
-        NavigationView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp!, formatter: itemFormatter)")
-                    } label: {
-                        Text(item.timestamp!, formatter: itemFormatter)
+        NavigationStack { // Use NavigationStack instead of NavigationView
+            ZStack {
+                // Background Color
+                Color.appBackground
+                    .ignoresSafeArea()
+
+                VStack(spacing: 20) {
+                    // Logo at the Top
+                    Image("Logo")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 300)
+                        .padding(.top, 0)
+
+                    // Welcome Title
+                    Text("Welcome to RiftPedia")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                        .foregroundColor(.appLabel)
+
+                    // Description
+                    Text("Explore League of Legends lore, champions, and player stats all in one place!")
+                        .font(.body)
+                        .multilineTextAlignment(.center)
+                        .foregroundColor(.appLabel)
+                        .padding(.horizontal, 20)
+
+                    Spacer()
+
+                    // Navigation Button
+                    NavigationLink(destination: SearchScreen()) {
+                        Text("Get Started")
+                            .foregroundColor(.appBackground) // Text color contrasts with the button color
+                            .padding()
+                            .frame(maxWidth: 200)
+                            .background(Color.appButton)
+                            .cornerRadius(10)
                     }
+                    .padding(.bottom, 50) // Adjust this value to move the button higher
                 }
-                .onDelete(perform: deleteItems)
-            }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
-                    }
-                }
-            }
-            Text("Select an item")
-        }
-    }
-
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(context: viewContext)
-            newItem.timestamp = Date()
-
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            }
-        }
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            offsets.map { items[$0] }.forEach(viewContext.delete)
-
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+                .padding()
             }
         }
     }
 }
-
-private let itemFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .short
-    formatter.timeStyle = .medium
-    return formatter
-}()
-
+// Preview
 #Preview {
-    ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+    ContentView()
+        .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
 }
