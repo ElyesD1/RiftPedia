@@ -23,8 +23,8 @@ This project is a **League of Legends Match Tracker** application built using Sw
 
 Here are a few screenshots of the app in action:
 
-![Champion Performance](assets/screenshot1.png)
-![Game Overview](assets/screenshot2.png)
+![Champion Performance](assets/screenshot1)
+![Game Overview](assets/screenshot2)
 
 ## Installation
 
