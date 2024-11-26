@@ -33,9 +33,10 @@ To run this project locally, follow these steps:
 1. **Clone the repository:**
    ```bash
    git clone [https://github.com/ElyesD1/RiftPedia/new/Elyes-Darouich.git]
-   	2.	Open the project in Xcode:
+   ```
+2. **Open the project in Xcode:**
 Navigate to the project folder and open the .xcodeproj file.
-	3.	Run the app:
+3. **Run the app:**
 	•	Ensure that your Xcode is set up with the latest version of Swift.
 	•	Select a simulator or connect your device.
 	•	Click Run to build and launch the app.
