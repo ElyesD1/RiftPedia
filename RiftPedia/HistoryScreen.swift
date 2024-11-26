@@ -34,9 +34,15 @@ struct Match: Identifiable, Decodable {
     let summonerSpellIcons: [String]
     let primaryRunes: [Rune]
     let secondaryRunes: [Rune]
-   
+    let damageDealt: Int // Added damage dealt
+    let creepScore: Int // Added for total minions killed
+    let visionScore: String // Optional because it might not be present for ARAM games
     let individualPosition: String // New field for individual position
-    
+    var wardIcon: String? // Holds the ward item's icon URL
+    var csPerMinute: Double {
+            // Convert gameDuration to minutes and calculate CS/min
+            return gameDuration > 0 ? Double(creepScore) / (Double(gameDuration) / 60.0) : 0.0
+        }
     enum CodingKeys: String, CodingKey {
         case metadata
         case info
@@ -72,8 +78,12 @@ struct Match: Identifiable, Decodable {
         case summoner1Id
         case summoner2Id
         case perks
-       
+        case totalDamageDealtToChampions
         case individualPosition
+        case neutralMinionsKilled
+        case totalMinionsKilled
+        case visionScore
+        case wardIcon
     }
 
     enum PerksKeys: String, CodingKey {
@@ -88,6 +98,7 @@ struct Match: Identifiable, Decodable {
     enum PerksSelectionKeys: String, CodingKey {
         case perk
     }
+    static let wardItemIds: Set<Int> = [3340, 3363, 3364, 2055, 4642] // Example IDs for wards
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -116,7 +127,16 @@ struct Match: Identifiable, Decodable {
                 assists = try participant.decode(Int.self, forKey: .assists)
                 isWin = try participant.decode(Bool.self, forKey: .win)
                 championIcon = "https://ddragon.leagueoflegends.com/cdn/14.23.1/img/champion/\(championName).png"
-
+             
+                if queueId != 450 {
+                    if let score = try participant.decodeIfPresent(Int.self, forKey: .visionScore) {
+                        visionScore = "Vision: \(score)"
+                    } else {
+                        visionScore = "" // Vision score is nil; set empty string
+                    }
+                } else {
+                    visionScore = "" // ARAM queue; no vision score
+                }
                 // Decode items
                 let itemIds = [
                     try participant.decode(Int.self, forKey: .item0),
@@ -127,8 +147,19 @@ struct Match: Identifiable, Decodable {
                     try participant.decode(Int.self, forKey: .item5),
                     try participant.decode(Int.self, forKey: .item6)
                 ]
-                itemIcons = itemIds.map { "https://ddragon.leagueoflegends.com/cdn/14.23.1/img/item/\($0).png" }
+                var regularItems: [String] = []
+                            var wardItem: String? = nil
 
+                            for itemId in itemIds {
+                                if Self.wardItemIds.contains(itemId) {
+                                    wardItem = "https://ddragon.leagueoflegends.com/cdn/14.23.1/img/item/\(itemId).png"
+                                } else if itemId > 0 { // Filter out empty item slots (ID 0)
+                                    regularItems.append("https://ddragon.leagueoflegends.com/cdn/14.23.1/img/item/\(itemId).png")
+                                }
+                            }
+
+                            self.itemIcons = regularItems
+                            self.wardIcon = wardItem
                 // Decode summoner spells
                 let summonerSpellIds = [
                     try participant.decode(Int.self, forKey: .summoner1Id),
@@ -144,7 +175,15 @@ struct Match: Identifiable, Decodable {
                 primaryRunes = try Self.decodeRunes(from: styles, isPrimary: true)
                 secondaryRunes = try Self.decodeRunes(from: styles, isPrimary: false)
                 individualPosition = try participant.decode(String.self, forKey: .individualPosition)
-                
+                damageDealt = try participant.decode(Int.self, forKey: .totalDamageDealtToChampions)
+                // Decode neutral and total minions killed
+                           let neutralMinionsKilled = try participant.decode(Int.self, forKey: .neutralMinionsKilled)
+                           let totalMinionsKilled = try participant.decode(Int.self, forKey: .totalMinionsKilled)
+                           let creepScore = neutralMinionsKilled + totalMinionsKilled
+
+                           // Store the calculated creep score
+                           self.creepScore = creepScore
+                               
               
 
                 return
@@ -220,7 +259,7 @@ struct Match: Identifiable, Decodable {
         switch queueId {
         case 420: return "Ranked solo/duo"
         case 440: return "Ranked flex"
-        case 400: return "Draft"
+        case 400: return "Normal"
         case 450: return "Aram"
         default: return "Normal"
         }
@@ -421,142 +460,145 @@ struct HistoryScreen: View {
     }
 
     var body: some View {
-           NavigationStack {
-               VStack {
-                   ZStack {
-                       Color("Background")
-                           .ignoresSafeArea()
+        NavigationStack {
+            VStack {
+                ZStack {
+                    Color("Background")
+                        .ignoresSafeArea()
 
-                       VStack {
-                           HStack(alignment: .center, spacing: 15) {
-                               if let iconUrl = summonerIconUrl {
-                                   AsyncImage(url: URL(string: iconUrl)) { image in
-                                       image.resizable()
-                                           .scaledToFit()
-                                           .frame(width: 80, height: 80)
-                                           .clipShape(Circle())
-                                           .overlay(Circle().stroke(Color.white, lineWidth: 4))
-                                           .shadow(radius: 5)
-                                   } placeholder: {
-                                       ProgressView()
-                                           .progressViewStyle(CircularProgressViewStyle())
-                                           .scaleEffect(2)
-                                   }
-                               } else {
-                                   Image(systemName: "person.circle.fill")
-                                       .resizable()
-                                       .frame(width: 80, height: 80)
-                                       .clipShape(Circle())
-                                       .overlay(Circle().stroke(Color.white, lineWidth: 4))
-                                       .shadow(radius: 5)
-                               }
+                    VStack {
+                        // Card Section
+                        HStack(alignment: .center, spacing: 15) {
+                            if let iconUrl = summonerIconUrl {
+                                AsyncImage(url: URL(string: iconUrl)) { image in
+                                    image.resizable()
+                                        .scaledToFit()
+                                        .frame(width: 100, height: 100)
+                                       
+                                       
+                                        .shadow(radius: 5)
+                                } placeholder: {
+                                    ProgressView()
+                                        .progressViewStyle(CircularProgressViewStyle())
+                                        .scaleEffect(2)
+                                }
+                            } else {
+                                Image(systemName: "person.circle.fill")
+                                    .resizable()
+                                    .frame(width: 80, height: 80)
+                                    .clipShape(Circle())
+                                    .overlay(Circle().stroke(Color.white, lineWidth: 4))
+                                    .shadow(radius: 5)
+                            }
 
-                               VStack(alignment: .leading, spacing: 5) {
-                                   Text("\(name)#\(tag)")
-                                       .font(.headline)
-                                       .foregroundColor(.white)
-                                       .bold()
+                            VStack(alignment: .leading, spacing: 5) {
+                                Text("\(name)#\(tag)")
+                                    .font(.headline)
+                                    .foregroundColor(.white)
+                                    .bold()
 
-                                   if isLoading {
-                                       Text("Loading...")
-                                           .font(.subheadline)
-                                           .foregroundColor(.white.opacity(0.8))
-                                   } else {
-                                       Text("Level \(summonerLevel)")
-                                           .font(.subheadline)
-                                           .foregroundColor(.white.opacity(0.8))
-                                   }
+                                if isLoading {
+                                    Text("Loading...")
+                                        .font(.subheadline)
+                                        .foregroundColor(.white.opacity(0.8))
+                                } else {
+                                    Text("Level \(summonerLevel)")
+                                        .font(.subheadline)
+                                        .foregroundColor(.white.opacity(0.8))
+                                }
 
-                                   if let rank = summonerRank {
-                                       HStack(spacing: 10) {
-                                           if let rankIconName = summonerRankIconUrl {
-                                               Image(rankIconName)
-                                                   .resizable()
-                                                   .scaledToFit()
-                                                   .frame(width: 40, height: 40)
-                                                   .shadow(radius: 5)
-                                           }
+                                if let rank = summonerRank {
+                                    HStack(spacing: 10) {
+                                        if let rankIconName = summonerRankIconUrl {
+                                            Image(rankIconName)
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: 40, height: 40)
+                                                .shadow(radius: 5)
+                                        }
 
-                                           Text(rank)
-                                               .font(.subheadline)
-                                               .foregroundColor(.white.opacity(0.8))
-                                       }
-                                   }
+                                        Text(rank)
+                                            .font(.subheadline)
+                                            .foregroundColor(.white.opacity(0.8))
+                                    }
+                                }
 
-                                   if let wr = winRate {
-                                       HStack {
-                                           Text("\(String(format: "%.1f", wr))% Win Rate")
-                                               .font(.subheadline)
-                                               .foregroundColor(wr >= 60 ? .green :
-                                                                wr >= 50 ? Color("lightGreen") :
-                                                                wr >= 40 ? .yellow :
-                                                                wr >= 30 ? .orange : .red)
-                                               .lineLimit(1) // Ensures the text is always on one line
-                                                           .minimumScaleFactor(0.8) // Scales down the text if needed
-
-                                           // Vertical black line separator
-                                           Divider()
-                                               .frame(height: 40) // Adjust the height of the divider
-                                               .background(wr >= 60 ? .green :
-                                                            wr >= 50 ? Color("lightGreen") :
+                                if let wr = winRate {
+                                    HStack {
+                                        Text("\(String(format: "%.1f", wr))% Win Rate")
+                                            .font(.subheadline)
+                                            .foregroundColor(wr >= 60 ? .green :
+                                                            wr >= 50 ? .green :
                                                             wr >= 40 ? .yellow :
                                                             wr >= 30 ? .orange : .red)
+                                            .lineLimit(1)
+                                            .minimumScaleFactor(0.8)
 
-                                           // Add the games count text
-                                           Text("Last \(games) games")
-                                               .font(.subheadline)
-                                               .foregroundColor(wr >= 60 ? .green :
-                                                                wr >= 50 ? Color("lightGreen") :
-                                                                wr >= 40 ? .yellow :
-                                                                wr >= 30 ? .orange : .red)
-                                       }
-                                   }
+                                        Divider()
+                                            .frame(width: 1, height: 40)
+                                            .background(wr >= 60 ? .green :
+                                                        wr >= 50 ? .green :
+                                                        wr >= 40 ? .yellow :
+                                                        wr >= 30 ? .orange : .red)
 
-                                   if let errorMessage = errorMessage {
-                                       Text("Error: \(errorMessage)")
-                                           .font(.subheadline)
-                                           .foregroundColor(.red)
-                                   }
-                               }
+                                        Text("Last \(games) games")
+                                            .font(.subheadline)
+                                            .foregroundColor(wr >= 60 ? .green :
+                                                            wr >= 50 ? .green :
+                                                            wr >= 40 ? .yellow :
+                                                            wr >= 30 ? .orange : .red)
+                                    }
+                                }
 
-                               Spacer()
+                                if let errorMessage = errorMessage {
+                                    Text("Error: \(errorMessage)")
+                                        .font(.subheadline)
+                                        .foregroundColor(.red)
+                                }
+                            }
 
-                               // Add a load button
-                               Button(action: loadMoreMatches) {
-                                   Image(systemName: "arrow.clockwise.circle.fill")
-                                       .resizable()
-                                       .frame(width: 25, height: 25)
-                                       .foregroundColor(Color("Button"))
-                                       .shadow(radius: 2)
-                               }
-                               .buttonStyle(BorderlessButtonStyle()) // Prevent default button styling
-                           }
-                           .padding()
-                           .background(Color.white.opacity(0.1))
-                           .cornerRadius(12)
-                           .shadow(radius: 3)
-                           .padding(.horizontal)
+                          
+                        }
+                        .padding()
+                        .background(Color.white.opacity(0.1))
+                        .cornerRadius(12)
+                        .shadow(radius: 3)
+                        
+                        // New Button Section: Load games
+                        Button(action: loadMoreMatches) {
+                            Text("Load games")
+                                .font(.headline)
+                                .foregroundColor(Color("Background"))
+                                .padding()
+                                .frame(maxWidth: .infinity)
+                                .background(Color("Button"))
+                                .cornerRadius(8)
+                                .shadow(radius: 5)
+                        }
+                        .padding(.horizontal)
+                        // Add top padding to give space between card and button
 
-                           List(matchHistory) { match in
-                               MatchCell(match: match)
-                                   .listRowInsets(EdgeInsets())
-                                   .listRowBackground(Color("Background"))
-                           }
-                           .listStyle(PlainListStyle())
-                           .background(Color("Background"))
-                           .padding(.horizontal)
+                        // Match List
+                        List(matchHistory) { match in
+                            MatchCell(match: match)
+                                .listRowInsets(EdgeInsets())
+                                .listRowBackground(Color("Background"))
+                        }
+                        .listStyle(PlainListStyle())
+                        .background(Color("Background"))
+                        .padding(.horizontal)
 
-                           Spacer()
-                       }
-                       .padding(.top, 20)
-                       .onAppear {
-                           fetchSummonerData()
-                           fetchMatchHistory()
-                       }
-                   }
-               }
-           }
-       }
+                        Spacer()
+                    }
+                    .padding(.top, 20)
+                    .onAppear {
+                        fetchSummonerData()
+                        fetchMatchHistory()
+                    }
+                }
+            }
+        }
+    }
 
     
 
@@ -824,86 +866,118 @@ struct MatchCell: View {
     }
 
   
-    func mapPositionToLabel(position: String) -> String {
+    func mapPositionToLabel(position: String) -> (label: String, imageName: String) {
         switch position.uppercased() {
         case "MIDDLE":
-            return "Midlane"
+            return ("Midlane", "midlane")
         case "JUNGLE":
-            return "Jungle"
+            return ("Jungle", "jungle")
         case "UTILITY":
-            return "Support"
+            return ("Support", "support")
         case "TOP":
-            return "Toplane"
+            return ("Toplane", "toplane")
         case "BOTTOM":
-            return "Botlane"
+            return ("Botlane", "botlane")
         case "INVALID":
-            return "" // Return an empty string for "INVALID"
+            return ("N/A", "aram")
         default:
-            return position // In case it's an unexpected position
+            return (position, "aram") // Default to "aram" for unexpected values
         }
     }
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
+            // Top section: Champion, details, position, and damage stats
             HStack {
                 // Champion Icon
                 AsyncImage(url: URL(string: match.championIcon)) { image in
                     image.resizable()
                         .scaledToFit()
-                        .frame(width: 60, height: 60)
-                        .clipShape(Circle())
+                        .frame(width: 66, height: 66)
+                        
                 } placeholder: {
                     ProgressView()
                 }
 
                 Divider()
-                    .frame(width: 0.5, height: 80)
+                    .frame(width: 1, height: 80)
                     .background(match.isWin ? .blue : .red)
 
-                // Champion Details (Name, KDA, Game Mode, Duration)
+                // Champion Details
                 VStack(alignment: .leading, spacing: 4) {
                     Text(match.championName)
                         .font(.headline)
                         .foregroundColor(.white)
-                        .bold()
 
                     Text("\(match.kills) / \(match.deaths) / \(match.assists)")
-                        .font(.subheadline)
+                        .font(.footnote)
                         .foregroundColor(.gray)
 
                     Text(match.gameMode)
-                        .font(.headline)
+                        .font(.subheadline)
                         .foregroundColor(match.isWin ? .blue : .red)
 
-                    // Game Duration
                     Text("\(match.formattedGameDuration())")
-                        .font(.subheadline)
+                        .font(.footnote)
                         .foregroundColor(.gray)
                 }
-                
-                Spacer()
 
-                // Displaying mapped individual position on the right side
-                Text(mapPositionToLabel(position: match.individualPosition))
-                    .font(.headline)
-                    .foregroundColor(.white)
+                Divider()
+                    .frame(width: 1, height: 80)
+                    .background(match.isWin ? .blue : .red)
+
+                // Position and Damage Stats
+                let positionData = mapPositionToLabel(position: match.individualPosition)
+
+                HStack {
+                    VStack(spacing: 4) {
+                        Text(positionData.label)
+                            .font(.subheadline)
+                            .foregroundColor(.white)
+
+                        Image(positionData.imageName)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 33, height: 33)
+                            .clipShape(Circle())
+                    }
+                    Divider()
+                        .frame(width: 1, height: 80)
+                        .background(match.isWin ? .blue : .red)
+
+                    VStack(alignment: .trailing, spacing: 4) {
+                        Text("Damage: \(match.damageDealt)")
+                            .font(.footnote)
+                            .foregroundColor(.gray)
+
+                        Text("CS \(match.creepScore) (\(String(format: "%.2f", match.csPerMinute)))")
+                            .font(.footnote)
+                            .foregroundColor(.gray)
+
+                        if !match.visionScore.isEmpty {
+                            Text(match.visionScore)
+                                .font(.footnote)
+                                .foregroundColor(.gray)
+                        }
+                    }
+                }
             }
 
-            // Divider separating the top and bottom sections
             Divider()
-                .frame(width: 350, height: 0.5)
+                .frame(width: 350, height: 1)
                 .background(match.isWin ? .blue : .red)
 
+            // Bottom section: Items, ward icon, runes, and summoner spells
             HStack {
-                // Horizontal ScrollView for Items
+                // Scrollable Items
                 ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 8) {
+                    HStack(spacing: 3) {
                         let uniqueItemIcons = Array(Set(match.itemIcons)).filter { $0 != "https://ddragon.leagueoflegends.com/cdn/14.23.1/img/item/0.png" }
 
                         ForEach(uniqueItemIcons, id: \.self) { itemIcon in
                             AsyncImage(url: URL(string: itemIcon)) { image in
                                 image.resizable()
                                     .scaledToFit()
-                                    .frame(width: 32, height: 32)
+                                    .frame(width: 33, height: 33)
                                     .clipShape(RoundedRectangle(cornerRadius: 4))
                             } placeholder: {
                                 ProgressView()
@@ -913,9 +987,27 @@ struct MatchCell: View {
                     .padding(.horizontal, 4)
                 }
 
-                Spacer()
+                Divider()
+                    .frame(width: 1, height: 80)
+                    .background(match.isWin ? .blue : .red)
 
-                // Rune Icons and Summoner Spells
+                // Ward Icon (placed between Items and Runes/Summoner Spells)
+                if let wardIcon = match.wardIcon {
+                    AsyncImage(url: URL(string: wardIcon)) { image in
+                        image.resizable()
+                            .scaledToFit()
+                            .frame(width: 30, height: 30)
+                            .clipShape(RoundedRectangle(cornerRadius: 4))
+                    } placeholder: {
+                        ProgressView()
+                    }
+                }
+
+                Divider()
+                    .frame(width: 1, height: 80)
+                    .background(match.isWin ? .blue : .red)
+
+                // Rune and Summoner Spell Icons
                 VStack(spacing: 8) {
                     // Rune Icons
                     HStack(spacing: 8) {
@@ -924,13 +1016,15 @@ struct MatchCell: View {
                             Image(runeImage(for: runeName))
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: 30, height: 30)
-                                .clipShape(Circle())
+                                .frame(width: 32, height: 32)
+                                
                         }
                     }
+
                     Divider()
                         .frame(width: 60, height: 0.5)
                         .background(match.isWin ? .blue : .red)
+
                     // Summoner Spell Icons
                     HStack(spacing: 8) {
                         ForEach(match.summonerSpellIcons, id: \.self) { spellName in
@@ -938,7 +1032,7 @@ struct MatchCell: View {
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 28, height: 28)
-                                .clipShape(Circle())
+                                
                         }
                     }
                 }
@@ -951,4 +1045,4 @@ struct MatchCell: View {
         .background(match.isWin ? Color.blue.opacity(0.2) : Color.red.opacity(0.2))
         .cornerRadius(8)
     }
-}
+   }
