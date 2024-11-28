@@ -11,8 +11,33 @@ struct ChampionStruct: Codable {
     let name: String
     let title: String
     let passive: Passive
+    let tags: [String]
     let spells: [Spell]
-    let skins: [Skin] // Added to fetch skins and splash count
+    let skins: [Skin]
+    let stats: Stats // Add stats property
+}
+
+struct Stats: Codable {
+    let hp: Double
+    let hpperlevel: Double
+    let mp: Double
+    let mpperlevel: Double
+    let movespeed: Double
+    let armor: Double
+    let armorperlevel: Double
+    let spellblock: Double
+    let spellblockperlevel: Double
+    let attackrange: Double
+    let hpregen: Double
+    let hpregenperlevel: Double
+    let mpregen: Double
+    let mpregenperlevel: Double
+    let crit: Double
+    let critperlevel: Double
+    let attackdamage: Double
+    let attackdamageperlevel: Double
+    let attackspeedperlevel: Double
+    let attackspeed: Double
 }
 
 struct Passive: Codable {
@@ -80,10 +105,10 @@ struct ChampDet: View {
                 .ignoresSafeArea()
 
             VStack {
-                Spacer().frame(height: 50) // Adjust this height to push the content lower
+                Spacer().frame(height: 1) // Adjust this height to push the content lower
 
                 if let detail = championStruct {
-                    VStack(spacing: 16) {
+                    VStack(spacing: 5) {
                         // Top Section: Champion Image, Name, and Title
                         if let imageURL = URL(string: "https://ddragon.leagueoflegends.com/cdn/14.23.1/img/champion/\(detail.id).png") {
                             AsyncImage(url: imageURL) { image in
@@ -91,6 +116,7 @@ struct ChampDet: View {
                                     .resizable()
                                     .scaledToFit()
                                     .frame(height: 130)
+                                    .cornerRadius(10)
                                     .padding(.top)
                             } placeholder: {
                                 ProgressView()
@@ -105,8 +131,44 @@ struct ChampDet: View {
                             Text(detail.title)
                                 .font(.headline)
                                 .foregroundColor(.gray)
+                            if !detail.tags.isEmpty {
+                                Text(detail.tags.joined(separator: ", ")) // Join tags with commas
+                                    .font(.headline)
+                                    .foregroundColor(.gray) // Use a color that contrasts well
+                            }
                         }
+                        VStack(alignment: .center, spacing: 4) {
+                                               Text("Base stats")
+                                                   .font(.subheadline)
+                                                   .foregroundColor(.white)
+                                                   .bold()
 
+                                               HStack {
+                                                   VStack(alignment: .leading, spacing: 4) {
+                                                       Text("HP: \(detail.stats.hp, specifier: "%.0f")")
+                                                       Text("HP per Level: \(detail.stats.hpperlevel, specifier: "%.1f")")
+                                                       Text("MP: \(detail.stats.mp, specifier: "%.0f")")
+                                                       Text("MP per Level: \(detail.stats.mpperlevel, specifier: "%.1f")")
+                                                       Text("Move Speed: \(detail.stats.movespeed, specifier: "%.0f")")
+                                                       Text("Armor: \(detail.stats.armor, specifier: "%.1f")")
+                                                   }
+
+                                                   Spacer()
+
+                                                   VStack(alignment: .leading, spacing: 4) {
+                                                       Text("Spell Block: \(detail.stats.spellblock, specifier: "%.1f")")
+                                                       Text("Attack Damage: \(detail.stats.attackdamage, specifier: "%.1f")")
+                                                       Text("Attack Speed: \(detail.stats.attackspeed, specifier: "%.2f")")
+                                                       Text("Attack Range: \(detail.stats.attackrange, specifier: "%.0f")")
+                                                       Text("HP Regen: \(detail.stats.hpregen, specifier: "%.1f")")
+                                                       Text("MP Regen: \(detail.stats.mpregen, specifier: "%.1f")")
+                                                   }
+                                               }
+                                               .foregroundColor(.gray)
+                                               .font(.footnote)
+                                           }
+                                           .padding(.top, 8)
+                                       }
                         // Add spacing here to create space between title and skins
                         Spacer().frame(height: 20) // Adjust this height to your preference
 
@@ -137,7 +199,7 @@ struct ChampDet: View {
                         .frame(height: 200)
                     
                         Spacer() // Push passive and spells to the bottom
-                    }
+                    
 
                     // Bottom Section: Passive and Spells
                     GeometryReader { geometry in
@@ -152,6 +214,7 @@ struct ChampDet: View {
                                         image
                                             .resizable()
                                             .frame(width: 48, height: 48)
+                                            .cornerRadius(10)
                                             .onTapGesture {
                                                 showAlert(name: detail.passive.name, description: detail.passive.description)
                                             }
@@ -167,6 +230,7 @@ struct ChampDet: View {
                                             image
                                                 .resizable()
                                                 .frame(width: 48, height: 48)
+                                                .cornerRadius(10)
                                                 .onTapGesture {
                                                     showAlert(name: spell.name, description: spell.description)
                                                 }
@@ -207,10 +271,16 @@ struct ChampDet: View {
     }
 
     // MARK: - Helper Methods
-
+    func stripHTML(from string: String) -> String {
+        var cleanString = string
+        while let range = cleanString.range(of: "<[^>]+>", options: .regularExpression) {
+            cleanString.replaceSubrange(range, with: " ") // Replace tags with a space
+        }
+        return cleanString.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
     private func showAlert(name: String, description: String) {
-        alertTitle = name
-        alertDescription = description
+        alertTitle = stripHTML(from: name) // Clean the name if needed
+        alertDescription = stripHTML(from: description) // Clean the description
         showAlert = true
     }
 }

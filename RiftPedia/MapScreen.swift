@@ -348,10 +348,10 @@ struct RegionView: View {
             Image(region.iconName)
                 .resizable()
                 .scaledToFit()
-                .frame(width: 38, height: 38) // Icon size
-                .background(Circle().fill(Color("Background")).frame(width: 60, height: 60)) // Larger circle than the icon
-                .overlay(Circle().stroke(Color("Button"), lineWidth: 3)) // Circle border
-                .clipShape(Circle()) // Ensures the image stays within the circular border
+                .frame(width: 28, height: 28) // Icon size
+                .background(Circle().fill(Color("Background")).frame(width: 50, height: 50)) // Larger circle than the icon
+                 // Circle border
+                 // Ensures the image stays within the circular border
             
             Text(region.name)
                 .font(.headline)
