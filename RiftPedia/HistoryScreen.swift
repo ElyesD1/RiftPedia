@@ -992,15 +992,26 @@ struct MatchCell: View {
                     .background(match.isWin ? .blue : .red)
 
                 // Ward Icon (placed between Items and Runes/Summoner Spells)
-                if let wardIcon = match.wardIcon {
-                    AsyncImage(url: URL(string: wardIcon)) { image in
-                        image.resizable()
-                            .scaledToFit()
-                            .frame(width: 30, height: 30)
-                            .clipShape(RoundedRectangle(cornerRadius: 4))
-                    } placeholder: {
-                        ProgressView()
+                // Ward Icon (placed between Items and Runes/Summoner Spells)
+                if match.gameMode != "Aram" {
+                    // Show ward icon if not ARAM
+                    if let wardIcon = match.wardIcon {
+                        AsyncImage(url: URL(string: wardIcon)) { image in
+                            image.resizable()
+                                .scaledToFit()
+                                .frame(width: 30, height: 30)
+                                .clipShape(RoundedRectangle(cornerRadius: 4))
+                        } placeholder: {
+                            ProgressView()
+                        }
                     }
+                } else {
+                    // Show placeholder for ARAM game mode using local asset
+                    Image("placeHolder") // Use your asset name here
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 20, height: 20)
+                        .clipShape(RoundedRectangle(cornerRadius: 4))
                 }
 
                 Divider()
