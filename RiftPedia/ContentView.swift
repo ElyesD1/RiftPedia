@@ -85,7 +85,7 @@ struct ContentView: View {
                                     .cornerRadius(10)
                             }
                         }
-                        .padding(30) // Add padding inside the card
+                        .padding(20) // Add padding inside the card
                     }
                     .padding(.horizontal, 20) // Adjust card's width relative to screen
                     .padding(.bottom, 70) // Adjust this value for spacing
