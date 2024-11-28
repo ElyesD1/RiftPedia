@@ -15,13 +15,13 @@ struct ContentView: View {
                 Color.appBackground
                     .ignoresSafeArea()
 
-                VStack(spacing: 20) {
+                VStack(spacing: 10) { // Adjusted spacing for closer elements
                     // Logo at the Top
                     Image("Logo")
                         .resizable()
                         .scaledToFit()
                         .frame(height: 300)
-                        .padding(.top, 0)
+                        .padding(.top, 20)
 
                     // Welcome Title
                     Text("Welcome to RiftPedia")
@@ -36,7 +36,7 @@ struct ContentView: View {
                         .foregroundColor(.appLabel)
                         .padding(.horizontal, 20)
 
-                    Spacer()
+                    Spacer() // Adds space between the text and the buttons
 
                     // Buttons inside a Card
                     ZStack {
@@ -70,6 +70,15 @@ struct ContentView: View {
                             // New Champion Wiki Button
                             NavigationLink(destination: ChampWiki()) {
                                 Text("Explore our Champion Wiki")
+                                    .foregroundColor(.appBackground)
+                                    .frame(width: buttonWidth, height: 50)
+                                    .background(Color.appButton)
+                                    .cornerRadius(10)
+                            }
+
+                            // New Items Wiki Button
+                            NavigationLink(destination: ItemWiki()) {
+                                Text("Explore our Items Wiki")
                                     .foregroundColor(.appBackground)
                                     .frame(width: buttonWidth, height: 50)
                                     .background(Color.appButton)
