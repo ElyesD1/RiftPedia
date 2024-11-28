@@ -1,9 +1,3 @@
-//  ContentView.swift
-//  RiftPedia
-//
-//  Created by Elyes Darouich on 23/11/2024.
-//
-
 import SwiftUI
 
 extension Color {
@@ -15,7 +9,7 @@ extension Color {
 
 struct ContentView: View {
     var body: some View {
-        NavigationStack { // Use NavigationStack instead of NavigationView
+        NavigationStack {
             ZStack {
                 // Background Color
                 Color.appBackground
@@ -44,24 +38,55 @@ struct ContentView: View {
 
                     Spacer()
 
-                    // Navigation Button
-                    NavigationLink(destination: SearchScreen()) {
-                        Text("Get Started")
-                            .foregroundColor(.appBackground) // Text color contrasts with the button color
-                            .padding()
-                            .frame(maxWidth: 200)
-                            .background(Color.appButton)
-                            .cornerRadius(10)
+                    // Buttons inside a Card
+                    ZStack {
+                        // Card Background
+                        RoundedRectangle(cornerRadius: 20)
+                            .fill(Color.appBackground.opacity(10)) // Semi-transparent card
+                            .shadow(radius: 5)
+
+                        // Buttons
+                        VStack(spacing: 15) {
+                            let buttonWidth: CGFloat = 300 // Set a fixed width for uniformity
+
+                            // Search Account Navigation Button
+                            NavigationLink(destination: SearchScreen()) {
+                                Text("Look up your Summoner Profile")
+                                    .foregroundColor(.appBackground)
+                                    .frame(width: buttonWidth, height: 50)
+                                    .background(Color.appButton)
+                                    .cornerRadius(10)
+                            }
+
+                            // Map Navigation Button
+                            NavigationLink(destination: MapScreen()) {
+                                Text("Explore the Runeterra Map")
+                                    .foregroundColor(.appBackground)
+                                    .frame(width: buttonWidth, height: 50)
+                                    .background(Color.appButton)
+                                    .cornerRadius(10)
+                            }
+
+                            // New Champion Wiki Button
+                            NavigationLink(destination: ChampWiki()) {
+                                Text("Explore our Champion Wiki")
+                                    .foregroundColor(.appBackground)
+                                    .frame(width: buttonWidth, height: 50)
+                                    .background(Color.appButton)
+                                    .cornerRadius(10)
+                            }
+                        }
+                        .padding(30) // Add padding inside the card
                     }
-                    .padding(.bottom, 50) // Adjust this value to move the button higher
+                    .padding(.horizontal, 20) // Adjust card's width relative to screen
+                    .padding(.bottom, 70) // Adjust this value for spacing
                 }
                 .padding()
             }
         }
     }
 }
-// Preview
+
 #Preview {
     ContentView()
-        .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
 }
