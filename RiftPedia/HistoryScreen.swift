@@ -433,6 +433,7 @@ struct HistoryScreen: View {
     @State private var summonerRank: String? = nil
     @State private var summonerRankIconUrl: String? = nil
     @State private var games: Int = 10
+    
     // Normalized region based on the mapped region
     var normalRegion: String {
         switch mappedRegion {

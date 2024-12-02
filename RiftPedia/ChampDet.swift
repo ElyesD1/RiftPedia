@@ -285,9 +285,3 @@ struct ChampDet: View {
     }
 }
 
-// MARK: - Preview
-struct ChampDet_Previews: PreviewProvider {
-    static var previews: some View {
-        ChampDet(championId: "Aatrox", championName: "Aatrox")
-    }
-}
