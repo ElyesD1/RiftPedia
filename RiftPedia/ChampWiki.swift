@@ -4,9 +4,9 @@
 //
 //  Created by Elyes Darouich on 27/11/2024.
 //
-
 import SwiftUI
 import Foundation
+import Combine
 
 struct ChampionData: Codable {
     let id: String
@@ -18,7 +18,6 @@ struct ChampionData: Codable {
 struct ChampionsResponse: Codable {
     let data: [String: ChampionData]
 }
-import Combine
 
 class ChampionWikiViewModel: ObservableObject {
     @Published var champions: [ChampionData] = []
@@ -33,33 +32,23 @@ class ChampionWikiViewModel: ObservableObject {
     }
     
     func fetchChampions() {
-        let version = "14.23.1" // Replace with the latest patch version
-        let urlString = "https://ddragon.leagueoflegends.com/cdn/\(version)/data/en_US/champion.json"
-        
-        guard let url = URL(string: urlString) else {
-            print("Invalid URL")
+        // Load champions from the local JSON file
+        guard let url = Bundle.main.url(forResource: "champion", withExtension: "json") else {
+            print("champion.json file not found")
             return
         }
         
-        URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
-            guard let data = data, error == nil else {
-                print("Error fetching data: \(error?.localizedDescription ?? "Unknown error")")
-                return
+        do {
+            let data = try Data(contentsOf: url)
+            let decodedResponse = try JSONDecoder().decode(ChampionsResponse.self, from: data)
+            DispatchQueue.main.async {
+                self.champions = Array(decodedResponse.data.values).sorted(by: { $0.name < $1.name })
             }
-            
-            do {
-                let decodedResponse = try JSONDecoder().decode(ChampionsResponse.self, from: data)
-                DispatchQueue.main.async {
-                    self?.champions = Array(decodedResponse.data.values).sorted(by: { $0.name < $1.name })
-                }
-            } catch {
-                print("Error decoding JSON: \(error)")
-            }
-        }.resume()
+        } catch {
+            print("Error loading champion data: \(error)")
+        }
     }
 }
-
-
 
 
 struct SearchBar: View {
@@ -123,15 +112,17 @@ struct ChampWiki: View {
                 List(viewModel.filteredChampions, id: \.id) { champion in
                     NavigationLink(destination: ChampDet(championId: champion.id, championName: champion.name)) {
                         HStack(spacing: 8) { // Reduced spacing from 16 to 8
-                            // Champion Image
-                            AsyncImage(url: URL(string: "https://ddragon.leagueoflegends.com/cdn/14.23.1/img/champion/\(champion.id).png")) { image in
-                                image.resizable()
+                            // Champion Image (Use local assets)
+                            if let image = UIImage(named: "\(champion.id)") {
+                                Image(uiImage: image)
+                                    .resizable()
                                     .scaledToFit()
                                     .frame(width: 50, height: 50)
                                     .cornerRadius(8)
                                     .frame(maxWidth: 50, alignment: .leading) // Ensure the image stays at the left
-                            } placeholder: {
+                            } else {
                                 ProgressView()
+                                    .frame(width: 50, height: 50)
                             }
                             
                             VStack(alignment: .leading, spacing: 4) {
@@ -154,22 +145,14 @@ struct ChampWiki: View {
                         }
                         .padding(.vertical, 8) // Vertical padding to add spacing between rows
                         .frame(maxWidth: .infinity, alignment: .leading) // Ensures background fills the whole row
-                         // Set cell background color to "Background"
                         .cornerRadius(8) // Optional rounded corners
-                       
                         .padding(.horizontal, 8) // Padding to avoid content hitting the edges
                     }
-                   
                 }
-               
             }
         }
         .onAppear {
             viewModel.fetchChampions()
         }
     }
-}
-
-#Preview {
-    ChampWiki()
 }
