@@ -1,161 +1,258 @@
 import SwiftUI
 import Foundation
 
-// Updated ItemStruct with a description field
+// Item structure (Updated to clean HTML tags in description)
 struct ItemStruct: Codable, Identifiable {
-    let id: String?  // Make id optional
     let name: String
-    let image: ImageDatas
-    let gold: Gold
-    let description: String?  // Add description field
+    let description: String?
+    let image: ImageData
+    let gold: Gold?
 
-    // Computed property to provide a unique id
-    var uniqueId: String {
-        id ?? UUID().uuidString
+    // Nested structure for gold details
+    struct Gold: Codable {
+        let total: Int
+        let sell: Int
     }
-    
-    // Method to remove HTML tags from the name
+
+    struct ImageData: Codable {
+        let full: String
+    }
+
+    var id: String {
+        return image.full.replacingOccurrences(of: ".png", with: "")
+    }
+
     func cleanName() -> String {
         return name.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression)
     }
-    
-    // Function to remove HTML tags from description
-    func cleanDescription() -> String {
-        guard let description = description else { return "No description available." }
-        let cleanedDescription = description.replacingOccurrences(of: "<[^>]+>", with: " ", options: .regularExpression)
-        return cleanedDescription.trimmingCharacters(in: .whitespacesAndNewlines)
+
+    var cleanDescription: String {
+        guard let description = description else { return "" }
+        return description.replacingOccurrences(of: "<[^>]+>", with: " ", options: .regularExpression)
     }
 }
 
-struct ImageDatas: Codable {
-    let full: String
-}
-
-struct Gold: Codable {
-    let total: Int
-}
-
+// Response structure to handle the data format with items by their ID
 struct ItemRespond: Codable {
     let data: [String: ItemStruct]
 }
 
+// ViewModel to handle item fetching and state
 class ItemWikiViewModel: ObservableObject {
-    @Published var items: [ItemStruct] = []
-    @Published var searchText = ""
-    @Published var selectedItem: ItemStruct? = nil  // Track the selected item
-    
-    private let baseUrl = "https://ddragon.leagueoflegends.com/cdn/14.23.1/data/en_US/item.json"
-    
-    func fetchItems() {
-        guard let url = URL(string: baseUrl) else { return }
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            guard let data = data, error == nil else {
-                print("Error fetching data: \(String(describing: error))")
-                return
+    @Published var categorizedItems: [String: [String]] = [:]
+    @Published var items: [String: ItemStruct] = [:]
+    @Published var searchQuery: String = ""
+    @Published var selectedItem: ItemStruct? // For presenting item details
+
+    var filteredItems: [String: ItemStruct] {
+        if searchQuery.isEmpty {
+            return items
+        } else {
+            return items.filter { $0.value.name.lowercased().contains(searchQuery.lowercased()) }
+        }
+    }
+
+    func fetchItemsAndCategories() {
+        loadItems {
+            self.loadCategories()
+        }
+    }
+
+    private func loadItems(completion: @escaping () -> Void) {
+        guard let path = Bundle.main.path(forResource: "item", ofType: "json"),
+              let data = try? Data(contentsOf: URL(fileURLWithPath: path)) else {
+            print("Failed to locate item.json")
+            return
+        }
+
+        do {
+            let decodedResponse = try JSONDecoder().decode(ItemRespond.self, from: data)
+            DispatchQueue.main.async {
+                self.items = decodedResponse.data
+                completion()
             }
-            
-            do {
-                let decodedResponse = try JSONDecoder().decode(ItemRespond.self, from: data)
-                DispatchQueue.main.async {
-                    // Group items by name and pick the one with the highest gold cost
-                    var groupedItems = [String: ItemStruct]()
-                    
-                    for item in decodedResponse.data.values {
-                        let existingItem = groupedItems[item.name]
-                        if let existingItem = existingItem {
-                            // Compare and keep the item with the higher gold cost
-                            if item.gold.total > existingItem.gold.total {
-                                groupedItems[item.name] = item
-                            }
-                        } else {
-                            groupedItems[item.name] = item
-                        }
-                    }
-                    
-                    // Convert the grouped dictionary into an array and sort it by item name
-                    self.items = Array(groupedItems.values).sorted { $0.name < $1.name }
-                }
-            } catch {
-                print("Error decoding items: \(error)")
-                if let stringData = String(data: data, encoding: .utf8) {
-                    print("Raw JSON data: \(stringData)")
-                }
-            }
-        }.resume()
+        } catch {
+            print("Error decoding item.json: \(error)")
+        }
+    }
+
+    private func loadCategories() {
+        guard let path = Bundle.main.path(forResource: "itemsByCategory", ofType: "json"),
+              let data = try? Data(contentsOf: URL(fileURLWithPath: path)) else {
+            print("Failed to locate itemsByCategory.json")
+            return
+        }
+
+        do {
+            self.categorizedItems = try JSONDecoder().decode([String: [String]].self, from: data)
+        } catch {
+            print("Error decoding itemsByCategory.json: \(error)")
+        }
     }
 }
 
+// Main Wiki View
 struct ItemWiki: View {
     @StateObject private var viewModel = ItemWikiViewModel()
-    
-    var filteredItems: [ItemStruct] {
-        if viewModel.searchText.isEmpty {
-            return viewModel.items
-        } else {
-            return viewModel.items.filter { $0.cleanName().localizedCaseInsensitiveContains(viewModel.searchText) }
-        }
-    }
-    
+
+    let categoryOrder: [String] = [
+        "Starter Items", "Potions and Consumables", "Trinkets", "Distributed items",
+        "Boots", "Basic items", "Epic Items", "Legendary Items",
+        "Champion exclusive items", "Minion and Turret items",
+        "Arena Prismatic items", "Arena exclusive items"
+    ]
+
+    let gridColumns = [GridItem(.adaptive(minimum: 80), spacing: 8)]
+
     var body: some View {
-        NavigationView {
-            VStack {
-                // Title as normal text centered on top
+        ZStack {
+            Color("Background")
+                .ignoresSafeArea()
+
+            VStack(spacing: 10) {
+                HStack {
+                    TextField("Search items...", text: $viewModel.searchQuery)
+                        .padding()
+                        .background(Color.white)
+                        .cornerRadius(10)
+                        .foregroundColor(.black)
+                        .textFieldStyle(PlainTextFieldStyle())
+                        .padding(.horizontal)
+                }
+                .padding(.top, 20)
+
                 Text("Item Wiki")
                     .font(.largeTitle)
                     .fontWeight(.bold)
-                    .padding()
-                    .frame(maxWidth: .infinity, alignment: .center)
-                    .foregroundColor(.white)  // Adjust text color if needed
-                
-                // Search Bar
-                TextField("Search items...", text: $viewModel.searchText)
-                    .padding()
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .onChange(of: viewModel.searchText) { _ in }
-                
-                List(filteredItems, id: \.uniqueId) { item in
-                    HStack {
-                        AsyncImage(
-                            url: URL(string: "https://ddragon.leagueoflegends.com/cdn/14.23.1/img/item/\(item.image.full)")
-                        ) { image in
-                            image
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 50, height: 50)
-                        } placeholder: {
-                            ProgressView()
+                    .foregroundColor(.white)
+                    .padding(.top, 20)
+
+                ScrollView {
+                    LazyVStack(alignment: .leading, spacing: 20) {
+                        ForEach(categoryOrder, id: \.self) { category in
+                            if let itemIds = viewModel.categorizedItems[category], !itemIds.isEmpty {
+                                VStack(alignment: .leading, spacing: 10) {
+                                    Text(category)
+                                        .font(.headline)
+                                        .foregroundColor(.white)
+                                        .padding(.leading)
+
+                                    LazyVGrid(columns: gridColumns, spacing: 10) {
+                                        ForEach(viewModel.filteredItems.keys.filter { itemIds.contains($0) }, id: \.self) { itemId in
+                                            if let item = viewModel.filteredItems[itemId] {
+                                                VStack(spacing: 4) {
+                                                    Image(item.id) // Using the item id for image reference
+                                                        .resizable()
+                                                        .scaledToFit()
+                                                        .frame(width: 50, height: 50)
+                                                        .cornerRadius(10) // Rounded edges for images
+                                                        .onTapGesture {
+                                                            viewModel.selectedItem = item
+                                                        }
+
+                                                    Text(item.cleanName())
+                                                        .font(.caption)
+                                                        .foregroundColor(.white)
+                                                        .multilineTextAlignment(.center)
+                                                }
+                                                .padding(5)
+                                                .background(Color.black.opacity(0.8))
+                                                .cornerRadius(8)
+                                            }
+                                        }
+                                    }
+                                    .padding(.horizontal)
+                                }
+                            }
                         }
-                        
-                        VStack(alignment: .leading) {
-                            Text(item.cleanName())  // Use cleaned-up name
-                                .font(.headline)
-                            Text("Cost: \(item.gold.total)")
-                                .font(.subheadline)
-                                .foregroundColor(.secondary)
-                        }
-                    }
-                    .onTapGesture {
-                        // Set the selected item when the cell is tapped
-                        viewModel.selectedItem = item
                     }
                 }
-                .background(Color("Background"))  // Set the background color for the list
             }
-            .background(Color("Background"))  // Set the background color for the entire view
-            .onAppear {
-                viewModel.fetchItems()
+
+            if let selectedItem = viewModel.selectedItem {
+                ItemDetailView(item: selectedItem, isPresented: $viewModel.selectedItem)
             }
-            .alert(item: $viewModel.selectedItem) { item in
-                Alert(
-                    title: Text(item.cleanName()),
-                    message: Text(item.cleanDescription()),  // Use cleaned description
-                    dismissButton: .default(Text("OK"))
-                )
-            }
+        }
+        .onAppear {
+            viewModel.fetchItemsAndCategories()
         }
     }
 }
 
-#Preview {
-    ItemWiki()
+// Item Detail View
+struct ItemDetailView: View {
+    let item: ItemStruct
+    @Binding var isPresented: ItemStruct?
+
+    // Consistent gold color
+    private var goldColor: Color {
+        Color(red: 255 / 255, green: 215 / 255, blue: 0 / 255) // Gold color in RGB
+    }
+
+    var body: some View {
+        ZStack {
+            Color("Background")
+                .ignoresSafeArea()
+
+            ScrollView {
+                VStack(spacing: 20) {
+                    // Card View
+                    VStack(spacing: 20) {
+                        Image(item.id) // Using item id to load the image
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 100, height: 100)
+                            .cornerRadius(10)
+
+                        Text(item.cleanName())
+                            .font(.title)
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
+
+                        if let gold = item.gold {
+                            VStack(spacing: 10) {
+                                HStack {
+                                    Text("Cost:")
+                                        .foregroundColor(.white)
+                                    Text("\(gold.total)")
+                                        .foregroundColor(goldColor)
+                                        .fontWeight(.bold)
+                                }
+
+                                HStack {
+                                    Text("Sell:")
+                                        .foregroundColor(.white)
+                                    Text("\(gold.sell)")
+                                        .foregroundColor(goldColor)
+                                        .fontWeight(.bold)
+                                }
+                            }
+                        }
+
+                        Text(item.cleanDescription)
+                            .font(.body)
+                            .foregroundColor(.white)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal)
+                    }
+                    .padding()
+                    .background(Color.black.opacity(0.8)) // Card background color
+                    .cornerRadius(15) // Rounded corners
+                    .shadow(color: .black.opacity(0.4), radius: 10, x: 0, y: 5) // Shadow effect
+
+                    // Close Button
+                    Button(action: {
+                        isPresented = nil
+                    }) {
+                        Text("Close")
+                            .foregroundColor(.white)
+                            .padding()
+                            .background(Color.red)
+                            .cornerRadius(10)
+                    }
+                }
+                .padding()
+            }
+        }
+    }
 }

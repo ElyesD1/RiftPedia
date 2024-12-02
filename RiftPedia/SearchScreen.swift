@@ -14,7 +14,7 @@ struct SearchScreen: View {
     let regions = [
         "North America": "na1",
         "Europe West": "euw1",
-        "Europe Nordic & East": "eune1",
+        "Europe Nordic & East": "eun1",
         "Korea": "kr",
         "China": "cn",
         "Japan": "jp1",
