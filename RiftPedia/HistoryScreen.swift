@@ -438,6 +438,8 @@ struct HistoryScreen: View {
         switch mappedRegion {
         case "euw1":
             return "Europe"
+        case "eun1":
+            return "Europe"
         case "na1":
             return "Americas"
         case "kr":
@@ -892,7 +894,7 @@ struct MatchCell: View {
                 AsyncImage(url: URL(string: match.championIcon)) { image in
                     image.resizable()
                         .scaledToFit()
-                        .frame(width: 66, height: 66)
+                        .frame(width: 60, height: 60)
                         
                 } placeholder: {
                     ProgressView()
@@ -905,7 +907,7 @@ struct MatchCell: View {
                 // Champion Details
                 VStack(alignment: .leading, spacing: 4) {
                     Text(match.championName)
-                        .font(.headline)
+                        .font(.subheadline)
                         .foregroundColor(.white)
 
                     Text("\(match.kills) / \(match.deaths) / \(match.assists)")

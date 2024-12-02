@@ -60,6 +60,8 @@ class ChampionWikiViewModel: ObservableObject {
 }
 
 
+
+
 struct SearchBar: View {
     @Binding var text: String
     
@@ -68,12 +70,13 @@ struct SearchBar: View {
             TextField("Search champions...", text: $text)
                 .padding(8)
                 .padding(.horizontal, 24)
-                .background(Color(.white))
+                .background(Color.white) // Background color
                 .cornerRadius(8)
+                .foregroundColor(.black) // Ensures the text typed is black
                 .overlay(
                     HStack {
                         Image(systemName: "magnifyingglass")
-                            .foregroundColor(.gray)
+                            .foregroundColor(.gray) // Icon color
                             .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                             .padding(.leading, 8)
                         
@@ -82,7 +85,7 @@ struct SearchBar: View {
                                 text = ""
                             }) {
                                 Image(systemName: "xmark.circle.fill")
-                                    .foregroundColor(.gray)
+                                    .foregroundColor(.gray) // Clear button color
                                     .padding(.trailing, 8)
                             }
                         }
@@ -91,6 +94,9 @@ struct SearchBar: View {
                 .padding(.horizontal, 10)
         }
         .padding(.vertical, 5)
+        .onAppear {
+            UITextField.appearance().tintColor = .gray // Placeholder text color
+        }
     }
 }
 
@@ -148,14 +154,14 @@ struct ChampWiki: View {
                         }
                         .padding(.vertical, 8) // Vertical padding to add spacing between rows
                         .frame(maxWidth: .infinity, alignment: .leading) // Ensures background fills the whole row
-                        .background(Color.white) // Set cell background color to "Background"
+                         // Set cell background color to "Background"
                         .cornerRadius(8) // Optional rounded corners
-                        .listRowBackground(Color.clear) // Remove default row background from List
+                       
                         .padding(.horizontal, 8) // Padding to avoid content hitting the edges
                     }
-                    .buttonStyle(PlainButtonStyle()) // Remove default button styling from NavigationLink
+                   
                 }
-                .listStyle(PlainListStyle()) // Use a clean list style
+               
             }
         }
         .onAppear {
