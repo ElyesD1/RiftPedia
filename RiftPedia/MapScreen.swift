@@ -450,32 +450,31 @@ import Foundation
 class ChampionListViewModel: ObservableObject {
     @Published var championDetails: [String: ChampionDetails] = [:]
     
+    // Replace the network call with a local file read
     func fetchChampionDetails(champions: [Champion]) {
-        let version = "14.23.1" // Replace with the current patch version
-        let baseURL = "https://ddragon.leagueoflegends.com/cdn/\(version)/data/en_US/champion/"
+        guard let url = Bundle.main.url(forResource: "champion", withExtension: "json") else {
+            print("champion.json file not found in the bundle")
+            return
+        }
         
-        for champion in champions {
-            let urlString = baseURL + "\(champion.name).json"
-            guard let url = URL(string: urlString) else { continue }
+        do {
+            let data = try Data(contentsOf: url)
+            let decoded = try JSONDecoder().decode(ChampionAPIResponse.self, from: data)
             
-            URLSession.shared.dataTask(with: url) { data, _, error in
-                guard let data = data, error == nil else {
-                    print("Error fetching champion details for \(champion.name): \(error?.localizedDescription ?? "Unknown error")")
-                    return
-                }
-                
-                do {
-                    let decoded = try JSONDecoder().decode(ChampionAPIResponse.self, from: data)
-                    DispatchQueue.main.async {
-                        self.championDetails[champion.name] = decoded.data[champion.name]
+            // Now, filter and load only the champions we are interested in
+            DispatchQueue.main.async {
+                for champion in champions {
+                    if let championData = decoded.data[champion.name] {
+                        self.championDetails[champion.name] = championData
                     }
-                } catch {
-                    print("Error decoding champion data for \(champion.name): \(error)")
                 }
-            }.resume()
+            }
+        } catch {
+            print("Error reading or decoding champion.json: \(error)")
         }
     }
 }
+
 
 // MARK: - Models
 struct ChampionAPIResponse: Codable {
@@ -486,10 +485,4 @@ struct ChampionDetails: Codable {
     let title: String
     let tags: [String]
     let blurb: String // Champion description
-}
-// MARK: - Preview
-struct MapScreen_Previews: PreviewProvider {
-    static var previews: some View {
-        MapScreen()
-    }
 }
