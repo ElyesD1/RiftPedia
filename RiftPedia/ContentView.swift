@@ -36,59 +36,17 @@ struct ContentView: View {
                         .foregroundColor(.appLabel)
                         .padding(.horizontal, 20)
 
-                    Spacer() // Adds space between the text and the buttons
+                    Spacer() // Adds space between the text and the button
 
-                    // Buttons inside a Card
-                    ZStack {
-                        // Card Background
-                        RoundedRectangle(cornerRadius: 20)
-                            .fill(Color.appBackground.opacity(10)) // Semi-transparent card
-                            .shadow(radius: 5)
-
-                        // Buttons
-                        VStack(spacing: 15) {
-                            let buttonWidth: CGFloat = 300 // Set a fixed width for uniformity
-
-                            // Search Account Navigation Button
-                            NavigationLink(destination: SearchScreen()) {
-                                Text("Look up your Summoner Profile")
-                                    .foregroundColor(.appBackground)
-                                    .frame(width: buttonWidth, height: 50)
-                                    .background(Color.appButton)
-                                    .cornerRadius(10)
-                            }
-
-                            // Map Navigation Button
-                            NavigationLink(destination: MapScreen()) {
-                                Text("Explore the Runeterra Map")
-                                    .foregroundColor(.appBackground)
-                                    .frame(width: buttonWidth, height: 50)
-                                    .background(Color.appButton)
-                                    .cornerRadius(10)
-                            }
-
-                            // New Champion Wiki Button
-                            NavigationLink(destination: ChampWiki()) {
-                                Text("Explore our Champion Wiki")
-                                    .foregroundColor(.appBackground)
-                                    .frame(width: buttonWidth, height: 50)
-                                    .background(Color.appButton)
-                                    .cornerRadius(10)
-                            }
-
-                            // New Items Wiki Button
-                            NavigationLink(destination: ItemWiki()) {
-                                Text("Explore our Items Wiki")
-                                    .foregroundColor(.appBackground)
-                                    .frame(width: buttonWidth, height: 50)
-                                    .background(Color.appButton)
-                                    .cornerRadius(10)
-                            }
-                        }
-                        .padding(20) // Add padding inside the card
+                    // Single Button
+                    NavigationLink(destination: GetStartedPage()) {
+                        Text("Get Started")
+                            .foregroundColor(.appBackground)
+                            .frame(width: 300, height: 50) // Fixed width and height
+                            .background(Color.appButton)
+                            .cornerRadius(10)
                     }
-                    .padding(.horizontal, 20) // Adjust card's width relative to screen
-                    .padding(.bottom, 70) // Adjust this value for spacing
+                    .padding(.bottom, 70) // Adjust bottom spacing for alignment
                 }
                 .padding()
             }
@@ -96,6 +54,4 @@ struct ContentView: View {
     }
 }
 
-#Preview {
-    ContentView()
-}
+

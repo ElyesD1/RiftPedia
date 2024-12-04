@@ -38,89 +38,79 @@ struct SearchScreen: View {
     ]
     
     var body: some View {
-        NavigationStack {
-            ZStack {
-                Color.appBackground.ignoresSafeArea()
-                
-                VStack(spacing: 30) {
-                    // Search Bar
-                    HStack {
-                        VStack(alignment: .leading, spacing: 10) {
-                            Text("Search for Player Stats")
-                                .font(.headline)
-                                .foregroundColor(.appLabel)
+           NavigationStack {
+               ZStack {
+                   Color.appBackground.ignoresSafeArea()
+                   
+                   VStack(spacing: 30) {
+                       // Search Bar
+                       HStack {
+                           VStack(alignment: .leading, spacing: 10) {
+                               Text("Search for Player Stats")
+                                   .font(.headline)
+                                   .foregroundColor(.appLabel)
 
-                            HStack {
-                                TextField("Enter Riot ID (e.g., Player#1234)", text: $searchQuery)
-                                    .padding()
-                                    .background(Color(UIColor.secondarySystemBackground))
-                                    .cornerRadius(10)
-                                    .foregroundColor(.primary)
+                               HStack {
+                                   TextField("Enter Riot ID (e.g., Player#1234)", text: $searchQuery)
+                                       .padding()
+                                       .background(Color(UIColor.secondarySystemBackground))
+                                       .cornerRadius(10)
+                                       .foregroundColor(.primary)
 
-                                Button(action: performSearch) {
-                                    Image(systemName: "magnifyingglass")
-                                        .foregroundColor(.appButton)
-                                        .padding()
-                                }
-                                .background(Color.white.opacity(0.2))
-                                .cornerRadius(10)
-                            }
-                        }
-                        .padding(.horizontal)
+                                   Button(action: performSearch) {
+                                       Image(systemName: "magnifyingglass")
+                                           .foregroundColor(.appButton)
+                                           .padding()
+                                   }
+                                   .background(Color.white.opacity(0.2))
+                                   .cornerRadius(10)
+                               }
+                           }
+                           .padding(.horizontal)
 
-                        Spacer()
-                    }
+                           Spacer()
+                       }
 
-                    // Error Message
-                    if let errorMessage = errorMessage {
-                        Text(errorMessage)
-                            .foregroundColor(.red)
-                            .font(.subheadline)
-                            .padding(.horizontal)
-                    }
+                       // Error Message
+                       if let errorMessage = errorMessage {
+                           Text(errorMessage)
+                               .foregroundColor(.red)
+                               .font(.subheadline)
+                               .padding(.horizontal)
+                       }
 
-                    // Picker for Regions
-                    VStack(alignment: .leading, spacing: 10) {
-                        Text("Select Region")
-                            .font(.headline)
-                            .foregroundColor(.appLabel)
+                       // Picker for Regions
+                       VStack(alignment: .leading, spacing: 10) {
+                           Text("Select Region")
+                               .font(.headline)
+                               .foregroundColor(.appLabel)
 
-                        Picker("Select Region", selection: $selectedRegion) {
-                            ForEach(regions.keys.sorted(), id: \.self) { region in
-                                Text(region)
-                                    .foregroundColor(.appLabel)
-                                    .tag(region)
-                            }
-                        }
-                        .pickerStyle(WheelPickerStyle())
-                        .frame(height: 150)
-                        .clipped()
-                        .background(Color.white.opacity(0.1))
-                        .cornerRadius(10)
-                    }
-                    .padding(.horizontal)
+                           Picker("Select Region", selection: $selectedRegion) {
+                               ForEach(regions.keys.sorted(), id: \.self) { region in
+                                   Text(region)
+                                       .foregroundColor(.appLabel)
+                                       .tag(region)
+                               }
+                           }
+                           .pickerStyle(WheelPickerStyle())
+                           .frame(height: 150)
+                           .clipped()
+                           .background(Color.white.opacity(0.1))
+                           .cornerRadius(10)
+                       }
+                       .padding(.horizontal)
 
-                    // Logo and Description
-                    VStack(alignment: .center, spacing: 0) {
-                        Image("Logo")
-                            .resizable()
-                            .frame(width: 200, height: 200)
-                            .cornerRadius(10)
-                            .shadow(radius: 3)
+                       Spacer()
 
-                        Text("RiftPedia")
-                            .font(.title2)
-                            .fontWeight(.bold)
-                            .foregroundColor(.appLabel)
+                       // Background Image
+                       Image("bg")
+                           .resizable()
+                           .frame(width: UIScreen.main.bounds.width * 0.95, height: UIScreen.main.bounds.height * 0.3)
+                           .cornerRadius(20)
+                           .shadow(radius: 5)
 
-                        Text("Your Ultimate League of Legends Companion")
-                            .font(.subheadline)
-                            .foregroundColor(.appLabel.opacity(0.7))
-                            .multilineTextAlignment(.center)
-                    }
-
-                    Spacer()
-                }
+                       Spacer()
+                   }
                 .padding(.top, 20)
                 .alert(isPresented: $showAlert) {
                     Alert(title: Text("Error"), message: Text(alertMessage), dismissButton: .default(Text(" OK")))
