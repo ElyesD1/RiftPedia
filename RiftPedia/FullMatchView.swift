@@ -23,7 +23,7 @@ struct Participant: Identifiable {
     let item5: Int? // ID of the sixth item
     let item6: Int? // ID of the trinket/ward item
     let neutralMinionsKilled: Int // Neutral monsters killed (jungle creeps)
-
+    
     // Translates raw team position to a more readable form
     var displayPosition: String {
         switch teamPosition {
@@ -47,6 +47,17 @@ struct Participant: Identifiable {
     }
 }
 
+// Extend Participant to include performance score
+extension Participant {
+    var performanceScore: Double {
+        let kdaScore = Double(kills + assists) / max(1, Double(deaths)) * 1.0
+        let damageScore = Double(totalDamageDealt) * 0.001
+        let visionScoreWeight = Double(visionScore) * 0.1
+        let goldScore = Double(goldEarned) * 0.001
+        return kdaScore + damageScore + visionScoreWeight + goldScore
+    }
+}
+
 // SwiftUI view to display match details
 struct FullMatchView: View {
     var matchId: String // ID of the match
@@ -67,6 +78,18 @@ struct FullMatchView: View {
             return "Unknown Region"
         }
     }
+    let queueMapping: [Int: String] = [
+        420: "Ranked Solo/Duo",
+        440: "Ranked Flex",
+        450: "ARAM",
+        400: "Normal Draft",
+        430: "Normal Blind",
+        700: "Clash",
+        830: "Co-op vs AI Intro",
+        840: "Co-op vs AI Beginner",
+        850: "Co-op vs AI Intermediate"
+        // Add more mappings if necessary
+    ]
 
     @State private var participants: [Participant] = [] // List of participants in the match
     @State private var matchResult: [String: Bool] = [:] // Tracks which teams won
@@ -75,20 +98,18 @@ struct FullMatchView: View {
     @State private var team1Stats: (baronKills: Int, turretKills: Int, dragonKills: Int) = (0, 0, 0) // Stats for team 1
     @State private var team2Stats: (baronKills: Int, turretKills: Int, dragonKills: Int) = (0, 0, 0) // Stats for team 2
     @State private var isLoading = true // Indicates if data is still being loaded
-
     var body: some View {
         ZStack {
-            // Background color for the view
+            // Background color
             Color("Background")
                 .edgesIgnoringSafeArea(.all)
 
             VStack {
                 if isLoading {
-                    // Display loading indicator while fetching data
                     ProgressView("Loading match details...")
                 } else {
                     List {
-                        // Section for Team 1 details
+                        // Section for Team 1
                         Section(
                             header: teamHeader(
                                 title: "Team 1",
@@ -96,27 +117,25 @@ struct FullMatchView: View {
                                 isWinning: matchResult["team1"] == true
                             )
                         ) {
-                            // List participants belonging to Team 1
                             ForEach(participants.filter { $0.teamId == 100 }) { participant in
                                 participantRow(for: participant)
                             }
                         }
 
-                        // Centered game metadata (mode and duration)
+                        // Game Metadata
                         VStack {
                             Text(gameMode)
-                                .font(.subheadline)
-                                .foregroundColor(.black)
-                                .padding(.bottom, 2)
+                                .font(.headline)
+                                .foregroundColor(.primary)
 
                             Text(gameDuration)
                                 .font(.subheadline)
-                                .foregroundColor(.black)
+                                .foregroundColor(.secondary)
                         }
                         .frame(maxWidth: .infinity, alignment: .center)
                         .padding()
 
-                        // Section for Team 2 details
+                        // Section for Team 2
                         Section(
                             header: teamHeader(
                                 title: "Team 2",
@@ -124,35 +143,32 @@ struct FullMatchView: View {
                                 isWinning: matchResult["team2"] == true
                             )
                         ) {
-                            // List participants belonging to Team 2
                             ForEach(participants.filter { $0.teamId == 200 }) { participant in
                                 participantRow(for: participant)
                             }
                         }
                     }
-                    .listStyle(InsetGroupedListStyle()) // Style for the list
-                    .background(Color("Background")) // List background color
-                    .scrollContentBackground(.hidden) // Prevent scroll background interference
+                    .listStyle(InsetGroupedListStyle())
+                    .scrollContentBackground(.hidden)
                 }
             }
             .padding()
         }
-        .onAppear(perform: fetchMatchData) // Fetch match data when the view appears
+        .onAppear(perform: fetchMatchData)
     }
 
-    // Renders a row for a match participant
+    // Row for each participant
     func participantRow(for participant: Participant) -> some View {
-        VStack(alignment: .leading) {
-            HStack {
+        VStack {
+            HStack(alignment: .top, spacing: 12) {
+                // Champion Image and Level
                 ZStack {
-                    // Display champion image
                     Image(participant.championName)
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 40, height: 40)
+                        .frame(width: 50, height: 50)
                         .clipShape(Circle())
 
-                    // Display champion level on top of the image
                     Text("\(participant.champLevel)")
                         .font(.caption)
                         .bold()
@@ -160,58 +176,58 @@ struct FullMatchView: View {
                         .padding(4)
                         .background(Color.black.opacity(0.7))
                         .clipShape(Circle())
-                        .offset(x: -15, y: -15)
+                        .offset(x: -20, y: -20)
                 }
 
-
-                HStack {
-                    Image(participant.positionImageName) // Position image
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 35, height: 35)
-
-                    VStack(alignment: .leading) {
-                        Text(participant.summonerName)
-                            .font(.headline)
-                        
-                        HStack {
-                            Text("\(participant.kills)/\(participant.deaths)/\(participant.assists) (\(participant.kda))")
-                                .font(.subheadline)
-                                .foregroundColor(.secondary)
-                            
-                            Divider()
-                                .frame(height: 15)
-                                .padding(.horizontal, 8)
-                            
-                            Text("Damage: \(participant.totalDamageDealt)")
-                                .font(.subheadline)
-                                .foregroundColor(.secondary)
-                        }
-                        
-                        Divider()
-                            .padding(.vertical, 2)
-
-                        HStack {
+                VStack(alignment: .leading, spacing: 6) {
+                    // Summoner Name and Rank
+                    HStack {
+                        let rankedParticipants = participants.sorted { $0.performanceScore > $1.performanceScore }
+                                             let rank = rankedParticipants.firstIndex(where: { $0.id == participant.id }) ?? 0
                     
-                            Text("Gold: \(participant.goldEarned)")
-                                .font(.subheadline)
-                                .foregroundColor(.secondary)
+                                        Text(participant.summonerName)
+                                                .font(.headline)
+                    
+                                          // Display rank in a circular badge
+                        Text("Rank:\(rank + 1)")
+                            .font(.caption)
+                            .bold()
+                            .padding(6)
+                            .background(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .fill(Color.black)
+                            )
+                            .foregroundColor(.white)
+                            .padding(.leading, 5)
+                
+                    }
 
-                            Divider()
-                                .frame(height: 15)
-                                .padding(.horizontal, 8)
+                    // KDA and Damage
+                    HStack {
+                        Text("\(participant.kills)/\(participant.deaths)/\(participant.assists) (\(participant.kda))")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                        Spacer()
+                        Text("Damage: \(participant.totalDamageDealt)")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                    }
 
-                            Text("CS: \(participant.totalMinionsKilled+participant.neutralMinionsKilled)")
-                                .font(.subheadline)
-                                .foregroundColor(.secondary)
-                        }
+                    // Gold and CS
+                    HStack {
+                        Text("Gold: \(participant.goldEarned)")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                        Spacer()
+                        Text("CS: \(participant.totalMinionsKilled + participant.neutralMinionsKilled)")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
                     }
                 }
-
-                Spacer()
             }
 
-            HStack(spacing: 5) {
+            // Items and Ward
+            HStack {
                 ForEach([participant.item0, participant.item1, participant.item2, participant.item3, participant.item4, participant.item5], id: \.self) { item in
                     if let item = item {
                         Image("\(item)")
@@ -223,10 +239,6 @@ struct FullMatchView: View {
                 }
 
                 Spacer()
-
-                Divider()
-                    .frame(height: 30)
-                    .padding(.horizontal, 5)
 
                 if let ward = participant.item6 {
                     ZStack {
@@ -249,35 +261,42 @@ struct FullMatchView: View {
             }
             .padding(.top, 8)
         }
-        .frame(maxWidth: .infinity)
         .padding()
         .background(
             Color(matchResult[participant.teamId == 100 ? "team1" : "team2"] == true ? .blue : .red)
-                .opacity(0.25)
+                .opacity(0.1)
         )
-        .cornerRadius(8)
+        .cornerRadius(10)
+        .shadow(radius: 2)
     }
 
+    // Team Header
     func teamHeader(title: String, stats: (baronKills: Int, turretKills: Int, dragonKills: Int), isWinning: Bool?) -> some View {
         HStack {
             Text(title)
-                .font(.subheadline)
+                .font(.headline)
                 .foregroundColor(isWinning == true ? .blue : .red)
 
             Spacer()
 
-            HStack {
-                Text("Turrets: \(stats.turretKills)")
-                    .font(.caption)
-                Text("Dragons: \(stats.dragonKills)")
-                    .font(.caption)
-                Text("Barons: \(stats.baronKills)")
-                    .font(.caption)
+            HStack(spacing: 15) {
+                statView(stat: "Turrets", value: stats.turretKills, color: isWinning == true ? .blue : .red)
+                statView(stat: "Dragons", value: stats.dragonKills, color: isWinning == true ? .blue : .red)
+                statView(stat: "Barons", value: stats.baronKills, color: isWinning == true ? .blue : .red)
             }
-            .foregroundColor(isWinning == true ? .blue : .red)
         }
     }
 
+    func statView(stat: String, value: Int, color: Color) -> some View {
+        VStack {
+            Text("\(value)")
+                .font(.headline)
+                .foregroundColor(color) // Dynamic color
+            Text(stat)
+                .font(.caption)
+                .foregroundColor(color) // Dynamic color
+        }
+    }
 
     func fetchMatchData() {
         let apiKey = Config.riotAPIKey
@@ -298,9 +317,12 @@ struct FullMatchView: View {
                    let teamsArray = info["teams"] as? [[String: Any]] {
                     
                     DispatchQueue.main.async {
-                        if let mode = info["gameMode"] as? String {
-                            self.gameMode = mode
+                        if let queueId = info["queueId"] as? Int {
+                            self.gameMode = queueMapping[queueId] ?? "Unknown Game Mode"
+                        } else {
+                            self.gameMode = "Unknown Game Mode"
                         }
+                        
 
                         if let duration = info["gameDuration"] as? Int {
                             let seconds = duration % 60

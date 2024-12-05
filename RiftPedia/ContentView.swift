@@ -41,8 +41,9 @@ struct ContentView: View {
                     // Single Button
                     NavigationLink(destination: GetStartedPage()) {
                         Text("Get Started")
+                            .font(.title2) // Increase font size here
                             .foregroundColor(.appBackground)
-                            .frame(width: 300, height: 50) // Fixed width and height
+                            .frame(width: 300, height: 60) // Increased button height
                             .background(Color.appButton)
                             .cornerRadius(10)
                     }
@@ -53,5 +54,3 @@ struct ContentView: View {
         }
     }
 }
-
-
