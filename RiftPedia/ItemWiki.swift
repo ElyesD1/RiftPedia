@@ -204,6 +204,33 @@ struct ItemDetailView: View {
                     .cornerRadius(15)
                     .shadow(radius: 10)
 
+                    // Card for Gold Details
+                    if let gold = item.gold {
+                        VStack(alignment: .leading, spacing: 10) {
+                            HStack {
+                                Text("Price: ")
+                                    .font(.headline)
+                                    .foregroundColor(.yellow)
+                                Text("\(gold.total)")
+                                    .font(.headline)
+                                    .foregroundColor(.yellow)
+                            }
+
+                            HStack {
+                                Text("Sell: ")
+                                    .font(.headline)
+                                    .foregroundColor(.yellow)
+                                Text("\(gold.sell)")
+                                    .font(.headline)
+                                    .foregroundColor(.yellow)
+                            }
+                        }
+                        .padding()
+                        .background(Color.black.opacity(0.8))
+                        .cornerRadius(15)
+                        .shadow(radius: 10)
+                    }
+
                     // Built From Section inside a card
                     if let from = item.from, !from.isEmpty {
                         VStack(alignment: .leading, spacing: 10) {

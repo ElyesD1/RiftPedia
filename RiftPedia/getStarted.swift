@@ -1,9 +1,24 @@
 import SwiftUI
+
 struct GetStartedPage: View {
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 15) { // Adjust spacing between cards
+                    // Title Card
+                    ZStack {
+                        Color.black.opacity(0.7)
+                            .cornerRadius(15)
+                        
+                        Text("Riftpedia Overview")
+                            .font(.title)
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
+                            .padding(16) // Dynamic height based on text size
+                    }
+                    .frame(maxWidth: .infinity) // Full width like the cards
+                    .shadow(radius: 5)
+
                     // Card 1: Search Account
                     NavigationLink(destination: SearchScreen()) {
                         CardView(imageName: "historyList", title: "Summoner Profile")
@@ -37,32 +52,33 @@ struct CardView: View {
     let title: String
 
     var body: some View {
-        ZStack {
-            // Card Background Image
-            Image(imageName)
-                .resizable()
-                .scaledToFill()
-                .frame(height: 180) // Fixed height
-                .frame(maxWidth: .infinity) // Full width
-                .cornerRadius(15)
-                .clipped()
+        GeometryReader { geometry in
+            ZStack {
+                // Card Background Image
+                Image(imageName)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: geometry.size.width * 0.95, height: 180) // 90% of screen width
+                    .cornerRadius(15)
+                    .clipped()
 
-            // Card Title Overlay
-            VStack {
-                Spacer()
-                Text(title)
-                    .font(.headline)
-                    .fontWeight(.bold)
-                    .foregroundColor(.white)
-                    .padding(8)
-                    .background(Color.black.opacity(0.7))
-                    .cornerRadius(10)
+                // Card Title Overlay
+                VStack {
+                    Spacer()
+                    Text(title)
+                        .font(.headline)
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+                        .padding(8)
+                        .background(Color.black.opacity(0.7))
+                        .cornerRadius(10)
+                        .frame(width: geometry.size.width * 0.95) // Text width takes 90% of screen width
+                }
+                .padding(10)
             }
-            .padding(10)
+            .frame(height: 180) // Ensure consistent height for the card
+            .shadow(radius: 5)
         }
-        .frame(height: 180) // Ensure consistent height for the card
-        .shadow(radius: 5)
+        .frame(height: 180) // Ensure the card's overall height is consistent
     }
 }
-
-
