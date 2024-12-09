@@ -38,6 +38,11 @@ struct GetStartedPage: View {
                     NavigationLink(destination: ItemWiki()) {
                         CardView(imageName: "itemList", title: "Items Wiki")
                     }
+
+                    // Card 5: Tier List
+                    NavigationLink(destination: TierlistView()) {
+                        CardView(imageName: "tier", title: "Tier List")
+                    }
                 }
                 .padding(.horizontal, 20) // Padding for the layout
                 .padding(.bottom, 40) // Adjust spacing at the bottom
@@ -80,5 +85,11 @@ struct CardView: View {
             .shadow(radius: 5)
         }
         .frame(height: 180) // Ensure the card's overall height is consistent
+    }
+}
+
+struct GetStartedPage_Previews: PreviewProvider {
+    static var previews: some View {
+        GetStartedPage()
     }
 }

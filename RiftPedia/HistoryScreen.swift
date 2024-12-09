@@ -433,6 +433,7 @@ struct HistoryScreen: View {
     @State private var summonerRank: String? = nil
     @State private var summonerRankIconUrl: String? = nil
     @State private var games: Int = 10
+    @State private var mostPerformingChampion: (championId: String, wins: Int)? = nil
     
     // Normalized region based on the mapped region
     var normalRegion: String {
@@ -477,8 +478,6 @@ struct HistoryScreen: View {
                                     image.resizable()
                                         .scaledToFit()
                                         .frame(width: 100, height: 100)
-                                       
-                                       
                                         .shadow(radius: 5)
                                 } placeholder: {
                                     ProgressView()
@@ -545,7 +544,7 @@ struct HistoryScreen: View {
                                                         wr >= 30 ? .orange : .red)
 
                                         Text("Last \(games) games")
-                                            .font(.subheadline)
+                                            .font(.footnote)
                                             .foregroundColor(wr >= 60 ? .green :
                                                             wr >= 50 ? .green :
                                                             wr >= 40 ? .yellow :
@@ -559,14 +558,44 @@ struct HistoryScreen: View {
                                         .foregroundColor(.red)
                                 }
                             }
-
-                          
                         }
                         .padding()
                         .background(Color.white.opacity(0.1))
                         .cornerRadius(12)
                         .shadow(radius: 3)
-                        
+
+                        // Most Performing Champion Section
+                        if let mostChampion = mostPerformingChampion {
+                            HStack {
+                                Text("Top Champion:")
+                                    .font(.headline)
+                                    .foregroundColor(.white)
+
+                                AsyncImage(url: URL(string: "https://ddragon.leagueoflegends.com/cdn/14.23.1/img/champion/\(mostChampion.championId).png")) { image in
+                                    image.resizable()
+                                        .scaledToFit()
+                                        .frame(width: 40, height: 40)
+                                } placeholder: {
+                                    ProgressView()
+                                }
+
+                                Text("\(mostChampion.championId) - Wins: \(mostChampion.wins)")
+                                    .font(.subheadline)
+                                    .foregroundColor(.white)
+                                
+                                Divider()
+                                    .frame(width: 1, height: 40)
+                                    .background(.white)
+                                Text("Last \(games) games")
+                                    .font(.footnote)
+                                    .foregroundColor(.white)
+                            }
+                            .padding()
+                            .background(Color.white.opacity(0.1))
+                            .cornerRadius(12)
+                            .shadow(radius: 3)
+                        }
+
                         // New Button Section: Load games
                         Button(action: loadMoreMatches) {
                             Text("Load games")
@@ -579,11 +608,11 @@ struct HistoryScreen: View {
                                 .shadow(radius: 5)
                         }
                         .padding(.horizontal)
-                        // Add top padding to give space between card and button
 
                         // Match List
+                       
                         List(matchHistory) { match in
-                            MatchCell(match: match,region: region)
+                            MatchCell(match: match, region: region)
                                 .listRowInsets(EdgeInsets())
                                 .listRowBackground(Color("Background"))
                         }
@@ -764,7 +793,7 @@ struct HistoryScreen: View {
                 case .success(let matches):
                     matchHistory = matches
                     calculateWinRate(matches: matches) // Calculate WR after fetching matches
-                 
+                    calculateMostPerformingChampion(matches: matches) // Calculate most performing champion
                 case .failure(let error):
                     errorMessage = "Error fetching match history: \(error.localizedDescription)"
                 }
@@ -786,7 +815,7 @@ struct HistoryScreen: View {
                 case .success(let newMatches):
                     matchHistory.append(contentsOf: newMatches)
                     calculateWinRate(matches: matchHistory) // Recalculate WR after adding new matches
-
+                    calculateMostPerformingChampion(matches: matchHistory) // Recalculate most performing champion
                     // Increment the games count by 5
                     games += 5
 
@@ -796,7 +825,22 @@ struct HistoryScreen: View {
             }
         }
     }
+    private func calculateMostPerformingChampion(matches: [Match]) {
+        var championWins: [String: Int] = [:]
 
+        for match in matches {
+            if match.isWin {
+                championWins[match.championName, default: 0] += 1
+            }
+        }
+
+        // Find the champion with the most wins
+        if let mostWinsChampion = championWins.max(by: { $0.value < $1.value }) {
+            mostPerformingChampion = (championId: mostWinsChampion.key, wins: mostWinsChampion.value)
+        } else {
+            mostPerformingChampion = nil // No wins found
+        }
+    }
     private func calculateWinRate(matches: [Match]) {
         let totalMatches = matches.count
         let wins = matches.filter { $0.isWin }.count
