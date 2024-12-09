@@ -1,0 +1,2254 @@
+[
+  {
+    "championId" : "Yorick",
+    "tier" : "Iron",
+    "pickRate" : 5.98,
+    "winRate" : 54.5,
+    "banRate" : 10.93,
+    "role" : "Top",
+    "championTier" : "Iron"
+  },
+  {
+    "winRate" : 51.32,
+    "tier" : "Iron",
+    "championId" : "Teemo",
+    "pickRate" : 9.12,
+    "banRate" : 18.86,
+    "championTier" : "Iron",
+    "role" : "Top"
+  },
+  {
+    "tier" : "Iron",
+    "banRate" : 17.62,
+    "pickRate" : 12,
+    "winRate" : 50.72,
+    "championId" : "Mordekaiser",
+    "role" : "Top",
+    "championTier" : "Iron"
+  },
+  {
+    "tier" : "Iron",
+    "winRate" : 52.87,
+    "pickRate" : 6.22,
+    "championTier" : "Iron",
+    "championId" : "DrMundo",
+    "role" : "Top",
+    "banRate" : 5.39
+  },
+  {
+    "championTier" : "Iron",
+    "winRate" : 50.66,
+    "championId" : "Sett",
+    "pickRate" : 8.67,
+    "role" : "Top",
+    "banRate" : 3.6,
+    "tier" : "Iron"
+  },
+  {
+    "pickRate" : 6.1,
+    "championId" : "Yorick",
+    "winRate" : 54.05,
+    "championTier" : "Bronze",
+    "tier" : "Bronze",
+    "role" : "Top",
+    "banRate" : 10.42
+  },
+  {
+    "role" : "Top",
+    "banRate" : 15.3,
+    "championTier" : "Bronze",
+    "tier" : "Bronze",
+    "championId" : "Teemo",
+    "winRate" : 52.3,
+    "pickRate" : 7.7
+  },
+  {
+    "winRate" : 52.87,
+    "tier" : "Bronze",
+    "championTier" : "Bronze",
+    "championId" : "Mordekaiser",
+    "banRate" : 16.58,
+    "pickRate" : 9.92,
+    "role" : "Top"
+  },
+  {
+    "championId" : "DrMundo",
+    "pickRate" : 6.08,
+    "championTier" : "Bronze",
+    "tier" : "Bronze",
+    "role" : "Top",
+    "winRate" : 53.93,
+    "banRate" : 5.23
+  },
+  {
+    "tier" : "Bronze",
+    "banRate" : 2.69,
+    "pickRate" : 6.88,
+    "role" : "Top",
+    "championTier" : "Bronze",
+    "winRate" : 51.88,
+    "championId" : "Sett"
+  },
+  {
+    "championTier" : "Silver",
+    "championId" : "Yorick",
+    "pickRate" : 5.19,
+    "tier" : "Silver",
+    "role" : "Top",
+    "banRate" : 8.52,
+    "winRate" : 53.37
+  },
+  {
+    "role" : "Top",
+    "championTier" : "Silver",
+    "pickRate" : 6.15,
+    "championId" : "Teemo",
+    "tier" : "Silver",
+    "winRate" : 52.05,
+    "banRate" : 12.06
+  },
+  {
+    "role" : "Top",
+    "tier" : "Silver",
+    "winRate" : 52.94,
+    "pickRate" : 8.56,
+    "championTier" : "Silver",
+    "banRate" : 14.87,
+    "championId" : "Mordekaiser"
+  },
+  {
+    "winRate" : 53.46,
+    "role" : "Top",
+    "banRate" : 4.53,
+    "championId" : "DrMundo",
+    "tier" : "Silver",
+    "pickRate" : 5.5,
+    "championTier" : "Silver"
+  },
+  {
+    "winRate" : 50.26,
+    "role" : "Top",
+    "championId" : "Ambessa",
+    "pickRate" : 7.4,
+    "banRate" : 32.41,
+    "tier" : "Silver",
+    "championTier" : "Silver"
+  },
+  {
+    "championId" : "Tahm Kench",
+    "pickRate" : 4.79,
+    "tier" : "Gold",
+    "winRate" : 52.49,
+    "championTier" : "Gold",
+    "banRate" : 5.2,
+    "role" : "Top"
+  },
+  {
+    "winRate" : 52.05,
+    "banRate" : 12.06,
+    "championId" : "Teemo",
+    "championTier" : "Gold",
+    "pickRate" : 6.15,
+    "role" : "Top",
+    "tier" : "Gold"
+  },
+  {
+    "winRate" : 52.69,
+    "championId" : "Mordekaiser",
+    "banRate" : 12.82,
+    "role" : "Top",
+    "tier" : "Gold",
+    "pickRate" : 7.49,
+    "championTier" : "Gold"
+  },
+  {
+    "winRate" : 52.9,
+    "tier" : "Gold",
+    "role" : "Top",
+    "championTier" : "Gold",
+    "pickRate" : 5,
+    "championId" : "DrMundo",
+    "banRate" : 3.78
+  },
+  {
+    "championId" : "Ambessa",
+    "pickRate" : 8.15,
+    "winRate" : 50.67,
+    "banRate" : 38.36,
+    "tier" : "Gold",
+    "championTier" : "Gold",
+    "role" : "Top"
+  },
+  {
+    "banRate" : 5.7,
+    "championTier" : "Platinum",
+    "pickRate" : 1.9,
+    "role" : "Top",
+    "championId" : "Warwick",
+    "tier" : "Platinum",
+    "winRate" : 52.78
+  },
+  {
+    "role" : "Top",
+    "banRate" : 10.7,
+    "winRate" : 52.32,
+    "championTier" : "Platinum",
+    "championId" : "Tahm Kench",
+    "pickRate" : 4.2,
+    "tier" : "Platinum"
+  },
+  {
+    "championId" : "Mordekaiser",
+    "role" : "Top",
+    "winRate" : 51.71,
+    "championTier" : "Platinum",
+    "tier" : "Platinum",
+    "pickRate" : 6.6,
+    "banRate" : 11.9
+  },
+  {
+    "winRate" : 50.46,
+    "pickRate" : 8.2,
+    "role" : "Top",
+    "tier" : "Platinum",
+    "championTier" : "Platinum",
+    "banRate" : 11.7,
+    "championId" : "Aatrox"
+  },
+  {
+    "championTier" : "Platinum",
+    "pickRate" : 8.8,
+    "role" : "Top",
+    "banRate" : 58.9,
+    "winRate" : 50.65,
+    "championId" : "Ambessa",
+    "tier" : "Platinum"
+  },
+  {
+    "winRate" : 53.94,
+    "role" : "Top",
+    "championTier" : "Emerald",
+    "championId" : "Cassiopeia",
+    "pickRate" : 0.7,
+    "tier" : "Emerald",
+    "banRate" : 2.1
+  },
+  {
+    "tier" : "Emerald",
+    "winRate" : 52.18,
+    "banRate" : 7.5,
+    "championId" : "Tahm Kench",
+    "championTier" : "Emerald",
+    "pickRate" : 3.4,
+    "role" : "Top"
+  },
+  {
+    "championId" : "Kled",
+    "winRate" : 52.17,
+    "championTier" : "Emerald",
+    "tier" : "Emerald",
+    "pickRate" : 1.5,
+    "banRate" : 0.6,
+    "role" : "Top"
+  },
+  {
+    "role" : "Top",
+    "championId" : "Maokai",
+    "banRate" : 4.1,
+    "tier" : "Emerald",
+    "winRate" : 51.92,
+    "pickRate" : 5.5,
+    "championTier" : "Emerald"
+  },
+  {
+    "role" : "Top",
+    "banRate" : 10.9,
+    "tier" : "Emerald",
+    "pickRate" : 1.6,
+    "championTier" : "Emerald",
+    "championId" : "Poppy",
+    "winRate" : 51.8
+  },
+  {
+    "winRate" : 53.48,
+    "pickRate" : 0.9,
+    "tier" : "Diamond",
+    "role" : "Top",
+    "championId" : "Cassiopeia",
+    "banRate" : 1.9,
+    "championTier" : "Diamond"
+  },
+  {
+    "banRate" : 3.7,
+    "pickRate" : 5.8,
+    "tier" : "Diamond",
+    "championId" : "Riven",
+    "role" : "Top",
+    "winRate" : 52.39,
+    "championTier" : "Diamond"
+  },
+  {
+    "pickRate" : 1.9,
+    "tier" : "Diamond",
+    "championTier" : "Diamond",
+    "banRate" : 1.7,
+    "championId" : "Warwick",
+    "winRate" : 52.15,
+    "role" : "Top"
+  },
+  {
+    "pickRate" : 1.6,
+    "role" : "Top",
+    "winRate" : 51.93,
+    "banRate" : 1.2,
+    "championId" : "Olaf",
+    "tier" : "Diamond",
+    "championTier" : "Diamond"
+  },
+  {
+    "tier" : "Diamond",
+    "winRate" : 51.54,
+    "championId" : "Vladimir",
+    "pickRate" : 2.4,
+    "role" : "Top",
+    "banRate" : 5.2,
+    "championTier" : "Diamond"
+  },
+  {
+    "pickRate" : 0.7,
+    "championId" : "Quinn",
+    "tier" : "Master",
+    "role" : "Top",
+    "winRate" : 54.2,
+    "banRate" : 0.3,
+    "championTier" : "Master"
+  },
+  {
+    "championTier" : "Master",
+    "winRate" : 53.37,
+    "banRate" : 17.4,
+    "championId" : "Rengar",
+    "tier" : "Master",
+    "role" : "Top",
+    "pickRate" : 0.5
+  },
+  {
+    "winRate" : 52.91,
+    "championTier" : "Master",
+    "banRate" : 2.3,
+    "championId" : "Kennen",
+    "role" : "Top",
+    "tier" : "Master",
+    "pickRate" : 2.5
+  },
+  {
+    "championId" : "Poppy",
+    "tier" : "Master",
+    "banRate" : 14.8,
+    "pickRate" : 1.8,
+    "championTier" : "Master",
+    "winRate" : 52.56,
+    "role" : "Top"
+  },
+  {
+    "pickRate" : 6.3,
+    "role" : "Top",
+    "championTier" : "Master",
+    "banRate" : 5,
+    "winRate" : 52.07,
+    "championId" : "Riven",
+    "tier" : "Master"
+  },
+  {
+    "tier" : "Grandmaster",
+    "winRate" : 56.44,
+    "banRate" : 6.1,
+    "pickRate" : 1.1,
+    "role" : "Top",
+    "championTier" : "Grandmaster",
+    "championId" : "Udyr"
+  },
+  {
+    "championId" : "Rengar",
+    "pickRate" : 1,
+    "tier" : "Grandmaster",
+    "banRate" : 20,
+    "winRate" : 55.71,
+    "championTier" : "Grandmaster",
+    "role" : "Top"
+  },
+  {
+    "championTier" : "Grandmaster",
+    "pickRate" : 1.3,
+    "winRate" : 55.26,
+    "championId" : "Sylas",
+    "tier" : "Grandmaster",
+    "role" : "Top",
+    "banRate" : 14.5
+  },
+  {
+    "championTier" : "Grandmaster",
+    "pickRate" : 1.9,
+    "championId" : "Chogath",
+    "role" : "Top",
+    "winRate" : 53.21,
+    "banRate" : 0.2,
+    "tier" : "Grandmaster"
+  },
+  {
+    "championId" : "Ambessa",
+    "winRate" : 52.92,
+    "pickRate" : 13.4,
+    "role" : "Top",
+    "tier" : "Grandmaster",
+    "banRate" : 59.1,
+    "championTier" : "Grandmaster"
+  },
+  {
+    "banRate" : 0.4,
+    "championTier" : "Challenger",
+    "winRate" : 58.94,
+    "championId" : "Urgot",
+    "tier" : "Challenger",
+    "role" : "Top",
+    "pickRate" : 1.4
+  },
+  {
+    "role" : "Top",
+    "championTier" : "Challenger",
+    "championId" : "Gragas",
+    "tier" : "Challenger",
+    "banRate" : 1.8,
+    "pickRate" : 8.7,
+    "winRate" : 53.8
+  },
+  {
+    "pickRate" : 1.1,
+    "championId" : "Mordekaiser",
+    "tier" : "Challenger",
+    "championTier" : "Challenger",
+    "banRate" : 0.2,
+    "role" : "Top",
+    "winRate" : 58.77
+  },
+  {
+    "winRate" : 57.28,
+    "championId" : "Tryndamere",
+    "championTier" : "Challenger",
+    "banRate" : 1.6,
+    "pickRate" : 1,
+    "tier" : "Challenger",
+    "role" : "Top"
+  },
+  {
+    "championId" : "Sion",
+    "championTier" : "Challenger",
+    "pickRate" : 1.6,
+    "tier" : "Challenger",
+    "banRate" : 0.1,
+    "winRate" : 54.02,
+    "role" : "Top"
+  },
+  {
+    "banRate" : 6,
+    "championId" : "Amumu",
+    "winRate" : 53.22,
+    "tier" : "Iron",
+    "championTier" : "Iron",
+    "pickRate" : 7.2,
+    "role" : "Jungle"
+  },
+  {
+    "banRate" : 7.6,
+    "championId" : "Briar",
+    "tier" : "Iron",
+    "championTier" : "Iron",
+    "pickRate" : 5.5,
+    "winRate" : 53.13,
+    "role" : "Jungle"
+  },
+  {
+    "championTier" : "Iron",
+    "winRate" : 52.66,
+    "pickRate" : 16.3,
+    "championId" : "Warwick",
+    "banRate" : 25.5,
+    "role" : "Jungle",
+    "tier" : "Iron"
+  },
+  {
+    "role" : "Jungle",
+    "banRate" : 14.5,
+    "tier" : "Iron",
+    "championTier" : "Iron",
+    "winRate" : 52.2,
+    "championId" : "Nocturne",
+    "pickRate" : 10
+  },
+  {
+    "winRate" : 52.7,
+    "championTier" : "Iron",
+    "pickRate" : 2.2,
+    "championId" : "Trundle",
+    "tier" : "Iron",
+    "banRate" : 2.7,
+    "role" : "Jungle"
+  },
+  {
+    "championTier" : "Bronze",
+    "pickRate" : 0.8,
+    "role" : "Jungle",
+    "championId" : "DrMundo",
+    "tier" : "Bronze",
+    "banRate" : 6,
+    "winRate" : 54.2
+  },
+  {
+    "role" : "Jungle",
+    "banRate" : 7.6,
+    "pickRate" : 5.5,
+    "tier" : "Bronze",
+    "winRate" : 53.13,
+    "championId" : "Briar",
+    "championTier" : "Bronze"
+  },
+  {
+    "tier" : "Bronze",
+    "championId" : "Warwick",
+    "winRate" : 53.14,
+    "banRate" : 16.2,
+    "pickRate" : 12.4,
+    "role" : "Jungle",
+    "championTier" : "Bronze"
+  },
+  {
+    "tier" : "Bronze",
+    "championTier" : "Bronze",
+    "role" : "Jungle",
+    "banRate" : 1.1,
+    "pickRate" : 2.5,
+    "championId" : "Shyvana",
+    "winRate" : 52.02
+  },
+  {
+    "pickRate" : 7.1,
+    "championTier" : "Bronze",
+    "banRate" : 5.9,
+    "tier" : "Bronze",
+    "championId" : "Amumu",
+    "winRate" : 52.54,
+    "role" : "Jungle"
+  },
+  {
+    "championId" : "DrMundo",
+    "pickRate" : 0.7,
+    "winRate" : 53.31,
+    "role" : "Jungle",
+    "banRate" : 5.2,
+    "tier" : "Silver",
+    "championTier" : "Silver"
+  },
+  {
+    "tier" : "Silver",
+    "championTier" : "Silver",
+    "pickRate" : 4,
+    "role" : "Jungle",
+    "winRate" : 52.54,
+    "banRate" : 6.4,
+    "championId" : "Briar"
+  },
+  {
+    "banRate" : 11.4,
+    "pickRate" : 10,
+    "tier" : "Silver",
+    "championTier" : "Silver",
+    "championId" : "Warwick",
+    "role" : "Jungle",
+    "winRate" : 53.01
+  },
+  {
+    "championId" : "Nocturne",
+    "pickRate" : 9.7,
+    "winRate" : 52.75,
+    "banRate" : 9.7,
+    "role" : "Jungle",
+    "championTier" : "Silver",
+    "tier" : "Silver"
+  },
+  {
+    "role" : "Jungle",
+    "tier" : "Silver",
+    "banRate" : 5.2,
+    "championId" : "Amumu",
+    "winRate" : 51.71,
+    "pickRate" : 6,
+    "championTier" : "Silver"
+  },
+  {
+    "tier" : "Gold",
+    "championId" : "MonkeyKing",
+    "winRate" : 51.83,
+    "role" : "Jungle",
+    "banRate" : 1.3,
+    "pickRate" : 5.3,
+    "championTier" : "Gold"
+  },
+  {
+    "championId" : "Briar",
+    "pickRate" : 3.7,
+    "championTier" : "Gold",
+    "winRate" : 52.13,
+    "banRate" : 6,
+    "tier" : "Gold",
+    "role" : "Jungle"
+  },
+  {
+    "tier" : "Gold",
+    "pickRate" : 8.1,
+    "banRate" : 8.2,
+    "championTier" : "Gold",
+    "role" : "Jungle",
+    "winRate" : 52.75,
+    "championId" : "Warwick"
+  },
+  {
+    "winRate" : 51.15,
+    "tier" : "Gold",
+    "role" : "Jungle",
+    "championTier" : "Gold",
+    "championId" : "XinZhao",
+    "banRate" : 0.7,
+    "pickRate" : 3.7
+  },
+  {
+    "pickRate" : 9,
+    "role" : "Jungle",
+    "winRate" : 52.44,
+    "tier" : "Gold",
+    "championId" : "Nocturne",
+    "championTier" : "Gold",
+    "banRate" : 17.5
+  },
+  {
+    "championTier" : "Platinum",
+    "banRate" : 1.7,
+    "tier" : "Platinum",
+    "role" : "Jungle",
+    "pickRate" : 5.8,
+    "winRate" : 51.8,
+    "championId" : "MonkeyKing"
+  },
+  {
+    "championId" : "Briar",
+    "tier" : "Platinum",
+    "pickRate" : 3.7,
+    "championTier" : "Platinum",
+    "role" : "Jungle",
+    "winRate" : 52.13,
+    "banRate" : 6
+  },
+  {
+    "winRate" : 52.57,
+    "tier" : "Platinum",
+    "role" : "Jungle",
+    "pickRate" : 6.6,
+    "banRate" : 5.7,
+    "championId" : "Warwick",
+    "championTier" : "Platinum"
+  },
+  {
+    "tier" : "Platinum",
+    "championId" : "Trundle",
+    "role" : "Jungle",
+    "pickRate" : 0.7,
+    "winRate" : 51.87,
+    "banRate" : 0.9,
+    "championTier" : "Platinum"
+  },
+  {
+    "role" : "Jungle",
+    "tier" : "Platinum",
+    "pickRate" : 8.1,
+    "championId" : "Nocturne",
+    "championTier" : "Platinum",
+    "winRate" : 52.27,
+    "banRate" : 15.1
+  },
+  {
+    "pickRate" : 6.1,
+    "banRate" : 2.1,
+    "championId" : "MonkeyKing",
+    "winRate" : 51.21,
+    "tier" : "Emerald",
+    "role" : "Jungle",
+    "championTier" : "Emerald"
+  },
+  {
+    "role" : "Jungle",
+    "banRate" : 2.5,
+    "winRate" : 51.73,
+    "championId" : "DrMundo",
+    "tier" : "Emerald",
+    "championTier" : "Emerald",
+    "pickRate" : 0.5
+  },
+  {
+    "tier" : "Emerald",
+    "pickRate" : 4.8,
+    "banRate" : 3.2,
+    "role" : "Jungle",
+    "winRate" : 51.61,
+    "championTier" : "Emerald",
+    "championId" : "Warwick"
+  },
+  {
+    "role" : "Jungle",
+    "championId" : "Fiddlesticks",
+    "tier" : "Emerald",
+    "pickRate" : 2.6,
+    "championTier" : "Emerald",
+    "winRate" : 51.44,
+    "banRate" : 2
+  },
+  {
+    "pickRate" : 6.7,
+    "banRate" : 11.2,
+    "tier" : "Emerald",
+    "championId" : "Nocturne",
+    "winRate" : 51.49,
+    "role" : "Jungle",
+    "championTier" : "Emerald"
+  },
+  {
+    "role" : "Jungle",
+    "pickRate" : 2.8,
+    "banRate" : 5.7,
+    "championId" : "Belveth",
+    "tier" : "Diamond",
+    "championTier" : "Diamond",
+    "winRate" : 52.35
+  },
+  {
+    "role" : "Jungle",
+    "winRate" : 51.94,
+    "championId" : "RekSai",
+    "banRate" : 0.8,
+    "tier" : "Diamond",
+    "pickRate" : 1.8,
+    "championTier" : "Diamond"
+  },
+  {
+    "pickRate" : 3.3,
+    "winRate" : 51.64,
+    "banRate" : 10.4,
+    "championId" : "Karthus",
+    "championTier" : "Diamond",
+    "role" : "Jungle",
+    "tier" : "Diamond"
+  },
+  {
+    "championTier" : "Diamond",
+    "winRate" : 51.63,
+    "banRate" : 0.8,
+    "championId" : "Nunu",
+    "tier" : "Diamond",
+    "role" : "Jungle",
+    "pickRate" : 3.1
+  },
+  {
+    "role" : "Jungle",
+    "pickRate" : 2.9,
+    "banRate" : 2.5,
+    "championId" : "Talon",
+    "championTier" : "Diamond",
+    "tier" : "Diamond",
+    "winRate" : 51.54
+  },
+  {
+    "championTier" : "Master",
+    "role" : "Jungle",
+    "banRate" : 8.2,
+    "championId" : "Belveth",
+    "pickRate" : 3.8,
+    "winRate" : 53.02,
+    "tier" : "Master"
+  },
+  {
+    "role" : "Jungle",
+    "winRate" : 54.74,
+    "tier" : "Master",
+    "championTier" : "Master",
+    "pickRate" : 2.2,
+    "banRate" : 0.8,
+    "championId" : "RekSai"
+  },
+  {
+    "banRate" : 23.7,
+    "role" : "Jungle",
+    "championId" : "Skarner",
+    "tier" : "Master",
+    "championTier" : "Master",
+    "winRate" : 52.85,
+    "pickRate" : 6.3
+  },
+  {
+    "banRate" : 1.1,
+    "winRate" : 52.15,
+    "championTier" : "Master",
+    "role" : "Jungle",
+    "championId" : "Nunu",
+    "tier" : "Master",
+    "pickRate" : 3.4
+  },
+  {
+    "winRate" : 51.81,
+    "tier" : "Master",
+    "banRate" : 12.3,
+    "championId" : "Elise",
+    "championTier" : "Master",
+    "pickRate" : 7.4,
+    "role" : "Jungle"
+  },
+  {
+    "role" : "Jungle",
+    "pickRate" : 0.9,
+    "winRate" : 56.64,
+    "tier" : "Grandmaster",
+    "championId" : "Poppy",
+    "banRate" : 16.4,
+    "championTier" : "Grandmaster"
+  },
+  {
+    "winRate" : 54.75,
+    "championId" : "Zed",
+    "banRate" : 11.3,
+    "role" : "Jungle",
+    "pickRate" : 0.8,
+    "championTier" : "Grandmaster",
+    "tier" : "Grandmaster"
+  },
+  {
+    "role" : "Jungle",
+    "championTier" : "Grandmaster",
+    "tier" : "Grandmaster",
+    "pickRate" : 2.7,
+    "championId" : "Taliyah",
+    "banRate" : 2,
+    "winRate" : 54.52
+  },
+  {
+    "tier" : "Grandmaster",
+    "banRate" : 5.1,
+    "winRate" : 53.6,
+    "role" : "Jungle",
+    "pickRate" : 3.2,
+    "championId" : "Shaco",
+    "championTier" : "Grandmaster"
+  },
+  {
+    "pickRate" : 7.6,
+    "championId" : "Skarner",
+    "winRate" : 53.95,
+    "tier" : "Grandmaster",
+    "banRate" : 31.3,
+    "championTier" : "Grandmaster",
+    "role" : "Jungle"
+  },
+  {
+    "championId" : "Rengar",
+    "tier" : "Challenger",
+    "banRate" : 19.8,
+    "role" : "Jungle",
+    "championTier" : "Challenger",
+    "winRate" : 57.41,
+    "pickRate" : 3
+  },
+  {
+    "championId" : "Nunu",
+    "banRate" : 2.7,
+    "role" : "Jungle",
+    "tier" : "Challenger",
+    "winRate" : 57.21,
+    "pickRate" : 2,
+    "championTier" : "Challenger"
+  },
+  {
+    "banRate" : 1.4,
+    "championId" : "Evelynn",
+    "winRate" : 56.25,
+    "tier" : "Challenger",
+    "championTier" : "Challenger",
+    "pickRate" : 0.8,
+    "role" : "Jungle"
+  },
+  {
+    "role" : "Jungle",
+    "winRate" : 56.25,
+    "pickRate" : 0.8,
+    "championTier" : "Challenger",
+    "championId" : "Jax",
+    "tier" : "Challenger",
+    "banRate" : 12.3
+  },
+  {
+    "banRate" : 17.5,
+    "championTier" : "Challenger",
+    "championId" : "Poppy",
+    "role" : "Jungle",
+    "pickRate" : 0.9,
+    "winRate" : 55.56,
+    "tier" : "Challenger"
+  },
+  {
+    "banRate" : 9.5,
+    "championTier" : "Iron",
+    "championId" : "Heimerdinger",
+    "role" : "Mid",
+    "pickRate" : 1.8,
+    "winRate" : 54.50,
+    "tier" : "Iron"
+  },
+  {
+    "banRate" : 11.6,
+    "championTier" : "Iron",
+    "championId" : "Malzahar",
+    "role" : "Mid",
+    "pickRate" : 5.3,
+    "winRate" : 54.04,
+    "tier" : "Iron"
+  },
+  {
+    "banRate" : 10.4,
+    "championTier" : "Iron",
+    "championId" : "Swain",
+    "role" : "Mid",
+    "pickRate" : 3.0,
+    "winRate" : 53.54,
+    "tier" : "Iron"
+  },
+  {
+    "banRate" : 9.9,
+    "championTier" : "Iron",
+    "championId" : "Veigar",
+    "role" : "Mid",
+    "pickRate" : 9.1,
+    "winRate" : 53.31,
+    "tier" : "Iron"
+  },
+  {
+    "banRate" : 2.4,
+    "championTier" : "Iron",
+    "championId" : "Chogath",
+    "role" : "Mid",
+    "pickRate" : 0.7,
+    "winRate" : 53.16,
+    "tier" : "Iron"
+  },
+  {
+    "banRate" : 5.0,
+    "championTier" : "Bronze",
+    "championId" : "Garen",
+    "role" : "Mid",
+    "pickRate" : 0.6,
+    "winRate" : 54.16,
+    "tier" : "Bronze"
+  },
+  {
+    "banRate" : 13.9,
+    "championTier" : "Bronze",
+    "championId" : "Malzahar",
+    "role" : "Mid",
+    "pickRate" : 6.6,
+    "winRate" : 53.45,
+    "tier" : "Bronze"
+  },
+  {
+    "banRate" : 6.5,
+    "championTier" : "Bronze",
+    "championId" : "Veigar",
+    "role" : "Mid",
+    "pickRate" : 8.0,
+    "winRate" : 52.54,
+    "tier" : "Bronze"
+  },
+  {
+    "banRate" : 1.8,
+    "championTier" : "Bronze",
+    "championId" : "Velkoz",
+    "role" : "Mid",
+    "pickRate" : 1.2,
+    "winRate" : 52.43,
+    "tier" : "Bronze"
+  },
+  {
+    "banRate" : 1.0,
+    "championTier" : "Bronze",
+    "championId" : "Anivia",
+    "role" : "Mid",
+    "pickRate" : 1.3,
+    "winRate" : 52.15,
+    "tier" : "Bronze"
+  },
+  {
+    "banRate" : 2.4,
+    "championTier" : "Silver",
+    "championId" : "Heimerdinger",
+    "role" : "Mid",
+    "pickRate" : 0.8,
+    "winRate" : 53.17,
+    "tier" : "Silver"
+  },
+  {
+    "banRate" : 13.0,
+    "championTier" : "Silver",
+    "championId" : "Malzahar",
+    "role" : "Mid",
+    "pickRate" : 7.1,
+    "winRate" : 52.69,
+    "tier" : "Silver"
+  },
+  {
+    "banRate" : 1.2,
+    "championTier" : "Silver",
+    "championId" : "Anivia",
+    "role" : "Mid",
+    "pickRate" : 1.6,
+    "winRate" : 52.31,
+    "tier" : "Silver"
+  },
+  {
+    "banRate" : 19.0,
+    "championTier" : "Silver",
+    "championId" : "Lux",
+    "role" : "Mid",
+    "pickRate" : 5.3,
+    "winRate" : 52.03,
+    "tier" : "Silver"
+  },
+  {
+    "banRate" : 4.2,
+    "championTier" : "Silver",
+    "championId" : "Veigar",
+    "role" : "Mid",
+    "pickRate" : 6.5,
+    "winRate" : 51.87,
+    "tier" : "Silver"
+  },
+  {
+    "banRate" : 1.6,
+    "championTier" : "Gold",
+    "championId" : "Naafiri",
+    "role" : "Mid",
+    "pickRate" : 1.5,
+    "winRate" : 52.81,
+    "tier" : "Gold"
+  },
+  {
+    "banRate" : 9.0,
+    "championTier" : "Gold",
+    "championId" : "Vex",
+    "role" : "Mid",
+    "pickRate" : 4.8,
+    "winRate" : 51.90,
+    "tier" : "Gold"
+  },
+  {
+    "banRate" : 1.6,
+    "championTier" : "Gold",
+    "championId" : "Anivia",
+    "role" : "Mid",
+    "pickRate" : 1.8,
+    "winRate" : 52.33,
+    "tier" : "Gold"
+  },
+  {
+    "banRate" : 1.9,
+    "championTier" : "Gold",
+    "championId" : "Cassiopeia",
+    "role" : "Mid",
+    "pickRate" : 1.8,
+    "winRate" : 51.91,
+    "tier" : "Gold"
+  },
+  {
+    "banRate" : 10.6,
+    "championTier" : "Gold",
+    "championId" : "Malzahar",
+    "role" : "Mid",
+    "pickRate" : 6.4,
+    "winRate" : 51.85,
+    "tier" : "Gold"
+  },
+  {
+    "banRate" : 2.0,
+    "championTier" : "Platinum",
+    "championId" : "Anivia",
+    "role" : "Mid",
+    "pickRate" : 2.0,
+    "winRate" : 52.51,
+    "tier" : "Platinum"
+  },
+  {
+    "banRate" : 2.0,
+    "championTier" : "Platinum",
+    "championId" : "Cassiopeia",
+    "role" : "Mid",
+    "pickRate" : 1.8,
+    "winRate" : 52.46,
+    "tier" : "Platinum"
+  },
+  {
+    "banRate" : 8.7,
+    "championTier" : "Platinum",
+    "championId" : "Vex",
+    "role" : "Mid",
+    "pickRate" : 4.5,
+    "winRate" : 52.43,
+    "tier" : "Platinum"
+  },
+  {
+    "banRate" : 3.4,
+    "championTier" : "Platinum",
+    "championId" : "Gragas",
+    "role" : "Mid",
+    "pickRate" : 0.7,
+    "winRate" : 51.68,
+    "tier" : "Platinum"
+  },
+  {
+    "banRate" : 8.8,
+    "championTier" : "Platinum",
+    "championId" : "Xerath",
+    "role" : "Mid",
+    "pickRate" : 3.0,
+    "winRate" : 51.53,
+    "tier" : "Platinum"
+  },
+  {
+    "banRate" : 2.2,
+    "championTier" : "Emerald",
+    "championId" : "Anivia",
+    "role" : "Mid",
+    "pickRate" : 2.1,
+    "winRate" : 52.57,
+    "tier" : "Emerald"
+  },
+  {
+    "banRate" : 2.1,
+    "championTier" : "Emerald",
+    "championId" : "Cassiopeia",
+    "role" : "Mid",
+    "pickRate" : 1.9,
+    "winRate" : 52.45,
+    "tier" : "Emerald"
+  },
+  {
+    "banRate" : 4.4,
+    "championTier" : "Emerald",
+    "championId" : "Gragas",
+    "role" : "Mid",
+    "pickRate" : 0.7,
+    "winRate" : 52.15,
+    "tier" : "Emerald"
+  },
+  {
+    "banRate" : 1.2,
+    "championTier" : "Emerald",
+    "championId" : "Velkoz",
+    "role" : "Mid",
+    "pickRate" : 1.4,
+    "winRate" : 52.14,
+    "tier" : "Emerald"
+  },
+  {
+    "banRate" : 1.0,
+    "championTier" : "Emerald",
+    "championId" : "Neeko",
+    "role" : "Mid",
+    "pickRate" : 0.7,
+    "winRate" : 52.07,
+    "tier" : "Emerald"
+  },
+  {
+    "banRate" : 1.0,
+    "championTier" : "Diamond",
+    "championId" : "Neeko",
+    "role" : "Mid",
+    "pickRate" : 0.8,
+    "winRate" : 54.12,
+    "tier" : "Diamond"
+  },
+  {
+    "banRate" : 1.7,
+    "championTier" : "Diamond",
+    "championId" : "Taliyah",
+    "role" : "Mid",
+    "pickRate" : 2.3,
+    "winRate" : 52.59,
+    "tier" : "Diamond"
+  },
+  {
+    "banRate" : 3.7,
+    "championTier" : "Diamond",
+    "championId" : "Akshan",
+    "role" : "Mid",
+    "pickRate" : 2.9,
+    "winRate" : 52.49,
+    "tier" : "Diamond"
+  },
+  {
+    "banRate" : 4.9,
+    "championTier" : "Diamond",
+    "championId" : "Gragas",
+    "role" : "Mid",
+    "pickRate" : 0.8,
+    "winRate" : 52.48,
+    "tier" : "Diamond"
+  },
+  {
+    "banRate" : 2.5,
+    "championTier" : "Diamond",
+    "championId" : "Talon",
+    "role" : "Mid",
+    "pickRate" : 3.6,
+    "winRate" : 52.35,
+    "tier" : "Diamond"
+  },
+  {
+    "banRate" : 2.0,
+    "championTier" : "Master",
+    "championId" : "Cassiopeia",
+    "role" : "Mid",
+    "pickRate" : 1.9,
+    "winRate" : 53.03,
+    "tier" : "Master"
+  },
+  {
+    "banRate" : 1.1,
+    "championTier" : "Master",
+    "championId" : "Neeko",
+    "role" : "Mid",
+    "pickRate" : 0.9,
+    "winRate" : 53.02,
+    "tier" : "Master"
+  },
+  {
+    "banRate" : 4.3,
+    "championTier" : "Master",
+    "championId" : "Gragas",
+    "role" : "Mid",
+    "pickRate" : 0.8,
+    "winRate" : 52.61,
+    "tier" : "Master"
+  },
+  {
+    "banRate" : 1.3,
+    "championTier" : "Master",
+    "championId" : "Qiyana",
+    "role" : "Mid",
+    "pickRate" : 2.9,
+    "winRate" : 52.27,
+    "tier" : "Master"
+  },
+  {
+    "banRate" : 6.2,
+    "championTier" : "Master",
+    "championId" : "Galio",
+    "role" : "Mid",
+    "pickRate" : 7.2,
+    "winRate" : 51.72,
+    "tier" : "Master"
+  },
+  {
+    "banRate" : 4.5,
+    "championTier" : "Grandmaster",
+    "championId" : "Zac",
+    "role" : "Mid",
+    "pickRate" : 0.8,
+    "winRate" : 55.23,
+    "tier" : "Grandmaster"
+  },
+  {
+    "banRate" : 0.7,
+    "championTier" : "Grandmaster",
+    "championId" : "Kayle",
+    "role" : "Mid",
+    "pickRate" : 0.5,
+    "winRate" : 54.55,
+    "tier" : "Grandmaster"
+  },
+  {
+    "banRate" : 4.5,
+    "championTier" : "Grandmaster",
+    "championId" : "Zoe",
+    "role" : "Mid",
+    "pickRate" : 3.9,
+    "winRate" : 54.01,
+    "tier" : "Grandmaster"
+  },
+  {
+    "banRate" : 0.5,
+    "championTier" : "Grandmaster",
+    "championId" : "Lissandra",
+    "role" : "Mid",
+    "pickRate" : 2.6,
+    "winRate" : 53.62,
+    "tier" : "Grandmaster"
+  },
+  {
+    "banRate" : 1.1,
+    "championTier" : "Grandmaster",
+    "championId" : "Pantheon",
+    "role" : "Mid",
+    "pickRate" : 0.9,
+    "winRate" : 53.25,
+    "tier" : "Grandmaster"
+  },
+  {
+    "banRate" : 1.7,
+    "championTier" : "Challenger",
+    "championId" : "Cassiopeia",
+    "role" : "Mid",
+    "pickRate" : 1.3,
+    "winRate" : 59.71,
+    "tier" : "Challenger"
+  },
+  {
+    "banRate" : 6.1,
+    "championTier" : "Challenger",
+    "championId" : "Akali",
+    "role" : "Mid",
+    "pickRate" : 7.9,
+    "winRate" : 53.10,
+    "tier" : "Challenger"
+  },
+  {
+    "banRate" : 1.1,
+    "championTier" : "Challenger",
+    "championId" : "Karma",
+    "role" : "Mid",
+    "pickRate" : 0.8,
+    "winRate" : 56.25,
+    "tier" : "Challenger"
+  },
+  {
+    "banRate" : 4.1,
+    "championTier" : "Challenger",
+    "championId" : "Orianna",
+    "role" : "Mid",
+    "pickRate" : 8.8,
+    "winRate" : 53.01,
+    "tier" : "Challenger"
+  },
+  {
+    "banRate" : 2.7,
+    "championTier" : "Challenger",
+    "championId" : "Ahri",
+    "role" : "Mid",
+    "pickRate" : 10.7,
+    "winRate" : 52.33,
+    "tier" : "Challenger"
+  },
+  {
+    "banRate" : 10.4,
+    "championTier" : "Iron",
+    "championId" : "Swain",
+    "role" : "Bot",
+    "pickRate" : 1.2,
+    "winRate" : 55.53,
+    "tier" : "Iron"
+  },
+  {
+    "banRate" : 2.0,
+    "championTier" : "Iron",
+    "championId" : "Nilah",
+    "role" : "Bot",
+    "pickRate" : 1.6,
+    "winRate" : 52.24,
+    "tier" : "Iron"
+  },
+  {
+    "banRate" : 11.2,
+    "championTier" : "Iron",
+    "championId" : "MissFortune",
+    "role" : "Bot",
+    "pickRate" : 23.6,
+    "winRate" : 52.16,
+    "tier" : "Iron"
+  },
+  {
+    "banRate" : 13.3,
+    "championTier" : "Iron",
+    "championId" : "Jhin",
+    "role" : "Bot",
+    "pickRate" : 16.5,
+    "winRate" : 51.02,
+    "tier" : "Iron"
+  },
+  {
+    "banRate" : 31.9,
+    "championTier" : "Iron",
+    "championId" : "Caitlyn",
+    "role" : "Bot",
+    "pickRate" : 28.0,
+    "winRate" : 50.69,
+    "tier" : "Iron"
+  },
+  {
+    "banRate" : 1.8,
+    "championTier" : "Bronze",
+    "championId" : "Ziggs",
+    "role" : "Bot",
+    "pickRate" : 2.4,
+    "winRate" : 52.63,
+    "tier" : "Bronze"
+  },
+  {
+    "banRate" : 5.8,
+    "championTier" : "Bronze",
+    "championId" : "MissFortune",
+    "role" : "Bot",
+    "pickRate" : 16.7,
+    "winRate" : 51.63,
+    "tier" : "Bronze"
+  },
+  {
+    "banRate" : 0.9,
+    "championTier" : "Bronze",
+    "championId" : "Sivir",
+    "role" : "Bot",
+    "pickRate" : 3.8,
+    "winRate" : 51.39,
+    "tier" : "Bronze"
+  },
+  {
+    "banRate" : 2.7,
+    "championTier" : "Bronze",
+    "championId" : "Nilah",
+    "role" : "Bot",
+    "pickRate" : 1.7,
+    "winRate" : 53.23,
+    "tier" : "Bronze"
+  },
+  {
+    "banRate" : 6.5,
+    "championTier" : "Bronze",
+    "championId" : "KogMaw",
+    "role" : "Bot",
+    "pickRate" : 2.9,
+    "winRate" : 51.00,
+    "tier" : "Bronze"
+  },
+  {
+    "banRate" : 10.7,
+    "championTier" : "Silver",
+    "championId" : "Swain",
+    "role" : "Bot",
+    "pickRate" : 1.8,
+    "winRate" : 54.04,
+    "tier" : "Silver"
+  },
+  {
+    "banRate" : 2.2,
+    "championTier" : "Silver",
+    "championId" : "Seraphine",
+    "role" : "Bot",
+    "pickRate" : 0.5,
+    "winRate" : 54.00,
+    "tier" : "Silver"
+  },
+  {
+    "banRate" : 1.4,
+    "championTier" : "Silver",
+    "championId" : "Ziggs",
+    "role" : "Bot",
+    "pickRate" : 2.3,
+    "winRate" : 52.34,
+    "tier" : "Silver"
+  },
+  {
+    "banRate" : 9.4,
+    "championTier" : "Silver",
+    "championId" : "Jhin",
+    "role" : "Bot",
+    "pickRate" : 21.2,
+    "winRate" : 50.79,
+    "tier" : "Silver"
+  },
+  {
+    "banRate" : 4.3,
+    "championTier" : "Silver",
+    "championId" : "Jinx",
+    "role" : "Bot",
+    "pickRate" : 19.9,
+    "winRate" : 50.28,
+    "tier" : "Silver"
+  },
+  {
+    "banRate" : 6.3,
+    "championTier" : "Gold",
+    "championId" : "Brand",
+    "role" : "Bot",
+    "pickRate" : 0.6,
+    "winRate" : 54.27,
+    "tier" : "Gold"
+  },
+  {
+    "banRate" : 9.7,
+    "championTier" : "Gold",
+    "championId" : "Swain",
+    "role" : "Bot",
+    "pickRate" : 2.0,
+    "winRate" : 53.72,
+    "tier" : "Gold"
+  },
+  {
+    "banRate" : 6.8,
+    "championTier" : "Gold",
+    "championId" : "Hwei",
+    "role" : "Bot",
+    "pickRate" : 0.6,
+    "winRate" : 52.98,
+    "tier" : "Gold"
+  },
+  {
+    "banRate" : 3.0,
+    "championTier" : "Gold",
+    "championId" : "Nilah",
+    "role" : "Bot",
+    "pickRate" : 1.7,
+    "winRate" : 52.94,
+    "tier" : "Gold"
+  },
+  {
+    "banRate" : 0.9,
+    "championTier" : "Gold",
+    "championId" : "Sivir",
+    "role" : "Bot",
+    "pickRate" : 4.9,
+    "winRate" : 51.78,
+    "tier" : "Gold"
+  },
+  {
+    "banRate" : 4.2,
+    "championTier" : "Platinum",
+    "championId" : "Brand",
+    "role" : "Bot",
+    "pickRate" : 0.7,
+    "winRate" : 53.99,
+    "tier" : "Platinum"
+  },
+  {
+    "banRate" : 8.7,
+    "championTier" : "Platinum",
+    "championId" : "Swain",
+    "role" : "Bot",
+    "pickRate" : 2.1,
+    "winRate" : 53.30,
+    "tier" : "Platinum"
+  },
+  {
+    "banRate" : 1.9,
+    "championTier" : "Platinum",
+    "championId" : "Veigar",
+    "role" : "Bot",
+    "pickRate" : 0.8,
+    "winRate" : 53.20,
+    "tier" : "Platinum"
+  },
+  {
+    "banRate" : 8.8,
+    "championTier" : "Platinum",
+    "championId" : "Hwei",
+    "role" : "Bot",
+    "pickRate" : 0.8,
+    "winRate" : 52.48,
+    "tier" : "Platinum"
+  },
+  {
+    "banRate" : 1.0,
+    "championTier" : "Platinum",
+    "championId" : "Sivir",
+    "role" : "Bot",
+    "pickRate" : 5.3,
+    "winRate" : 51.83,
+    "tier" : "Platinum"
+  },
+  {
+    "banRate" : 3.0,
+    "championTier" : "Emerald",
+    "championId" : "Nilah",
+    "role" : "Bot",
+    "pickRate" : 1.7,
+    "winRate" : 53.29,
+    "tier" : "Emerald"
+  },
+  {
+    "banRate" : 16.0,
+    "championTier" : "Emerald",
+    "championId" : "Corki",
+    "role" : "Bot",
+    "pickRate" : 10.4,
+    "winRate" : 50.67,
+    "tier" : "Emerald"
+  },
+  {
+    "banRate" : 0.7,
+    "championTier" : "Emerald",
+    "championId" : "Xayah",
+    "role" : "Bot",
+    "pickRate" : 5.0,
+    "winRate" : 50.51,
+    "tier" : "Emerald"
+  },
+  {
+    "banRate" : 16.5,
+    "championTier" : "Emerald",
+    "championId" : "Ashe",
+    "role" : "Bot",
+    "pickRate" : 16.7,
+    "winRate" : 50.35,
+    "tier" : "Emerald"
+  },
+  {
+    "banRate" : 18.9,
+    "championTier" : "Emerald",
+    "championId" : "Draven",
+    "role" : "Bot",
+    "pickRate" : 5.4,
+    "winRate" : 50.08,
+    "tier" : "Emerald"
+  },
+  {
+    "banRate" : 10.4,
+    "championTier" : "Diamond",
+    "championId" : "Karthus",
+    "role" : "Bot",
+    "pickRate" : 0.8,
+    "winRate" : 54.78,
+    "tier" : "Diamond"
+  },
+  {
+    "banRate" : 0.5,
+    "championTier" : "Diamond",
+    "championId" : "Veigar",
+    "role" : "Bot",
+    "pickRate" : 0.6,
+    "winRate" : 52.96,
+    "tier" : "Diamond"
+  },
+  {
+    "banRate" : 1.1,
+    "championTier" : "Diamond",
+    "championId" : "Brand",
+    "role" : "Bot",
+    "pickRate" : 0.7,
+    "winRate" : 52.67,
+    "tier" : "Diamond"
+  },
+  {
+    "banRate" : 8.3,
+    "championTier" : "Diamond",
+    "championId" : "KogMaw",
+    "role" : "Bot",
+    "pickRate" : 3.3,
+    "winRate" : 52.38,
+    "tier" : "Diamond"
+  },
+  {
+    "banRate" : 0.7,
+    "championTier" : "Diamond",
+    "championId" : "Ziggs",
+    "role" : "Bot",
+    "pickRate" : 2.2,
+    "winRate" : 52.12,
+    "tier" : "Diamond"
+  },
+  {
+    "banRate" : 1.0,
+    "championTier" : "Master",
+    "championId" : "Kalista",
+    "role" : "Bot",
+    "pickRate" : 3.1,
+    "winRate" : 51.71,
+    "tier" : "Master"
+  },
+  {
+    "banRate" : 29.5,
+    "championTier" : "Master",
+    "championId" : "Corki",
+    "role" : "Bot",
+    "pickRate" : 17.7,
+    "winRate" : 51.79,
+    "tier" : "Master"
+  },
+  {
+    "banRate" : 19.8,
+    "championTier" : "Master",
+    "championId" : "Yasuo",
+    "role" : "Bot",
+    "pickRate" : 1.0,
+    "winRate" : 52.11,
+    "tier" : "Master"
+  },
+  {
+    "banRate" : 2.6,
+    "championTier" : "Master",
+    "championId" : "Zyra",
+    "role" : "Bot",
+    "pickRate" : 0.7,
+    "winRate" : 54.69,
+    "tier" : "Master"
+  },
+  {
+    "banRate" : 0.5,
+    "championTier" : "Master",
+    "championId" : "Brand",
+    "role" : "Bot",
+    "pickRate" : 0.6,
+    "winRate" : 54.25,
+    "tier" : "Master"
+  },
+  {
+    "banRate" : 0.2,
+    "championTier" : "Grandmaster",
+    "championId" : "Veigar",
+    "role" : "Bot",
+    "pickRate" : 0.6,
+    "winRate" : 56.73,
+    "tier" : "Grandmaster"
+  },
+  {
+    "banRate" : 6.3,
+    "championTier" : "Grandmaster",
+    "championId" : "Hwei",
+    "role" : "Bot",
+    "pickRate" : 2.4,
+    "winRate" : 55.80,
+    "tier" : "Grandmaster"
+  },
+  {
+    "banRate" : 0.6,
+    "championTier" : "Grandmaster",
+    "championId" : "Velkoz",
+    "role" : "Bot",
+    "pickRate" : 0.7,
+    "winRate" : 55.19,
+    "tier" : "Grandmaster"
+  },
+  {
+    "banRate" : 1.0,
+    "championTier" : "Grandmaster",
+    "championId" : "Varus",
+    "role" : "Bot",
+    "pickRate" : 8.0,
+    "winRate" : 51.60,
+    "tier" : "Grandmaster"
+  },
+  {
+    "banRate" : 1.3,
+    "championTier" : "Grandmaster",
+    "championId" : "Seraphine",
+    "role" : "Bot",
+    "pickRate" : 2.2,
+    "winRate" : 54.76,
+    "tier" : "Grandmaster"
+  },
+  {
+    "banRate" : 19.9,
+    "championTier" : "Challenger",
+    "championId" : "Karthus",
+    "role" : "Bot",
+    "pickRate" : 1.6,
+    "winRate" : 55.29,
+    "tier" : "Challenger"
+  },
+  {
+    "banRate" : 27.4,
+    "championTier" : "Challenger",
+    "championId" : "Ashe",
+    "role" : "Bot",
+    "pickRate" : 24.1,
+    "winRate" : 53.61,
+    "tier" : "Challenger"
+  },
+  {
+    "banRate" : 4.3,
+    "championTier" : "Challenger",
+    "championId" : "Hwei",
+    "role" : "Bot",
+    "pickRate" : 2.0,
+    "winRate" : 53.27,
+    "tier" : "Challenger"
+  },
+  {
+    "banRate" : 0.1,
+    "championTier" : "Challenger",
+    "championId" : "Zeri",
+    "role" : "Bot",
+    "pickRate" : 3.6,
+    "winRate" : 50.00,
+    "tier" : "Challenger"
+  },
+  {
+    "banRate" : 2.0,
+    "championTier" : "Challenger",
+    "championId" : "Varus",
+    "role" : "Bot",
+    "pickRate" : 12.1,
+    "winRate" : 50.86,
+    "tier" : "Challenger"
+  },
+  {
+    "banRate" : 0.4,
+    "championTier" : "Iron",
+    "championId" : "Taric",
+    "role" : "Support",
+    "pickRate" : 1.2,
+    "winRate" : 53.10,
+    "tier" : "Iron"
+  },
+  {
+    "banRate" : 26.1,
+    "championTier" : "Iron",
+    "championId" : "Morgana",
+    "role" : "Support",
+    "pickRate" : 12.9,
+    "winRate" : 51.59,
+    "tier" : "Iron"
+  },
+  {
+    "banRate" : 10.7,
+    "championTier" : "Iron",
+    "championId" : "Brand",
+    "role" : "Support",
+    "pickRate" : 6.2,
+    "winRate" : 52.29,
+    "tier" : "Iron"
+  },
+  {
+    "banRate" : 10.7,
+    "championTier" : "Iron",
+    "championId" : "TahmKench",
+    "role" : "Support",
+    "pickRate" : 5.9,
+    "winRate" : 52.22,
+    "tier" : "Iron"
+  },
+  {
+    "banRate" : 1.4,
+    "championTier" : "Iron",
+    "championId" : "Maokai",
+    "role" : "Support",
+    "pickRate" : 2.7,
+    "winRate" : 51.91,
+    "tier" : "Iron"
+  },
+  {
+    "banRate" : 0.7,
+    "championTier" : "Bronze",
+    "championId" : "Milio",
+    "role" : "Support",
+    "pickRate" : 2.7,
+    "winRate" : 51.95,
+    "tier" : "Bronze"
+  },
+  {
+    "banRate" : 0.6,
+    "championTier" : "Bronze",
+    "championId" : "Nami",
+    "role" : "Support",
+    "pickRate" : 4.6,
+    "winRate" : 51.78,
+    "tier" : "Bronze"
+  },
+  {
+    "banRate" : 1.2,
+    "championTier" : "Bronze",
+    "championId" : "Soraka",
+    "role" : "Support",
+    "pickRate" : 3.4,
+    "winRate" : 51.41,
+    "tier" : "Bronze"
+  },
+  {
+    "banRate" : 0.1,
+    "championTier" : "Bronze",
+    "championId" : "Sona",
+    "role" : "Support",
+    "pickRate" : 2.4,
+    "winRate" : 51.26,
+    "tier" : "Bronze"
+  },
+  {
+    "banRate" : 27.1,
+    "championTier" : "Bronze",
+    "championId" : "Lux",
+    "role" : "Support",
+    "pickRate" : 18.9,
+    "winRate" : 51.08,
+    "tier" : "Bronze"
+  },
+  {
+    "banRate" : 0.4,
+    "championTier" : "Silver",
+    "championId" : "Taric",
+    "role" : "Support",
+    "pickRate" : 1.5,
+    "winRate" : 52.50,
+    "tier" : "Silver"
+  },
+  {
+    "banRate" : 0.8,
+    "championTier" : "Silver",
+    "championId" : "Nami",
+    "role" : "Support",
+    "pickRate" : 6.0,
+    "winRate" : 52.15,
+    "tier" : "Silver"
+  },
+  {
+    "banRate" : 6.9,
+    "championTier" : "Silver",
+    "championId" : "Zyra",
+    "role" : "Support",
+    "pickRate" : 5.5,
+    "winRate" : 52.12,
+    "tier" : "Silver"
+  },
+  {
+    "banRate" : 0.3,
+    "championTier" : "Silver",
+    "championId" : "Janna",
+    "role" : "Support",
+    "pickRate" : 2.2,
+    "winRate" : 51.48,
+    "tier" : "Silver"
+  },
+  {
+    "banRate" : 1.6,
+    "championTier" : "Silver",
+    "championId" : "Braum",
+    "role" : "Support",
+    "pickRate" : 4.2,
+    "winRate" : 50.82,
+    "tier" : "Silver"
+  },
+  {
+    "banRate" : 0.6,
+    "championTier" : "Gold",
+    "championId" : "Zilean",
+    "role" : "Support",
+    "pickRate" : 2.1,
+    "winRate" : 50.95,
+    "tier" : "Gold"
+  },
+  {
+    "banRate" : 10.6,
+    "championTier" : "Gold",
+    "championId" : "Lulu",
+    "role" : "Support",
+    "pickRate" : 9.7,
+    "winRate" : 50.73,
+    "tier" : "Gold"
+  },
+  {
+    "banRate" : 2.1,
+    "championTier" : "Gold",
+    "championId" : "Milio",
+    "role" : "Support",
+    "pickRate" : 4.7,
+    "winRate" : 51.93,
+    "tier" : "Gold"
+  },
+  {
+    "banRate" : 2.8,
+    "championTier" : "Gold",
+    "championId" : "Karma",
+    "role" : "Support",
+    "pickRate" : 6.9,
+    "winRate" : 50.51,
+    "tier" : "Gold"
+  },
+  {
+    "banRate" : 2.1,
+    "championTier" : "Gold",
+    "championId" : "Senna",
+    "role" : "Support",
+    "pickRate" : 6.1,
+    "winRate" : 50.15,
+    "tier" : "Gold"
+  },
+  {
+    "banRate" : 0.4,
+    "championTier" : "Platinum",
+    "championId" : "Taric",
+    "role" : "Support",
+    "pickRate" : 1.6,
+    "winRate" : 52.38,
+    "tier" : "Platinum"
+  },
+  {
+    "banRate" : 10.7,
+    "championTier" : "Platinum",
+    "championId" : "TahmKench",
+    "role" : "Support",
+    "pickRate" : 5.7,
+    "winRate" : 52.18,
+    "tier" : "Platinum"
+  },
+  {
+    "banRate" : 14.1,
+    "championTier" : "Platinum",
+    "championId" : "Lulu",
+    "role" : "Support",
+    "pickRate" : 11.4,
+    "winRate" : 51.18,
+    "tier" : "Platinum"
+  },
+  {
+    "banRate" : 8.2,
+    "championTier" : "Platinum",
+    "championId" : "Poppy",
+    "role" : "Support",
+    "pickRate" : 3.8,
+    "winRate" : 51.10,
+    "tier" : "Platinum"
+  },
+  {
+    "banRate" : 0.4,
+    "championTier" : "Platinum",
+    "championId" : "Bard",
+    "role" : "Support",
+    "pickRate" : 3.3,
+    "winRate" : 50.39,
+    "tier" : "Platinum"
+  },
+  {
+    "banRate" : 10.9,
+    "championTier" : "Emerald",
+    "championId" : "Poppy",
+    "role" : "Support",
+    "pickRate" : 4.1,
+    "winRate" : 51.83,
+    "tier" : "Emerald"
+  },
+  {
+    "banRate" : 0.1,
+    "championTier" : "Emerald",
+    "championId" : "Sona",
+    "role" : "Support",
+    "pickRate" : 2.4,
+    "winRate" : 51.71,
+    "tier" : "Emerald"
+  },
+  {
+    "banRate" : 5.6,
+    "championTier" : "Emerald",
+    "championId" : "Thresh",
+    "role" : "Support",
+    "pickRate" : 13.5,
+    "winRate" : 49.99,
+    "tier" : "Emerald"
+  },
+  {
+    "banRate" : 2.4,
+    "championTier" : "Emerald",
+    "championId" : "Senna",
+    "role" : "Support",
+    "pickRate" : 6.3,
+    "winRate" : 51.17,
+    "tier" : "Emerald"
+  },
+  {
+    "banRate" : 4.3,
+    "championTier" : "Emerald",
+    "championId" : "Braum",
+    "role" : "Support",
+    "pickRate" : 6.0,
+    "winRate" : 51.26,
+    "tier" : "Emerald"
+  },
+  {
+    "banRate" : 2.7,
+    "championTier" : "Diamond",
+    "championId" : "Janna",
+    "role" : "Support",
+    "pickRate" : 6.7,
+    "winRate" : 52.03,
+    "tier" : "Diamond"
+  },
+  {
+    "banRate" : 5.1,
+    "championTier" : "Diamond",
+    "championId" : "Thresh",
+    "role" : "Support",
+    "pickRate" : 12.8,
+    "winRate" : 50.56,
+    "tier" : "Diamond"
+  },
+  {
+    "banRate" : 0.4,
+    "championTier" : "Diamond",
+    "championId" : "Renata",
+    "role" : "Support",
+    "pickRate" : 2.6,
+    "winRate" : 50.24,
+    "tier" : "Diamond"
+  },
+  {
+    "banRate" : 12.9,
+    "championTier" : "Diamond",
+    "championId" : "Poppy",
+    "role" : "Support",
+    "pickRate" : 4.3,
+    "winRate" : 52.10,
+    "tier" : "Diamond"
+  },
+  {
+    "banRate" : 6.2,
+    "championTier" : "Diamond",
+    "championId" : "Galio",
+    "role" : "Support",
+    "pickRate" : 0.9,
+    "winRate" : 50.70,
+    "tier" : "Diamond"
+  },
+  {
+    "banRate" : 1.1,
+    "championTier" : "Master",
+    "championId" : "Neeko",
+    "role" : "Support",
+    "pickRate" : 2.6,
+    "winRate" : 51.20,
+    "tier" : "Master"
+  },
+  {
+    "banRate" : 12.6,
+    "championTier" : "Master",
+    "championId" : "Blitzcrank",
+    "role" : "Support",
+    "pickRate" : 6.6,
+    "winRate" : 50.79,
+    "tier" : "Master"
+  },
+  {
+    "banRate" : 10.9,
+    "championTier" : "Master",
+    "championId" : "Lulu",
+    "role" : "Support",
+    "pickRate" : 14.3,
+    "winRate" : 51.27,
+    "tier" : "Master"
+  },
+  {
+    "banRate" : 0.6,
+    "championTier" : "Master",
+    "championId" : "Nami",
+    "role" : "Support",
+    "pickRate" : 11.0,
+    "winRate" : 51.14,
+    "tier" : "Master"
+  },
+  {
+    "banRate" : 6.2,
+    "championTier" : "Master",
+    "championId" : "Galio",
+    "role" : "Support",
+    "pickRate" : 1.0,
+    "winRate" : 51.88,
+    "tier" : "Master"
+  },
+  {
+    "banRate" : 5.1,
+    "championTier" : "Grandmaster",
+    "championId" : "Galio",
+    "role" : "Support",
+    "pickRate" : 0.9,
+    "winRate" : 56.50,
+    "tier" : "Grandmaster"
+  },
+  {
+    "banRate" : 1.1,
+    "championTier" : "Grandmaster",
+    "championId" : "Pantheon",
+    "role" : "Support",
+    "pickRate" : 1.0,
+    "winRate" : 54.38,
+    "tier" : "Grandmaster"
+  },
+  {
+    "banRate" : 31.1,
+    "championTier" : "Grandmaster",
+    "championId" : "Skarner",
+    "role" : "Support",
+    "pickRate" : 0.6,
+    "winRate" : 51.85,
+    "tier" : "Grandmaster"
+  },
+  {
+    "banRate" : 49.4,
+    "championTier" : "Grandmaster",
+    "championId" : "Pyke",
+    "role" : "Support",
+    "pickRate" : 10.6,
+    "winRate" : 50.18,
+    "tier" : "Grandmaster"
+  },
+  {
+    "banRate" : 0.6,
+    "championTier" : "Grandmaster",
+    "championId" : "Taric",
+    "role" : "Support",
+    "pickRate" : 2.9,
+    "winRate" : 54.72,
+    "tier" : "Grandmaster"
+  },
+  {
+    "banRate" : 14.7,
+    "championTier" : "Challenger",
+    "championId" : "Zyra",
+    "role" : "Support",
+    "pickRate" : 0.7,
+    "winRate" : 63.77,
+    "tier" : "Challenger"
+  },
+  {
+    "banRate" : 17.5,
+    "championTier" : "Challenger",
+    "championId" : "Poppy",
+    "role" : "Support",
+    "pickRate" : 10.7,
+    "winRate" : 57.50,
+    "tier" : "Challenger"
+  },
+  {
+    "banRate" : 6.8,
+    "championTier" : "Challenger",
+    "championId" : "Zac",
+    "role" : "Support",
+    "pickRate" : 0.6,
+    "winRate" : 52.94,
+    "tier" : "Challenger"
+  },
+  {
+    "banRate" : 1.9,
+    "championTier" : "Challenger",
+    "championId" : "Janna",
+    "role" : "Support",
+    "pickRate" : 3.8,
+    "winRate" : 52.14,
+    "tier" : "Challenger"
+  },
+  {
+    "banRate" : 0.8,
+    "championTier" : "Challenger",
+    "championId" : "Senna",
+    "role" : "Support",
+    "pickRate" : 4.6,
+    "winRate" : 53.18,
+    "tier" : "Challenger"
+  }
+
+
+]
