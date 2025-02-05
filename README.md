@@ -1,86 +1,201 @@
-# League of Legends Match Tracker
+```markdown
+<div align="center">
+  <img src="assets/riftpedia_logo.png" alt="RiftPedia Logo" width="200"/>
+  
+  # RiftPedia: League of Legends Match Tracker
+  
+  [![Swift Version](https://img.shields.io/badge/Swift-5.0-orange.svg)](https://swift.org)
+  [![Platform](https://img.shields.io/badge/Platform-iOS%2015.0+-blue.svg)](https://developer.apple.com/ios/)
+  [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-This project is a **League of Legends Match Tracker** application built using SwiftUI, allowing users to view detailed statistics about their recent matches. The app fetches match data from the League of Legends API and displays key information such as champion performance, match results, items, runes, summoner spells, and now, additional features such as a **Runeterra Map View** and **Champion Wiki** with lore for each region.
+  A comprehensive League of Legends companion app built with SwiftUI, featuring match tracking, an interactive Runeterra map, and detailed champion information.
+</div>
 
-## Features
+---
 
-- **Champion Performance**: View detailed statistics such as kills, deaths, assists, and win/loss status.
-- **Champion Icon**: Displays the champion's icon for quick visual reference.
-- **Game Mode**: Shows the type of game mode (e.g., Summoner’s Rift, ARAM, etc.).
-- **Game Duration**: Displays the length of the match.
-- **Item and Rune Information**: Shows items purchased during the match and the runes selected by the player.
-- **Summoner Spells**: Displays the summoner spells used during the match.
-- **Position Mapping**: Displays the individual position (Top, Jungle, Mid, etc.) of the player in the match.
-- **Runeterra Map View**: View the different regions in Runeterra, each with its own champions and lore. Click on a region to explore its champion lore and other characteristics.
-- **Champion Wiki List**: A comprehensive list of all champions, detailing their roles, skins, abilities, and passive abilities. Dive deeper into each champion's lore and stats.
+## 📱 Preview
 
-## Technologies Used
+<div align="center">
+  <table>
+    <tr>
+      <td><img src="assets/screenshot1.png" width="200"/></td>
+      <td><img src="assets/screenshot2.png" width="200"/></td>
+      <td><img src="assets/screenshot3.png" width="200"/></td>
+    </tr>
+  </table>
+</div>
 
-- **SwiftUI**: Framework for building the user interface, providing a declarative Swift-based way to build the UI.
-- **AsyncImage**: Used for loading images asynchronously, such as champion icons and item images.
-- **Combine**: For reactive programming, allowing the app to respond to state changes in a declarative manner.
-- **League of Legends API**: Used to fetch match statistics, champion details, and game data.
-- **MapKit**: For displaying the Runeterra Map with regions.
+### 🎥 Live Demo
 
-## Video Demo
+[![Watch Demo Video](assets/video_thumbnail.png)](https://files.fm/u/nuyr2a9vs7)
 
-Check out the demo video: [Watch the video](https://files.fm/u/nuyr2a9vs7)
+---
 
-## Installation
+## ✨ Features
 
-To run this project locally, follow these steps:
+### 🎮 Match Tracking
+- **Real-time Statistics**
+  - Comprehensive KDA (Kills/Deaths/Assists) tracking
+  - Detailed damage statistics
+  - CS and vision score metrics
+  - Gold earned and objective participation
 
-1. **Clone the repository:**
+- **Visual Match History**
+  - Champion icons and played roles
+  - Item builds with timestamps
+  - Rune and summoner spell configurations
+  - Team composition analysis
+
+### 🗺️ Runeterra Map
+- Interactive regional exploration
+- Champion origin stories
+- Regional lore and history
+- Cultural insights and artwork
+
+### 📚 Champion Wiki
+- **Comprehensive Champion Details**
+  - Ability descriptions and mechanics
+  - Passive abilities and interactions
+  - Role-specific strategies
+  - Skin collections and previews
+
+### 🎯 Advanced Features
+- Position tracking and mapping
+- Dynamic theming based on match results
+- Customizable statistics display
+- Intuitive navigation system
+
+---
+
+## 🛠️ Technical Implementation
+
+### Architecture
+```swift
+// Core Architecture Pattern
+MVVM + Combine
+```
+
+### Key Technologies
+- **Frontend**
+  - SwiftUI for UI components
+  - Combine for reactive programming
+  - MapKit for interactive maps
+  - AsyncImage for optimized image loading
+
+- **Backend Integration**
+  - RESTful API communication
+  - JSON parsing and modeling
+  - Efficient caching system
+  - Error handling and retry logic
+
+### Performance Optimizations
+- Lazy loading of images and content
+- Efficient memory management
+- Background data prefetching
+- Smooth animations and transitions
+
+---
+
+## 📈 System Requirements
+
+### Development Environment
+- Xcode 14.0+
+- iOS 15.0+
+- Swift 5.0+
+- macOS Ventura+
+
+### Device Compatibility
+- iPhone XS and newer
+- iPad Air (4th generation) and newer
+- Minimum iOS 15.0
+
+---
+
+## 🚀 Getting Started
+
+### Installation Steps
+
+1. **Clone the Repository**
    ```bash
-   git clone [https://github.com/ElyesD1/RiftPedia/new/Elyes-Darouich.git]
+   git clone https://github.com/ElyesD1/RiftPedia.git
+   cd RiftPedia
    ```
-2. **Open the project in Xcode:**
-Navigate to the project folder and open the .xcodeproj file.
-3. **Run the app:**
-	•	Ensure that your Xcode is set up with the latest version of Swift.
-	•	Select a simulator or connect your device.
-	•	Click Run to build and launch the app.
 
-API Integration
+2. **API Configuration**
+   ```swift
+   // Config.swift
+   struct APIConfig {
+       static let apiKey = "YOUR_RIOT_API_KEY"
+       static let region = "YOUR_REGION"
+   }
+   ```
 
-The app fetches data from the League of Legends API, specifically using the endpoint for retrieving match history and champion statistics. To use the app, ensure you have the following:
-	•	An active League of Legends account.
-	•	An API key from Riot Games. (Refer to the Riot Games API documentation to create an API key).
+3. **Build and Run**
+   - Open `RiftPedia.xcodeproj`
+   - Select your target device
+   - Press `Cmd + R` to build and run
 
-Add the API key in the appropriate configuration file (Config.swift).
+---
 
-How to Use
+## 🔧 Configuration
 
-	1.	Login: Upon launching the app, enter your summoner name to fetch your recent matches.
-	2.	Match Stats: After loading the data, the app will display the champion’s performance, including the KDA (Kills, Deaths, Assists), game mode, match duration, and more.
-	3.	View Items and Runes: Scroll through to see the items used during the match, as well as the selected runes and summoner spells.
-	4.	Runeterra Map View: Access the interactive Runeterra map, explore different regions, and learn about the champions that belong to each region along with their lore.
-	5.	Champion Wiki List: Browse through a comprehensive list of all champions, view detailed information about their roles, abilities, passives, skins, and lore.
+### API Setup
+1. Visit [Riot Developer Portal](https://developer.riotgames.com)
+2. Register and generate API key
+3. Add key to `Config.swift`
 
-Customization
+### Customization Options
+```swift
+// Appearance.swift
+struct AppTheme {
+    static let winColor = Color("WinBlue")
+    static let loseColor = Color("LoseRed")
+    static let backgroundGradient = LinearGradient(...)
+}
+```
 
-	•	Map Position: The map position of the champion is displayed on the right side of the match detail. It maps raw position values to readable strings such as “Top”, “Jungle”, “Mid”, etc.
-	•	Color Themes: The app dynamically changes colors based on the match result (win or loss), with blue for a win and red for a loss.
+---
 
-Contributing
+## 🤝 Contributing
 
-We welcome contributions to improve the app. If you’d like to contribute, please follow these steps:
-	1.	Fork the repository.
-	2.	Create a new branch.
-	3.	Make your changes and commit them.
-	4.	Push to your forked repository.
-	5.	Open a pull request with a description of the changes.
+We welcome contributions! Here's how you can help:
 
-License
+1. **Fork the Repository**
+2. **Create Feature Branch**
+   ```bash
+   git checkout -b feature/AmazingFeature
+   ```
+3. **Commit Changes**
+   ```bash
+   git commit -m 'Add some AmazingFeature'
+   ```
+4. **Push to Branch**
+   ```bash
+   git push origin feature/AmazingFeature
+   ```
+5. **Open Pull Request**
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+---
 
-Acknowledgments
+## 📄 License
 
-	•	Riot Games: For providing the League of Legends API.
-	•	SwiftUI Documentation: For the official guide and examples on how to use SwiftUI.
-	•	AsyncImage: For simplifying the asynchronous image loading process.
-	•	MapKit: For adding the interactive map feature to explore the regions in Runeterra.
+Distributed under the MIT License. See `LICENSE` for more information.
 
+---
 
-   
+## 🙏 Acknowledgments
+
+- [Riot Games API](https://developer.riotgames.com) for game data
+- [SwiftUI](https://developer.apple.com/xcode/swiftui/) for the UI framework
+- [Combine](https://developer.apple.com/documentation/combine) for reactive programming
+- Community contributors and testers
+
+---
+
+<div align="center">
+  
+  **Made with ❤️ by [Elyes Darouich](https://github.com/ElyesD1)**
+  
+  [Report Bug](https://github.com/ElyesD1/RiftPedia/issues) · [Request Feature](https://github.com/ElyesD1/RiftPedia/issues)
+</div>
+```
