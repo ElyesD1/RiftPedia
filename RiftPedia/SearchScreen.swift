@@ -38,99 +38,136 @@ struct SearchScreen: View {
     ]
     
     var body: some View {
-           NavigationStack {
-               ZStack {
-                   Color.appBackground.ignoresSafeArea()
-                   
-                   VStack(spacing: 30) {
-                       // Search Bar
-                       HStack {
-                           VStack(alignment: .leading, spacing: 10) {
-                               Text("Search for Player Stats")
-                                   .font(.headline)
-                                   .foregroundColor(.appLabel)
+            NavigationStack {
+                ZStack {
+                    // Enhanced background with gradient
+                    LinearGradient(
+                        gradient: Gradient(colors: [
+                            Color.appBackground,
+                            Color.appBackground.opacity(0.8),
+                            Color.appBackground.opacity(0.6)
+                        ]),
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                    .ignoresSafeArea()
+                    
+                    VStack(spacing: 30) {
+                        // Enhanced Search Bar Section
+                        VStack(alignment: .leading, spacing: 15) {
+                            Text("Search for Player Stats")
+                                .font(.title2)
+                                .fontWeight(.bold)
+                                .foregroundColor(.appLabel)
+                                .shadow(radius: 2)
 
-                               HStack {
-                                   TextField("Enter Riot ID (e.g., Player#1234)", text: $searchQuery)
-                                       .padding()
-                                       .background(Color(UIColor.secondarySystemBackground))
-                                       .cornerRadius(10)
-                                       .foregroundColor(.primary)
+                            HStack(spacing: 12) {
+                                HStack {
+                                    Image(systemName: "magnifyingglass")
+                                        .foregroundColor(.gray)
+                                        .padding(.leading, 12)
+                                    
+                                    TextField("Enter Riot ID (e.g., Player#1234)", text: $searchQuery)
+                                        .padding()
+                                        .autocapitalization(.none)
+                                }
+                                .background(
+                                    RoundedRectangle(cornerRadius: 15)
+                                        .fill(Color(UIColor.secondarySystemBackground))
+                                        .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2)
+                                )
 
-                                   Button(action: performSearch) {
-                                       Image(systemName: "magnifyingglass")
-                                           .foregroundColor(.appButton)
-                                           .padding()
-                                   }
-                                   .background(Color.white.opacity(0.2))
-                                   .cornerRadius(10)
-                               }
-                           }
-                           .padding(.horizontal)
+                                Button(action: performSearch) {
+                                    Image(systemName: "arrow.right.circle.fill")
+                                        .font(.system(size: 24))
+                                        .foregroundColor(.appButton)
+                                }
+                                .buttonStyle(BouncyButtonStyle())
+                            }
+                        }
+                        .padding(.horizontal, 20)
+                        .padding(.top, 20)
 
-                           Spacer()
-                       }
+                        // Enhanced Error Message
+                        if let errorMessage = errorMessage {
+                            Text(errorMessage)
+                                .foregroundColor(.red)
+                                .font(.subheadline)
+                                .padding(12)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .fill(Color.red.opacity(0.1))
+                                )
+                                .padding(.horizontal)
+                        }
 
-                       // Error Message
-                       if let errorMessage = errorMessage {
-                           Text(errorMessage)
-                               .foregroundColor(.red)
-                               .font(.subheadline)
-                               .padding(.horizontal)
-                       }
+                        // Enhanced Region Selector
+                        VStack(alignment: .leading, spacing: 15) {
+                            Text("Select Region")
+                                .font(.title3)
+                                .fontWeight(.semibold)
+                                .foregroundColor(.appLabel)
+                                .shadow(radius: 2)
 
-                       // Picker for Regions
-                       VStack(alignment: .leading, spacing: 10) {
-                           Text("Select Region")
-                               .font(.headline)
-                               .foregroundColor(.appLabel)
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 20)
+                                    .fill(Color.white.opacity(0.1))
+                                    .shadow(color: Color.black.opacity(0.1), radius: 10, x: 0, y: 5)
+                                
+                                Picker("Select Region", selection: $selectedRegion) {
+                                    ForEach(regions.keys.sorted(), id: \.self) { region in
+                                        Text(region)
+                                            .foregroundColor(.appLabel)
+                                            .tag(region)
+                                    }
+                                }
+                                .pickerStyle(WheelPickerStyle())
+                                .frame(height: 150)
+                                .clipped()
+                            }
+                            .padding(.horizontal, 5)
+                        }
+                        .padding(.horizontal, 20)
 
-                           Picker("Select Region", selection: $selectedRegion) {
-                               ForEach(regions.keys.sorted(), id: \.self) { region in
-                                   Text(region)
-                                       .foregroundColor(.appLabel)
-                                       .tag(region)
-                               }
-                           }
-                           .pickerStyle(WheelPickerStyle())
-                           .frame(height: 150)
-                           .clipped()
-                           .background(Color.white.opacity(0.1))
-                           .cornerRadius(10)
-                       }
-                       .padding(.horizontal)
+                        Spacer()
 
-                       Spacer()
+                        // Enhanced Background Image
+                        Image("bg")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: UIScreen.main.bounds.width * 0.95, height: UIScreen.main.bounds.height * 0.3)
+                            .clipShape(RoundedRectangle(cornerRadius: 25))
+                            .shadow(color: Color.black.opacity(0.2), radius: 15, x: 0, y: 10)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 25)
+                                    .stroke(Color.white.opacity(0.2), lineWidth: 1)
+                            )
 
-                       // Background Image
-                       Image("bg")
-                           .resizable()
-                           .frame(width: UIScreen.main.bounds.width * 0.95, height: UIScreen.main.bounds.height * 0.3)
-                           .cornerRadius(20)
-                           .shadow(radius: 5)
+                        Spacer()
+                    }
+                    .padding(.top, 20)
+                    .alert(isPresented: $showAlert) {
+                        Alert(
+                            title: Text("Error"),
+                            message: Text(alertMessage),
+                            dismissButton: .default(Text("OK"))
+                        )
+                    }
 
-                       Spacer()
-                   }
-                .padding(.top, 20)
-                .alert(isPresented: $showAlert) {
-                    Alert(title: Text("Error"), message: Text(alertMessage), dismissButton: .default(Text(" OK")))
-                }
-
-                // Navigation for History Screen
-                NavigationLink(
-                    destination: HistoryScreen(
-                        name: name,
-                        tag: tag,
-                        region: selectedRegion,
-                        mappedRegion: mappedRegion
-                    ),
-                    isActive: $isNavigationActive  // Bind the navigation state
-                ) {
-                    EmptyView()  // Empty View to trigger navigation manually
+                    NavigationLink(
+                        destination: HistoryScreen(
+                            name: name,
+                            tag: tag,
+                            region: selectedRegion,
+                            mappedRegion: mappedRegion
+                        ),
+                        isActive: $isNavigationActive
+                    ) {
+                        EmptyView()
+                    }
                 }
             }
         }
-    }
 
     private func performSearch() {
         errorMessage = nil
@@ -158,7 +195,33 @@ struct SearchScreen: View {
         mappedRegion = regions[selectedRegion] ?? ""
         apiUrl = "https://\(platformRegion).api.riotgames.com/riot/account/v1/accounts/by-riot-id/\(name)/\(tag)?api_key=\(Config.riotAPIKey)"
     }
-
+    struct GlassBackground: ViewModifier {
+        func body(content: Content) -> some View {
+            content
+                .background(
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(Color.white.opacity(0.1))
+                        .background(
+                            RoundedRectangle(cornerRadius: 20)
+                                .fill(Color.white.opacity(0.08))
+                                .blur(radius: 10)
+                        )
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(Color.white.opacity(0.2), lineWidth: 1)
+                )
+        }
+    }
+    struct BouncyButtonStyle: ButtonStyle {
+        func makeBody(configuration: Configuration) -> some View {
+            configuration.label
+                .scaleEffect(configuration.isPressed ? 0.9 : 1.0)
+                .animation(.spring(response: 0.3, dampingFraction: 0.6), value: configuration.isPressed)
+        }
+    }
+    // Extension for custom modifiers
+    
     private func fetchAccountData() {
         guard !apiUrl.isEmpty else { return }
 
@@ -209,4 +272,5 @@ struct SearchScreen: View {
             }
         }.resume()
     }
+    
 }

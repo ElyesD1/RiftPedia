@@ -126,7 +126,7 @@ struct Match: Identifiable, Decodable {
                 deaths = try participant.decode(Int.self, forKey: .deaths)
                 assists = try participant.decode(Int.self, forKey: .assists)
                 isWin = try participant.decode(Bool.self, forKey: .win)
-                championIcon = "https://ddragon.leagueoflegends.com/cdn/14.23.1/img/champion/\(championName).png"
+                championIcon = "https://ddragon.leagueoflegends.com/cdn/15.3.1/img/champion/\(championName).png"
              
                 if queueId != 450 {
                     if let score = try participant.decodeIfPresent(Int.self, forKey: .visionScore) {
@@ -152,9 +152,9 @@ struct Match: Identifiable, Decodable {
 
                             for itemId in itemIds {
                                 if Self.wardItemIds.contains(itemId) {
-                                    wardItem = "https://ddragon.leagueoflegends.com/cdn/14.23.1/img/item/\(itemId).png"
+                                    wardItem = "https://ddragon.leagueoflegends.com/cdn/15.3.1/img/item/\(itemId).png"
                                 } else if itemId > 0 { // Filter out empty item slots (ID 0)
-                                    regularItems.append("https://ddragon.leagueoflegends.com/cdn/14.23.1/img/item/\(itemId).png")
+                                    regularItems.append("https://ddragon.leagueoflegends.com/cdn/15.3.1/img/item/\(itemId).png")
                                 }
                             }
 
@@ -467,157 +467,221 @@ struct HistoryScreen: View {
         NavigationStack {
             VStack {
                 ZStack {
-                    Color("Background")
-                        .ignoresSafeArea()
+                    // Enhanced background with gradient
+                    LinearGradient(
+                        gradient: Gradient(colors: [
+                            Color("Background"),
+                            Color("Background").opacity(0.85)
+                        ]),
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                    .ignoresSafeArea()
 
-                    VStack {
-                        // Card Section
-                        HStack(alignment: .center, spacing: 15) {
-                            if let iconUrl = summonerIconUrl {
-                                AsyncImage(url: URL(string: iconUrl)) { image in
-                                    image.resizable()
-                                        .scaledToFit()
-                                        .frame(width: 100, height: 100)
-                                        .shadow(radius: 5)
-                                } placeholder: {
-                                    ProgressView()
-                                        .progressViewStyle(CircularProgressViewStyle())
-                                        .scaleEffect(2)
-                                }
-                            } else {
-                                Image(systemName: "person.circle.fill")
-                                    .resizable()
-                                    .frame(width: 80, height: 80)
-                                    .clipShape(Circle())
-                                    .overlay(Circle().stroke(Color.white, lineWidth: 4))
-                                    .shadow(radius: 5)
-                            }
-
-                            VStack(alignment: .leading, spacing: 5) {
-                                Text("\(name)#\(tag)")
-                                    .font(.headline)
-                                    .foregroundColor(.white)
-                                    .bold()
-
-                                if isLoading {
-                                    Text("Loading...")
-                                        .font(.subheadline)
-                                        .foregroundColor(.white.opacity(0.8))
+                    VStack(spacing: 20) {
+                        // Enhanced Profile Card Section
+                        VStack {
+                            HStack(alignment: .center, spacing: 20) {
+                                // Profile Image
+                                if let iconUrl = summonerIconUrl {
+                                    AsyncImage(url: URL(string: iconUrl)) { image in
+                                        image
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 100, height: 100)
+                                            .clipShape(Circle())
+                                            .overlay(
+                                                Circle()
+                                                    .stroke(Color.white.opacity(0.3), lineWidth: 3)
+                                            )
+                                            .shadow(color: .black.opacity(0.3), radius: 8, x: 0, y: 4)
+                                    } placeholder: {
+                                        ProgressView()
+                                            .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                            .scaleEffect(2)
+                                            .frame(width: 100, height: 100)
+                                    }
                                 } else {
-                                    Text("Level \(summonerLevel)")
-                                        .font(.subheadline)
-                                        .foregroundColor(.white.opacity(0.8))
+                                    Image(systemName: "person.circle.fill")
+                                        .resizable()
+                                        .frame(width: 100, height: 100)
+                                        .clipShape(Circle())
+                                        .overlay(
+                                            Circle()
+                                                .stroke(Color.white.opacity(0.3), lineWidth: 3)
+                                        )
+                                        .shadow(color: .black.opacity(0.3), radius: 8, x: 0, y: 4)
                                 }
 
-                                if let rank = summonerRank {
-                                    HStack(spacing: 10) {
-                                        if let rankIconName = summonerRankIconUrl {
-                                            Image(rankIconName)
-                                                .resizable()
-                                                .scaledToFit()
-                                                .frame(width: 40, height: 40)
-                                                .shadow(radius: 5)
-                                        }
+                                // Profile Info
+                                VStack(alignment: .leading, spacing: 8) {
+                                    Text("\(name)#\(tag)")
+                                        .font(.system(size: 24, weight: .bold))
+                                        .foregroundColor(.white)
+                                        .shadow(color: .black.opacity(0.3), radius: 2)
 
-                                        Text(rank)
+                                    if isLoading {
+                                        Text("Loading...")
                                             .font(.subheadline)
                                             .foregroundColor(.white.opacity(0.8))
+                                    } else {
+                                        Text("Level \(summonerLevel)")
+                                            .font(.system(size: 16, weight: .medium))
+                                            .foregroundColor(.white.opacity(0.9))
+                                    }
+
+                                    if let rank = summonerRank {
+                                        HStack(spacing: 12) {
+                                            if let rankIconName = summonerRankIconUrl {
+                                                Image(rankIconName)
+                                                    .resizable()
+                                                    .scaledToFit()
+                                                    .frame(width: 45, height: 45)
+                                                    .shadow(radius: 5)
+                                            }
+
+                                            Text(rank)
+                                                .font(.system(size: 16, weight: .semibold))
+                                                .foregroundColor(.white)
+                                        }
+                                        .padding(.vertical, 4)
+                                    }
+
+                                    if let wr = winRate {
+                                        // Enhanced Win Rate Display
+                                        HStack(spacing: 15) {
+                                            VStack(alignment: .leading, spacing: 4) {
+                                                Text("\(String(format: "%.1f", wr))%")
+                                                    .font(.system(size: 20, weight: .bold))
+                                                    .foregroundColor(winRateColor(wr))
+                                                
+                                                Text("Win Rate")
+                                                    .font(.system(size: 12, weight: .medium))
+                                                    .foregroundColor(.white.opacity(0.7))
+                                            }
+
+                                            Rectangle()
+                                                .frame(width: 2, height: 40)
+                                                .foregroundColor(winRateColor(wr))
+
+                                            VStack(alignment: .leading, spacing: 4) {
+                                                Text("\(games)")
+                                                    .font(.system(size: 20, weight: .bold))
+                                                    .foregroundColor(.white)
+                                                
+                                                Text("Games")
+                                                    .font(.system(size: 12, weight: .medium))
+                                                    .foregroundColor(.white.opacity(0.7))
+                                            }
+                                        }
+                                        .padding(.vertical, 4)
+                                    }
+
+                                    if let errorMessage = errorMessage {
+                                        Text("Error: \(errorMessage)")
+                                            .font(.system(size: 14, weight: .medium))
+                                            .foregroundColor(.red)
+                                            .padding(.vertical, 4)
                                     }
                                 }
-
-                                if let wr = winRate {
-                                    HStack {
-                                        Text("\(String(format: "%.1f", wr))% Win Rate")
-                                            .font(.subheadline)
-                                            .foregroundColor(wr >= 60 ? .green :
-                                                            wr >= 50 ? .green :
-                                                            wr >= 40 ? .yellow :
-                                                            wr >= 30 ? .orange : .red)
-                                            .lineLimit(1)
-                                            .minimumScaleFactor(0.8)
-
-                                        Divider()
-                                            .frame(width: 1, height: 40)
-                                            .background(wr >= 60 ? .green :
-                                                        wr >= 50 ? .green :
-                                                        wr >= 40 ? .yellow :
-                                                        wr >= 30 ? .orange : .red)
-
-                                        Text("Last \(games) games")
-                                            .font(.footnote)
-                                            .foregroundColor(wr >= 60 ? .green :
-                                                            wr >= 50 ? .green :
-                                                            wr >= 40 ? .yellow :
-                                                            wr >= 30 ? .orange : .red)
-                                    }
-                                }
-
-                                if let errorMessage = errorMessage {
-                                    Text("Error: \(errorMessage)")
-                                        .font(.subheadline)
-                                        .foregroundColor(.red)
-                                }
                             }
-                        }
-                        .padding()
-                        .background(Color.white.opacity(0.1))
-                        .cornerRadius(12)
-                        .shadow(radius: 3)
-
-                        // Most Performing Champion Section
-                        if let mostChampion = mostPerformingChampion {
-                            HStack {
-                                Text("Top Champion:")
-                                    .font(.headline)
-                                    .foregroundColor(.white)
-
-                                AsyncImage(url: URL(string: "https://ddragon.leagueoflegends.com/cdn/14.23.1/img/champion/\(mostChampion.championId).png")) { image in
-                                    image.resizable()
-                                        .scaledToFit()
-                                        .frame(width: 40, height: 40)
-                                } placeholder: {
-                                    ProgressView()
-                                }
-
-                                Text("\(mostChampion.championId) - Wins: \(mostChampion.wins)")
-                                    .font(.subheadline)
-                                    .foregroundColor(.white)
-                                
-                                Divider()
-                                    .frame(width: 1, height: 40)
-                                    .background(.white)
-                                Text("Last \(games) games")
-                                    .font(.footnote)
-                                    .foregroundColor(.white)
-                            }
-                            .padding()
-                            .background(Color.white.opacity(0.1))
-                            .cornerRadius(12)
-                            .shadow(radius: 3)
-                        }
-
-                        // New Button Section: Load games
-                        Button(action: loadMoreMatches) {
-                            Text("Load games")
-                                .font(.headline)
-                                .foregroundColor(Color("Background"))
-                                .padding()
-                                .frame(maxWidth: .infinity)
-                                .background(Color("Button"))
-                                .cornerRadius(8)
-                                .shadow(radius: 5)
+                            .padding(20)
+                            .background(
+                                RoundedRectangle(cornerRadius: 20)
+                                    .fill(Color.white.opacity(0.1))
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 20)
+                                            .stroke(Color.white.opacity(0.1), lineWidth: 1)
+                                    )
+                            )
+                            .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 5)
                         }
                         .padding(.horizontal)
 
-                        // Match List
-                       
+                        // Enhanced Champion Section
+                        if let mostChampion = mostPerformingChampion {
+                            HStack(spacing: 20) {
+                                Text("Top Champion")
+                                    .font(.system(size: 16, weight: .semibold))
+                                    .foregroundColor(.white)
+
+                                AsyncImage(url: URL(string: "https://ddragon.leagueoflegends.com/cdn/15.3.1/img/champion/\(mostChampion.championId).png")) { image in
+                                    image
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 50, height: 50)
+                                        .clipShape(Circle())
+                                        .overlay(
+                                            Circle()
+                                                .stroke(Color.white.opacity(0.2), lineWidth: 2)
+                                        )
+                                        .shadow(radius: 5)
+                                } placeholder: {
+                                    ProgressView()
+                                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                }
+
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text(mostChampion.championId)
+                                        .font(.system(size: 16, weight: .bold))
+                                        .foregroundColor(.white)
+                                    
+                                    Text("Wins: \(mostChampion.wins)")
+                                        .font(.system(size: 14, weight: .medium))
+                                        .foregroundColor(.white.opacity(0.8))
+                                }
+
+                                Spacer()
+
+                                Text("Last \(games) games")
+                                    .font(.system(size: 12, weight: .medium))
+                                    .foregroundColor(.white.opacity(0.7))
+                            }
+                            .padding(.vertical, 15)
+                            .padding(.horizontal, 20)
+                            .background(
+                                RoundedRectangle(cornerRadius: 16)
+                                    .fill(Color.white.opacity(0.1))
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 16)
+                                            .stroke(Color.white.opacity(0.1), lineWidth: 1)
+                                    )
+                            )
+                            .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
+                            .padding(.horizontal)
+                        }
+
+                        // Enhanced Load Games Button
+                        Button(action: loadMoreMatches) {
+                            HStack {
+                                Image(systemName: "arrow.clockwise.circle.fill")
+                                    .font(.system(size: 20))
+                                Text("Load More Games")
+                                    .font(.system(size: 16, weight: .semibold))
+                            }
+                            .foregroundColor(Color("Background"))
+                            .padding(.vertical, 15)
+                            .frame(maxWidth: .infinity)
+                            .background(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .fill(Color("Button"))
+                                    .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
+                            )
+                        }
+                        .padding(.horizontal)
+
+                        // Enhanced Match List
                         List(matchHistory) { match in
                             MatchCell(match: match, region: region)
                                 .listRowInsets(EdgeInsets())
-                                .listRowBackground(Color("Background"))
+                                .listRowBackground(Color.clear)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .fill(Color.white.opacity(0.05))
+                                )
                         }
                         .listStyle(PlainListStyle())
-                        .background(Color("Background"))
+                        .background(Color.clear)
                         .padding(.horizontal)
 
                         Spacer()
@@ -629,6 +693,22 @@ struct HistoryScreen: View {
                     }
                 }
             }
+        }
+    }
+
+    // Helper function for win rate color
+    private func winRateColor(_ winRate: Double) -> Color {
+        switch winRate {
+        case 60...:
+            return Color.green
+        case 50...:
+            return Color.green.opacity(0.8)
+        case 40...:
+            return Color.yellow
+        case 30...:
+            return Color.orange
+        default:
+            return Color.red
         }
     }
 
@@ -675,7 +755,7 @@ struct HistoryScreen: View {
                    let level = json["summonerLevel"] as? Int,
                    let profileIconId = json["profileIconId"] as? Int,
                    let summonerId = json["id"] as? String {
-                    let iconUrl = "https://ddragon.leagueoflegends.com/cdn/14.23.1/img/profileicon/\(profileIconId).png"
+                    let iconUrl = "https://ddragon.leagueoflegends.com/cdn/15.3.1/img/profileicon/\(profileIconId).png"
 
                     DispatchQueue.main.async {
                         summonerLevel = level
@@ -932,175 +1012,291 @@ struct MatchCell: View {
     }
 
     var body: some View {
-        NavigationLink(destination: FullMatchView(matchId: match.id,region:region)) {
-            VStack(alignment: .leading, spacing: 8) {
-                // Top section: Champion, details, position, and damage stats
-                HStack {
-                    // Champion Icon
+        NavigationLink(destination: FullMatchView(matchId: match.id, region: region)) {
+            VStack(alignment: .leading, spacing: 12) {
+                // Top section with enhanced design
+                HStack(spacing: 15) {
+                    // Champion Icon with enhanced presentation
                     AsyncImage(url: URL(string: match.championIcon)) { image in
                         image.resizable()
                             .scaledToFit()
-                            .frame(width: 60, height: 60)
+                            .frame(width: 65, height: 65)
+                            .clipShape(Circle())
+                            .overlay(
+                                Circle()
+                                    .stroke(match.isWin ? Color.blue.opacity(0.6) : Color.red.opacity(0.6), lineWidth: 2)
+                            )
+                            .shadow(color: match.isWin ? .blue.opacity(0.3) : .red.opacity(0.3), radius: 4)
                     } placeholder: {
                         ProgressView()
+                            .frame(width: 65, height: 65)
                     }
 
-                    Divider()
-                        .frame(width: 1, height: 80)
-                        .background(match.isWin ? .blue : .red)
+                    // Vertical Divider with gradient
+                    Rectangle()
+                        .fill(
+                            LinearGradient(
+                                colors: [
+                                    match.isWin ? .blue.opacity(0.1) : .red.opacity(0.1),
+                                    match.isWin ? .blue.opacity(0.3) : .red.opacity(0.3),
+                                    match.isWin ? .blue.opacity(0.1) : .red.opacity(0.1)
+                                ],
+                                startPoint: .top,
+                                endPoint: .bottom
+                            )
+                        )
+                        .frame(width: 2, height: 80)
 
-                    // Champion Details
-                    VStack(alignment: .leading, spacing: 4) {
+                    // Champion Details with enhanced typography
+                    VStack(alignment: .leading, spacing: 6) {
                         Text(match.championName)
-                            .font(.subheadline)
+                            .font(.system(size: 16, weight: .bold))
                             .foregroundColor(.white)
-
-                        Text("\(match.kills) / \(match.deaths) / \(match.assists)")
-                            .font(.footnote)
-                            .foregroundColor(.gray)
-
+                        
+                        HStack(spacing: 4) {
+                            Text("\(match.kills)")
+                                .foregroundColor(.green)
+                            Text("/")
+                                .foregroundColor(.gray)
+                            Text("\(match.deaths)")
+                                .foregroundColor(.red)
+                            Text("/")
+                                .foregroundColor(.gray)
+                            Text("\(match.assists)")
+                                .foregroundColor(.blue)
+                        }
+                        .font(.system(size: 14, weight: .medium))
+                        
                         Text(match.gameMode)
-                            .font(.subheadline)
-                            .foregroundColor(match.isWin ? .blue : .red)
-
-                        Text("\(match.formattedGameDuration())")
-                            .font(.footnote)
-                            .foregroundColor(.gray)
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundColor(match.isWin ? .blue.opacity(0.8) : .red.opacity(0.8))
+                        
+                        Text(match.formattedGameDuration())
+                            .font(.system(size: 12, weight: .medium))
+                            .foregroundColor(.gray.opacity(0.8))
                     }
 
-                    Divider()
-                        .frame(width: 1, height: 80)
-                        .background(match.isWin ? .blue : .red)
+                    // Vertical Divider with gradient
+                    Rectangle()
+                        .fill(
+                            LinearGradient(
+                                colors: [
+                                    match.isWin ? .blue.opacity(0.1) : .red.opacity(0.1),
+                                    match.isWin ? .blue.opacity(0.3) : .red.opacity(0.3),
+                                    match.isWin ? .blue.opacity(0.1) : .red.opacity(0.1)
+                                ],
+                                startPoint: .top,
+                                endPoint: .bottom
+                            )
+                        )
+                        .frame(width: 2, height: 80)
 
-                    // Position and Damage Stats
+                    // Position and Stats with enhanced layout
                     let positionData = mapPositionToLabel(position: match.individualPosition)
-
-                    HStack {
-                        VStack(spacing: 4) {
+                    
+                    HStack(spacing: 12) {
+                        VStack(spacing: 6) {
                             Text(positionData.label)
-                                .font(.subheadline)
+                                .font(.system(size: 14, weight: .medium))
                                 .foregroundColor(.white)
-
+                            
                             Image(positionData.imageName)
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: 33, height: 33)
+                                .frame(width: 35, height: 35)
                                 .clipShape(Circle())
+                                .overlay(
+                                    Circle()
+                                        .stroke(Color.white.opacity(0.2), lineWidth: 1)
+                                )
                         }
-                        Divider()
-                            .frame(width: 1, height: 80)
-                            .background(match.isWin ? .blue : .red)
-
-                        VStack(alignment: .trailing, spacing: 4) {
-                            Text("Damage: \(match.damageDealt)")
-                                .font(.footnote)
+                        
+                        // Stats with enhanced presentation
+                        VStack(alignment: .trailing, spacing: 6) {
+                            Text("DMG: \(match.damageDealt)")
+                                .font(.system(size: 12, weight: .medium))
+                                .foregroundColor(.white.opacity(0.9))
+                            
+                            Text("CS: \(match.creepScore)")
+                                .font(.system(size: 12, weight: .medium))
+                                .foregroundColor(.white.opacity(0.9))
+                            
+                            Text("(\(String(format: "%.1f", match.csPerMinute))/min)")
+                                .font(.system(size: 11, weight: .medium))
                                 .foregroundColor(.gray)
-
-                            Text("CS \(match.creepScore) (\(String(format: "%.2f", match.csPerMinute)))")
-                                .font(.footnote)
-                                .foregroundColor(.gray)
-
+                            
                             if !match.visionScore.isEmpty {
                                 Text(match.visionScore)
-                                    .font(.footnote)
-                                    .foregroundColor(.gray)
+                                    .font(.system(size: 12, weight: .medium))
+                                    .foregroundColor(.white.opacity(0.9))
                             }
                         }
                     }
                 }
 
-                Divider()
-                    .frame(width: 350, height: 1)
-                    .background(match.isWin ? .blue : .red)
+                // Enhanced horizontal divider
+                Rectangle()
+                    .fill(
+                        LinearGradient(
+                            colors: [
+                                match.isWin ? .blue.opacity(0.1) : .red.opacity(0.1),
+                                match.isWin ? .blue.opacity(0.4) : .red.opacity(0.4),
+                                match.isWin ? .blue.opacity(0.1) : .red.opacity(0.1)
+                            ],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                    )
+                    .frame(height: 2)
 
-                // Bottom section: Items, ward icon, runes, and summoner spells
-                HStack {
-                    // Scrollable Items
+                // Bottom section with enhanced layout
+                HStack(spacing: 15) {
+                    // Enhanced Items ScrollView
                     ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 3) {
-                            let uniqueItemIcons = Array(Set(match.itemIcons)).filter { $0 != "https://ddragon.leagueoflegends.com/cdn/14.23.1/img/item/0.png" }
-
+                        HStack(spacing: 4) {
+                            let uniqueItemIcons = Array(Set(match.itemIcons))
+                                .filter { $0 != "https://ddragon.leagueoflegends.com/cdn/15.3.1/img/item/0.png" }
+                            
                             ForEach(uniqueItemIcons, id: \.self) { itemIcon in
                                 AsyncImage(url: URL(string: itemIcon)) { image in
                                     image.resizable()
                                         .scaledToFit()
-                                        .frame(width: 33, height: 33)
-                                        .clipShape(RoundedRectangle(cornerRadius: 4))
+                                        .frame(width: 35, height: 35)
+                                        .clipShape(RoundedRectangle(cornerRadius: 6))
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 6)
+                                                .stroke(Color.white.opacity(0.2), lineWidth: 1)
+                                        )
                                 } placeholder: {
                                     ProgressView()
+                                        .frame(width: 35, height: 35)
                                 }
                             }
                         }
                         .padding(.horizontal, 4)
                     }
 
-                    Divider()
-                        .frame(width: 1, height: 80)
-                        .background(match.isWin ? .blue : .red)
+                    // Vertical Divider
+                    Rectangle()
+                        .fill(
+                            LinearGradient(
+                                colors: [
+                                    match.isWin ? .blue.opacity(0.1) : .red.opacity(0.1),
+                                    match.isWin ? .blue.opacity(0.3) : .red.opacity(0.3),
+                                    match.isWin ? .blue.opacity(0.1) : .red.opacity(0.1)
+                                ],
+                                startPoint: .top,
+                                endPoint: .bottom
+                            )
+                        )
+                        .frame(width: 2, height: 80)
 
-                    // Ward Icon (placed between Items and Runes/Summoner Spells)
+                    // Enhanced Ward Icon
                     if match.gameMode != "Aram" {
-                        // Show ward icon if not ARAM
                         if let wardIcon = match.wardIcon {
                             AsyncImage(url: URL(string: wardIcon)) { image in
                                 image.resizable()
                                     .scaledToFit()
-                                    .frame(width: 30, height: 30)
-                                    .clipShape(RoundedRectangle(cornerRadius: 4))
+                                    .frame(width: 32, height: 32)
+                                    .clipShape(RoundedRectangle(cornerRadius: 6))
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 6)
+                                            .stroke(Color.white.opacity(0.2), lineWidth: 1)
+                                    )
                             } placeholder: {
                                 ProgressView()
+                                    .frame(width: 32, height: 32)
                             }
                         }
                     } else {
-                        // Show placeholder for ARAM game mode using local asset
-                        Image("placeHolder") // Use your asset name here
+                        Image("placeHolder")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 20, height: 20)
+                            .frame(width: 22, height: 22)
                             .clipShape(RoundedRectangle(cornerRadius: 4))
                     }
 
-                    Divider()
-                        .frame(width: 1, height: 80)
-                        .background(match.isWin ? .blue : .red)
+                    // Vertical Divider
+                    Rectangle()
+                        .fill(
+                            LinearGradient(
+                                colors: [
+                                    match.isWin ? .blue.opacity(0.1) : .red.opacity(0.1),
+                                    match.isWin ? .blue.opacity(0.3) : .red.opacity(0.3),
+                                    match.isWin ? .blue.opacity(0.1) : .red.opacity(0.1)
+                                ],
+                                startPoint: .top,
+                                endPoint: .bottom
+                            )
+                        )
+                        .frame(width: 2, height: 80)
 
-                    // Rune and Summoner Spell Icons
-                    VStack(spacing: 8) {
-                        // Rune Icons
-                        HStack(spacing: 8) {
+                    // Enhanced Runes and Summoner Spells
+                    VStack(spacing: 10) {
+                        HStack(spacing: 10) {
                             ForEach(match.primaryRunes, id: \.id) { rune in
                                 let runeName = runeName(for: rune.id)
                                 Image(runeImage(for: runeName))
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(width: 32, height: 32)
+                                    .frame(width: 34, height: 34)
+                                    .shadow(color: .black.opacity(0.3), radius: 2)
                             }
                         }
 
-                        Divider()
-                            .frame(width: 60, height: 0.5)
-                            .background(match.isWin ? .blue : .red)
+                        Rectangle()
+                            .fill(
+                                LinearGradient(
+                                    colors: [
+                                        match.isWin ? .blue.opacity(0.1) : .red.opacity(0.1),
+                                        match.isWin ? .blue.opacity(0.3) : .red.opacity(0.3),
+                                        match.isWin ? .blue.opacity(0.1) : .red.opacity(0.1)
+                                    ],
+                                    startPoint: .leading,
+                                    endPoint: .trailing
+                                )
+                            )
+                            .frame(width: 60, height: 2)
 
-                        // Summoner Spell Icons
-                        HStack(spacing: 8) {
+                        HStack(spacing: 10) {
                             ForEach(match.summonerSpellIcons, id: \.self) { spellName in
                                 Image(summonerSpellImage(for: spellName))
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(width: 28, height: 28)
+                                    .frame(width: 30, height: 30)
+                                    .clipShape(RoundedRectangle(cornerRadius: 6))
+                                    .shadow(color: .black.opacity(0.3), radius: 2)
                             }
                         }
                     }
                 }
-
-                Divider()
-                    .background(Color.gray.opacity(0.4))
             }
-            .padding()
-            .background(match.isWin ? Color.blue.opacity(0.2) : Color.red.opacity(0.2)) // Background with opacity
-            .cornerRadius(8)
-            .shadow(radius: 4)
-            .padding(.leading, 8) // Added padding to push elements to the right
+            .padding(.vertical, 12)
+            .padding(.horizontal, 15)
+            .background(
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(
+                        match.isWin ?
+                        Color.blue.opacity(0.15) :
+                        Color.red.opacity(0.15)
+                    )
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 12)
+                            .stroke(
+                                match.isWin ?
+                                Color.blue.opacity(0.3) :
+                                Color.red.opacity(0.3),
+                                lineWidth: 1
+                            )
+                    )
+            )
+            .shadow(
+                color: match.isWin ? .blue.opacity(0.1) : .red.opacity(0.1),
+                radius: 8,
+                x: 0,
+                y: 4
+            )
+            .padding(.horizontal, 12)
         }
     }
 }

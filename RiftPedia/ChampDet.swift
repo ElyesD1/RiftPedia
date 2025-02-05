@@ -75,7 +75,7 @@ struct ChampDet: View {
     @State private var isSpotlightActive = false // Flag to track spotlight view activation
 
     func fetchChampionDetails(for championId: String, completion: @escaping (ChampionStruct?) -> Void) {
-        let urlString = "https://ddragon.leagueoflegends.com/cdn/14.23.1/data/en_US/champion/\(championId).json"
+        let urlString = "https://ddragon.leagueoflegends.com/cdn/15.3.1/data/en_US/champion/\(championId).json"
         guard let url = URL(string: urlString) else {
             print("Invalid URL")
             completion(nil)
@@ -107,172 +107,218 @@ struct ChampDet: View {
           let cleanString = regex?.stringByReplacingMatches(in: string, options: [], range: range, withTemplate: " ") ?? string
           return cleanString
       }
+    private func showAlert(name: String, description: String) {
+        alertTitle = name
+        alertDescription = description
+        showAlert = true
+    }
     var body: some View {
-        ZStack {
-            Color("Background")
-                .ignoresSafeArea() // Ensures the background color covers the entire screen
-
-            ScrollView { // Wrap the entire content in ScrollView to make it scrollable
-                VStack {
-                    Spacer().frame(height: 1) // Adjust this height to push the content lower
-
-                    if let detail = championStruct {
-                        VStack(spacing: 5) {
-                            // Top Section: Champion Image, Name, and Title
-                            if let imageURL = URL(string: "https://ddragon.leagueoflegends.com/cdn/14.23.1/img/champion/\(detail.id).png") {
-                                AsyncImage(url: imageURL) { image in
-                                    image
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(height: 130)
-                                        .cornerRadius(10)
-                                        .padding(.top)
-                                } placeholder: {
-                                    ProgressView()
-                                }
-                            }
-
-                            // View Champion Spotlight Button
-                            Button(action: {
-                                isSpotlightActive.toggle() // Toggle spotlight view
-                            }) {
-                                Text("View Champion Spotlight")
-                                    .font(.subheadline)
-                                    .foregroundColor(Color("Button")) // Use "Button" color from your asset catalog
-                                   // Add padding on top to match the overall layout
-                            }
-                            .buttonStyle(PlainButtonStyle()) // Use PlainButtonStyle to ensure no background or extra styling is applied
-                            
-
-                            VStack(spacing: 4) {
-                                Text(detail.name)
-                                    .font(.largeTitle)
-                                    .fontWeight(.bold)
-                                    .foregroundColor(.white)
-                                Text(detail.title)
-                                    .font(.headline)
-                                    .foregroundColor(.gray)
-                                if !detail.tags.isEmpty {
-                                    Text(detail.tags.joined(separator: ", ")) // Join tags with commas
-                                        .font(.headline)
-                                        .foregroundColor(.gray) // Use a color that contrasts well
-                                }
-                            }
-                            VStack(alignment: .center, spacing: 4) {
-                                Text("Base stats")
-                                    .font(.subheadline)
-                                    .foregroundColor(.white)
-                                    .bold()
-
-                                HStack {
-                                    VStack(alignment: .leading, spacing: 4) {
-                                        Text("HP: \(detail.stats.hp, specifier: "%.0f")")
-                                        Text("HP per Level: \(detail.stats.hpperlevel, specifier: "%.1f")")
-                                        Text("MP: \(detail.stats.mp, specifier: "%.0f")")
-                                        Text("MP per Level: \(detail.stats.mpperlevel, specifier: "%.1f")")
-                                        Text("Move Speed: \(detail.stats.movespeed, specifier: "%.0f")")
-                                        Text("Armor: \(detail.stats.armor, specifier: "%.1f")")
-                                    }
-
-                                    Spacer()
-
-                                    VStack(alignment: .leading, spacing: 4) {
-                                        Text("Spell Block: \(detail.stats.spellblock, specifier: "%.1f")")
-                                        Text("Attack Damage: \(detail.stats.attackdamage, specifier: "%.1f")")
-                                        Text("Attack Speed: \(detail.stats.attackspeed, specifier: "%.2f")")
-                                        Text("Attack Range: \(detail.stats.attackrange, specifier: "%.0f")")
-                                        Text("HP Regen: \(detail.stats.hpregen, specifier: "%.1f")")
-                                        Text("MP Regen: \(detail.stats.mpregen, specifier: "%.1f")")
-                                    }
-                                }
-                                .foregroundColor(.gray)
-                                .font(.footnote)
-                            }
-                            .padding(.top, 8)
-
-                            Spacer().frame(height: 20) // Adjust this height to your preference
-
-                            // Splash Art Section
-                            VStack {
-                                if splashCount > 0 {
-                                    ScrollView(.horizontal, showsIndicators: false) {
-                                        HStack {
-                                            ForEach(detail.skins, id: \.id) { skin in
-                                                if let splashURL = URL(string: "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/\(championId)_\(skin.num).jpg") {
-                                                    AsyncImage(url: splashURL) { image in
-                                                        image
-                                                            .resizable()
-                                                            .scaledToFill()
-                                                            .frame(width: UIScreen.main.bounds.width - 40, height: 200)
-                                                            .cornerRadius(12)
-                                                            .shadow(radius: 5)
-                                                    } placeholder: {
-                                                        ProgressView()
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        .padding(.horizontal)
-                                    }
-                                }
-                            }
-                            .frame(height: 200)
-
-                            Spacer() // Push passive and spells to the bottom
-                        }
-
-                        // Bottom Section: Passive and Spells
-                        GeometryReader { geometry in
-                            VStack {
-                                Spacer()
-                                HStack(spacing: 20) {
-                                    Spacer()
-
-                                    if let passiveImageURL = URL(string: "https://ddragon.leagueoflegends.com/cdn/14.23.1/img/passive/\(detail.passive.image.full)") {
-                                        AsyncImage(url: passiveImageURL) { image in
-                                            image
-                                                .resizable()
-                                                .frame(width: 48, height: 48)
-                                                .cornerRadius(10)
-                                                .onTapGesture {
-                                                    showAlert(name: detail.passive.name, description: removeHTMLTags(from: detail.passive.description))
-                                                }
-                                        } placeholder: {
-                                            ProgressView()
-                                        }
-                                    }
-
-                                    // Spells
-                                    ForEach(detail.spells, id: \.name) { spell in
-                                        if let spellImageURL = URL(string: "https://ddragon.leagueoflegends.com/cdn/14.23.1/img/spell/\(spell.image.full)") {
-                                            AsyncImage(url: spellImageURL) { image in
-                                                image
-                                                    .resizable()
-                                                    .frame(width: 48, height: 48)
-                                                    .cornerRadius(10)
-                                                    .onTapGesture {
-                                                        showAlert(name: spell.name, description: removeHTMLTags(from: spell.description))
-                                                    }
-                                            } placeholder: {
-                                                ProgressView()
-                                            
-                                            }
-                                        }
-                                    }
-
-                                    Spacer()
-                                }
-                                .frame(maxWidth: geometry.size.width) // Center horizontally
-                                .padding(.bottom, 16)
-                            }
-                        }
-                    } else {
-                        Text("Loading...")
-                            .font(.title)
-                    }
-                }
-                .padding(.horizontal)
-            }
+           ZStack {
+               // Enhanced background with gradient
+               LinearGradient(
+                   gradient: Gradient(colors: [
+                       Color("Background"),
+                       Color("Background").opacity(0.9),
+                       Color("Background").opacity(0.8)
+                   ]),
+                   startPoint: .top,
+                   endPoint: .bottom
+               )
+               .ignoresSafeArea()
+               
+               ScrollView {
+                   VStack(spacing: 20) {
+                       if let detail = championStruct {
+                           // Champion Header Section
+                           VStack(spacing: 15) {
+                               // Champion Image with enhanced styling
+                               if let imageURL = URL(string: "https://ddragon.leagueoflegends.com/cdn/15.3.1/img/champion/\(detail.id).png") {
+                                   AsyncImage(url: imageURL) { image in
+                                       image
+                                           .resizable()
+                                           .scaledToFit()
+                                           .frame(height: 150)
+                                           .cornerRadius(20)
+                                           .shadow(color: Color("Button").opacity(0.5), radius: 10, x: 0, y: 5)
+                                           .overlay(
+                                               RoundedRectangle(cornerRadius: 20)
+                                                   .stroke(Color.white.opacity(0.2), lineWidth: 1)
+                                           )
+                                   } placeholder: {
+                                       ProgressView()
+                                           .frame(height: 150)
+                                   }
+                               }
+                               
+                               // Enhanced Spotlight Button
+                               Button(action: { isSpotlightActive.toggle() }) {
+                                   HStack {
+                                       Image(systemName: "play.circle.fill")
+                                           .font(.title2)
+                                       Text("Watch Champion Spotlight")
+                                           .fontWeight(.semibold)
+                                   }
+                                   .foregroundColor(Color("Button"))
+                                   .padding(.vertical, 10)
+                                   .padding(.horizontal, 20)
+                                   .background(
+                                       RoundedRectangle(cornerRadius: 15)
+                                           .fill(Color("Button").opacity(0.15))
+                                   )
+                                   .overlay(
+                                       RoundedRectangle(cornerRadius: 15)
+                                           .stroke(Color("Button").opacity(0.3), lineWidth: 1)
+                                   )
+                               }
+                               
+                               // Champion Info Section
+                               VStack(spacing: 8) {
+                                   Text(detail.name)
+                                       .font(.system(size: 32, weight: .bold))
+                                       .foregroundColor(.white)
+                                   
+                                   Text(detail.title)
+                                       .font(.title3)
+                                       .foregroundColor(.gray)
+                                   
+                                   // Tags with pills design
+                                   if !detail.tags.isEmpty {
+                                       HStack(spacing: 10) {
+                                           ForEach(detail.tags, id: \.self) { tag in
+                                               Text(tag)
+                                                   .font(.caption)
+                                                   .fontWeight(.medium)
+                                                   .foregroundColor(.white)
+                                                   .padding(.horizontal, 12)
+                                                   .padding(.vertical, 6)
+                                                   .background(
+                                                       Capsule()
+                                                           .fill(Color("Button").opacity(0.3))
+                                                   )
+                                           }
+                                       }
+                                   }
+                               }
+                               
+                               // Enhanced Stats Section
+                               VStack(spacing: 15) {
+                                   Text("Base Statistics")
+                                       .font(.title3)
+                                       .fontWeight(.bold)
+                                       .foregroundColor(.white)
+                                   
+                                   // Stats Grid
+                                   LazyVGrid(columns: [
+                                       GridItem(.flexible()),
+                                       GridItem(.flexible())
+                                   ], spacing: 15) {
+                                       StatView(title: "HP", value: "\(Int(detail.stats.hp))")
+                                       StatView(title: "MP", value: "\(Int(detail.stats.mp))")
+                                       StatView(title: "Armor", value: String(format: "%.1f", detail.stats.armor))
+                                       StatView(title: "Magic Resist", value: String(format: "%.1f", detail.stats.spellblock))
+                                       StatView(title: "Attack Damage", value: String(format: "%.1f", detail.stats.attackdamage))
+                                       StatView(title: "Attack Speed", value: String(format: "%.2f", detail.stats.attackspeed))
+                                   }
+                                   .padding()
+                                   .background(Color.black.opacity(0.2))
+                                   .cornerRadius(15)
+                               }
+                               
+                               // Enhanced Splash Art Section
+                               if splashCount > 0 {
+                                   VStack(alignment: .leading) {
+                                       Text("Available Skins")
+                                           .font(.title3)
+                                           .fontWeight(.bold)
+                                           .foregroundColor(.white)
+                                           .padding(.horizontal)
+                                       
+                                       ScrollView(.horizontal, showsIndicators: false) {
+                                           HStack(spacing: 15) {
+                                               ForEach(detail.skins, id: \.id) { skin in
+                                                   if let splashURL = URL(string: "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/\(championId)_\(skin.num).jpg") {
+                                                       AsyncImage(url: splashURL) { image in
+                                                           image
+                                                               .resizable()
+                                                               .scaledToFill()
+                                                               .frame(width: UIScreen.main.bounds.width - 60, height: 200)
+                                                               .cornerRadius(20)
+                                                               .shadow(color: .black.opacity(0.3), radius: 10, x: 0, y: 5)
+                                                               .overlay(
+                                                                   VStack {
+                                                                       Spacer()
+                                                                       Text(skin.name)
+                                                                           .font(.caption)
+                                                                           .fontWeight(.medium)
+                                                                           .foregroundColor(.white)
+                                                                           .padding(.vertical, 8)
+                                                                           .frame(maxWidth: .infinity)
+                                                                           .background(
+                                                                               LinearGradient(
+                                                                                   colors: [.black.opacity(0.7), .clear],
+                                                                                   startPoint: .bottom,
+                                                                                   endPoint: .top
+                                                                               )
+                                                                           )
+                                                                   }
+                                                                       .cornerRadius(20)
+                                                               )
+                                                       } placeholder: {
+                                                           ProgressView()
+                                                               .frame(width: UIScreen.main.bounds.width - 60, height: 200)
+                                                       }
+                                                   }
+                                               }
+                                           }
+                                           .padding(.horizontal)
+                                       }
+                                   }
+                               }
+                               
+                               // Enhanced Abilities Section
+                               VStack(spacing: 15) {
+                                   Text("Abilities")
+                                       .font(.title3)
+                                       .fontWeight(.bold)
+                                       .foregroundColor(.white)
+                                   
+                                   HStack(spacing: 15) {
+                                       // Passive
+                                       if let passiveImageURL = URL(string: "https://ddragon.leagueoflegends.com/cdn/15.3.1/img/passive/\(detail.passive.image.full)") {
+                                           AbilityButton(imageURL: passiveImageURL, name: detail.passive.name) {
+                                               showAlert(name: detail.passive.name, description: removeHTMLTags(from: detail.passive.description))
+                                           }
+                                       }
+                                       
+                                       // Active abilities
+                                       ForEach(detail.spells, id: \.name) { spell in
+                                           if let spellImageURL = URL(string: "https://ddragon.leagueoflegends.com/cdn/15.3.1/img/spell/\(spell.image.full)") {
+                                               AbilityButton(imageURL: spellImageURL, name: spell.name) {
+                                                   showAlert(name: spell.name, description: removeHTMLTags(from: spell.description))
+                                               }
+                                           }
+                                       }
+                                   }
+                                   .padding(.horizontal)
+                               }
+                           }
+                           .padding(.bottom, 30)
+                       } else {
+                           // Enhanced Loading View
+                           VStack(spacing: 20) {
+                               ProgressView()
+                                   .scaleEffect(1.5)
+                               Text("Loading Champion Details...")
+                                   .font(.headline)
+                                   .foregroundColor(.gray)
+                           }
+                           .frame(maxWidth: .infinity, maxHeight: .infinity)
+                           .padding()
+                       }
+                   }
+                   .padding()
+               }
+           }
             .onAppear {
                 fetchChampionDetails(for: championId) { detail in
                     DispatchQueue.main.async {
@@ -290,12 +336,50 @@ struct ChampDet: View {
             }
         }
     }
-
-    private func showAlert(name: String, description: String) {
-        alertTitle = name
-        alertDescription = description
-        showAlert = true
+struct StatView: View {
+    let title: String
+    let value: String
+    
+    var body: some View {
+        VStack(spacing: 5) {
+            Text(title)
+                .font(.caption)
+                .foregroundColor(.gray)
+            Text(value)
+                .font(.system(.body, design: .rounded))
+                .fontWeight(.semibold)
+                .foregroundColor(.white)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 8)
     }
+}
+
+struct AbilityButton: View {
+    let imageURL: URL
+    let name: String
+    let action: () -> Void
+    
+    var body: some View {
+        Button(action: action) {
+            AsyncImage(url: imageURL) { image in
+                image
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 60, height: 60)
+                    .cornerRadius(12)
+                    .shadow(color: Color("Button").opacity(0.5), radius: 5, x: 0, y: 2)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 12)
+                            .stroke(Color.white.opacity(0.2), lineWidth: 1)
+                    )
+            } placeholder: {
+                ProgressView()
+                    .frame(width: 60, height: 60)
+            }
+        }
+    }
+    
 }
 // MARK: - Champion Spotlight View
 struct ChampionSpotlightView: View {
@@ -329,16 +413,14 @@ struct ChampionSpotlightView: View {
         }
     }
 }
-// WebView to display YouTube results
+// MARK: - WebView
 struct WebView: UIViewRepresentable {
     var url: String
 
     func makeUIView(context: Context) -> WKWebView {
         let webView = WKWebView()
-        webView.navigationDelegate = context.coordinator
         if let url = URL(string: url) {
-            let request = URLRequest(url: url)
-            webView.load(request)
+            webView.load(URLRequest(url: url))
         }
         return webView
     }
@@ -346,7 +428,7 @@ struct WebView: UIViewRepresentable {
     func updateUIView(_ uiView: WKWebView, context: Context) {}
 
     func makeCoordinator() -> Coordinator {
-        return Coordinator()
+        Coordinator()
     }
 
     class Coordinator: NSObject, WKNavigationDelegate {}

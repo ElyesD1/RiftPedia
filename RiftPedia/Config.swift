@@ -1,6 +1,6 @@
 import Foundation
 
 struct Config {
-    static var riotAPIKey = "RGAPI-3e47daf6-1445-43f7-8d9e-2fd9f0bd8554"
+    static var riotAPIKey = "RGAPI-fd1f4303-e8e8-4e99-b918-e022f644ff36"
     static var puuid: String = ""  // Store the PUUID here
 }

@@ -59,33 +59,81 @@ struct SearchBar: View {
             TextField("Search champions...", text: $text)
                 .padding(8)
                 .padding(.horizontal, 24)
-                .background(Color.white) // Background color
-                .cornerRadius(8)
-                .foregroundColor(.black) // Ensures the text typed is black
+                .background(Color(UIColor.systemBackground))
+                .cornerRadius(12)
+                .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2)
                 .overlay(
                     HStack {
                         Image(systemName: "magnifyingglass")
-                            .foregroundColor(.gray) // Icon color
+                            .foregroundColor(.gray)
                             .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                             .padding(.leading, 8)
                         
                         if !text.isEmpty {
-                            Button(action: {
-                                text = ""
-                            }) {
+                            Button(action: { text = "" }) {
                                 Image(systemName: "xmark.circle.fill")
-                                    .foregroundColor(.gray) // Clear button color
+                                    .foregroundColor(.gray)
                                     .padding(.trailing, 8)
                             }
                         }
                     }
                 )
-                .padding(.horizontal, 10)
+                .padding(.horizontal, 16)
         }
-        .padding(.vertical, 5)
-        .onAppear {
-            UITextField.appearance().tintColor = .gray // Placeholder text color
+        .padding(.vertical, 8)
+    }
+}
+
+struct ChampionCards: View {
+    let champion: ChampionData
+    
+    var body: some View {
+        HStack(spacing: 12) {
+            if let image = UIImage(named: "\(champion.id)") {
+                Image(uiImage: image)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 60, height: 60)
+                    .cornerRadius(12)
+                    .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2)
+            } else {
+                ProgressView()
+                    .frame(width: 60, height: 60)
+            }
+            
+            VStack(alignment: .leading, spacing: 4) {
+                Text(champion.name)
+                    .font(.system(size: 18, weight: .bold))
+                    .foregroundColor(Color(UIColor.label))
+                
+                Text(champion.title.capitalized)
+                    .font(.system(size: 14, weight: .medium))
+                    .foregroundColor(Color(UIColor.secondaryLabel))
+                
+                HStack(spacing: 6) {
+                    ForEach(champion.tags, id: \.self) { tag in
+                        Text(tag)
+                            .font(.system(size: 12, weight: .medium))
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
+                            .background(Color.blue.opacity(0.1))
+                            .foregroundColor(.blue)
+                            .cornerRadius(8)
+                    }
+                }
+            }
+            
+            Spacer()
+            
+            Image(systemName: "chevron.right")
+                .foregroundColor(Color(UIColor.tertiaryLabel))
+                .font(.system(size: 14, weight: .bold))
         }
+        .padding(.vertical, 12)
+        .padding(.horizontal, 16)
+        .background(Color(UIColor.secondarySystemBackground))
+        .cornerRadius(16)
+        .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 4)
     }
 }
 
@@ -94,60 +142,28 @@ struct ChampWiki: View {
     
     var body: some View {
         ZStack {
-            Color("Background") // Background color for the entire screen
+            Color(UIColor.systemBackground)
                 .edgesIgnoringSafeArea(.all)
             
-            VStack {
-                // Title Text
+            VStack(spacing: 16) {
                 Text("Champion Wiki")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .foregroundColor(Color.white)
-                    .padding(.top, 20)
+                    .font(.system(size: 32, weight: .bold))
+                    .foregroundColor(Color(UIColor.label))
+                    .padding(.top, 24)
                 
-                // Search Bar
                 SearchBar(text: $viewModel.searchText)
                 
-                // List of champions
-                List(viewModel.filteredChampions, id: \.id) { champion in
-                    NavigationLink(destination: ChampDet(championId: champion.id, championName: champion.name)) {
-                        HStack(spacing: 8) { // Reduced spacing from 16 to 8
-                            // Champion Image (Use local assets)
-                            if let image = UIImage(named: "\(champion.id)") {
-                                Image(uiImage: image)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 50, height: 50)
-                                    .cornerRadius(8)
-                                    .frame(maxWidth: 50, alignment: .leading) // Ensure the image stays at the left
-                            } else {
-                                ProgressView()
-                                    .frame(width: 50, height: 50)
+                ScrollView {
+                    LazyVStack(spacing: 12) {
+                        ForEach(viewModel.filteredChampions, id: \.id) { champion in
+                            NavigationLink(destination: ChampDet(championId: champion.id, championName: champion.name)) {
+                                ChampionCards(champion: champion)
                             }
-                            
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text(champion.name)
-                                    .font(.headline)
-                                    .foregroundColor(.black)
-                                    .frame(maxWidth: .infinity, alignment: .leading) // Ensure name is aligned left
-
-                                Text(champion.title.capitalized)
-                                    .font(.subheadline)
-                                    .foregroundColor(.gray)
-                                    .frame(maxWidth: .infinity, alignment: .leading) // Ensure title is aligned left
-                                
-                                Text(champion.tags.joined(separator: ", "))
-                                    .font(.subheadline)
-                                    .foregroundColor(.gray)
-                                    .frame(maxWidth: .infinity, alignment: .leading) // Ensure tags are aligned left
-                            }
-                            .padding(.leading, 8) // Add padding to the left side of the text container to move it slightly to the right
+                            .buttonStyle(PlainButtonStyle())
                         }
-                        .padding(.vertical, 8) // Vertical padding to add spacing between rows
-                        .frame(maxWidth: .infinity, alignment: .leading) // Ensures background fills the whole row
-                        .cornerRadius(8) // Optional rounded corners
-                        .padding(.horizontal, 8) // Padding to avoid content hitting the edges
                     }
+                    .padding(.horizontal, 16)
+                    .padding(.bottom, 24)
                 }
             }
         }

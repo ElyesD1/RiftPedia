@@ -107,195 +107,298 @@ struct ItemWiki: View {
     let gridColumns = [GridItem(.adaptive(minimum: 80), spacing: 8)]
 
     var body: some View {
-        NavigationView {
-            ZStack {
-                Color("Background")
-                    .ignoresSafeArea()
+          NavigationView {
+              ZStack {
+                  // Enhanced background with gradient
+                  LinearGradient(
+                      gradient: Gradient(colors: [
+                          Color("Background"),
+                          Color("Background").opacity(0.9),
+                          Color("Background").opacity(0.8)
+                      ]),
+                      startPoint: .top,
+                      endPoint: .bottom
+                  )
+                  .ignoresSafeArea()
+                  
+                  VStack(spacing: 16) {
+                      // Enhanced Search Bar
+                      HStack {
+                          Image(systemName: "magnifyingglass")
+                              .foregroundColor(.gray)
+                              .font(.system(size: 18))
+                          
+                          TextField("Search items...", text: $viewModel.searchQuery)
+                              .font(.system(size: 16))
+                      }
+                      .padding(12)
+                      .background(
+                          RoundedRectangle(cornerRadius: 15)
+                              .fill(Color.white.opacity(0.95))
+                              .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 2)
+                      )
+                      .padding(.horizontal)
+                      
+                      // Enhanced Title
+                      Text("Item Wiki")
+                          .font(.system(size: 36, weight: .bold))
+                          .foregroundColor(.white)
+                          .shadow(color: Color("Button").opacity(0.5), radius: 2)
+                      
+                      // Enhanced ScrollView
+                      ScrollView {
+                          LazyVStack(alignment: .leading, spacing: 24) {
+                              ForEach(categoryOrder, id: \.self) { category in
+                                  if let itemIds = viewModel.categorizedItems[category], !itemIds.isEmpty {
+                                      CategorySection(
+                                          category: category,
+                                          itemIds: itemIds,
+                                          viewModel: viewModel,
+                                          gridColumns: gridColumns
+                                      )
+                                  }
+                              }
+                          }
+                          .padding(.bottom, 20)
+                      }
+                  }
+                  .padding(.top, 8)
+              }
+              .onAppear {
+                  viewModel.fetchItemsAndCategories()
+              }
+          }
+      }
+  }
 
-                VStack(spacing: 10) {
-                    TextField("Search items...", text: $viewModel.searchQuery)
-                        .padding()
-                        .background(Color.white)
-                        .cornerRadius(10)
-                        .foregroundColor(.black)
-                        .padding(.horizontal)
+  // Helper Views
+  struct CategorySection: View {
+      let category: String
+      let itemIds: [String]
+      let viewModel: ItemWikiViewModel
+      let gridColumns: [GridItem]
+      
+      var body: some View {
+          VStack(alignment: .leading, spacing: 12) {
+              // Enhanced Category Header
+              Text(category)
+                  .font(.system(size: 20, weight: .bold))
+                  .foregroundColor(.white)
+                  .padding(.horizontal)
+                  .padding(.vertical, 8)
+                  .background(
+                      RoundedRectangle(cornerRadius: 12)
+                          .fill(Color("Button").opacity(0.2))
+                  )
+                  .padding(.leading)
+              
+              // Enhanced Grid
+              LazyVGrid(columns: gridColumns, spacing: 12) {
+                  ForEach(viewModel.filteredItems.keys.filter { itemIds.contains($0) }, id: \.self) { itemId in
+                      if let item = viewModel.filteredItems[itemId] {
+                          NavigationLink(destination: ItemDetailView(item: item, items: viewModel.items)) {
+                              ItemGridCell(item: item)
+                          }
+                      }
+                  }
+              }
+              .padding(.horizontal)
+          }
+          .padding(.vertical, 8)
+      }
+  }
 
-                    Text("Item Wiki")
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                        .foregroundColor(.white)
+  struct ItemGridCell: View {
+      let item: ItemStruct
+      @State private var isHovered = false
+      
+      var body: some View {
+          VStack(spacing: 6) {
+              Image(item.id)
+                  .resizable()
+                  .scaledToFit()
+                  .frame(width: 55, height: 55)
+                  .padding(8)
+                  .background(
+                      RoundedRectangle(cornerRadius: 12)
+                          .fill(Color.black.opacity(0.6))
+                          .shadow(color: Color("Button").opacity(0.3), radius: 5)
+                  )
+                  .overlay(
+                      RoundedRectangle(cornerRadius: 12)
+                          .stroke(Color("Button").opacity(0.3), lineWidth: 1)
+                  )
+              
+              Text(item.cleanName())
+                  .font(.system(size: 12, weight: .medium))
+                  .foregroundColor(.white)
+                  .lineLimit(2)
+                  .multilineTextAlignment(.center)
+          }
+          .frame(width: 80)
+          .padding(8)
+          .background(
+              RoundedRectangle(cornerRadius: 15)
+                  .fill(Color.black.opacity(0.3))
+          )
+          .scaleEffect(isHovered ? 1.05 : 1.0)
+          .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isHovered)
+          .onHover { hovering in
+              isHovered = hovering
+          }
+      }
+  }
 
-                    ScrollView {
-                        LazyVStack(alignment: .leading, spacing: 20) {
-                            ForEach(categoryOrder, id: \.self) { category in
-                                if let itemIds = viewModel.categorizedItems[category], !itemIds.isEmpty {
-                                    VStack(alignment: .leading, spacing: 10) {
-                                        Text(category)
-                                            .font(.headline)
-                                            .foregroundColor(.white)
-                                            .padding(.leading)
+  struct ItemDetailView: View {
+      let item: ItemStruct
+      let items: [String: ItemStruct]
+      
+      var body: some View {
+          ZStack {
+              // Enhanced background
+              LinearGradient(
+                  gradient: Gradient(colors: [
+                      Color("Background"),
+                      Color("Background").opacity(0.9)
+                  ]),
+                  startPoint: .top,
+                  endPoint: .bottom
+              )
+              .ignoresSafeArea()
+              
+              ScrollView {
+                  VStack(spacing: 24) {
+                      // Enhanced Item Header
+                      VStack(spacing: 16) {
+                          Image(item.id)
+                              .resizable()
+                              .scaledToFit()
+                              .frame(width: 120, height: 120)
+                              .padding(20)
+                              .background(
+                                  Circle()
+                                      .fill(Color.black.opacity(0.6))
+                                      .shadow(color: Color("Button").opacity(0.3), radius: 15)
+                              )
+                              .overlay(
+                                  Circle()
+                                      .stroke(Color("Button").opacity(0.3), lineWidth: 2)
+                              )
+                          
+                          Text(item.cleanName())
+                              .font(.system(size: 28, weight: .bold))
+                              .foregroundColor(.white)
+                              .multilineTextAlignment(.center)
+                          
+                          Text(item.cleanDescription)
+                              .font(.system(size: 16))
+                              .foregroundColor(.gray)
+                              .multilineTextAlignment(.center)
+                              .padding(.horizontal)
+                      }
+                      .padding(24)
+                      .background(
+                          RoundedRectangle(cornerRadius: 20)
+                              .fill(Color.black.opacity(0.5))
+                              .shadow(color: .black.opacity(0.2), radius: 10)
+                      )
+                      
+                      // Enhanced Gold Info
+                      if let gold = item.gold {
+                          HStack(spacing: 30) {
+                              VStack(spacing: 8) {
+                                  Text("Buy Price")
+                                      .font(.subheadline)
+                                      .foregroundColor(.gray)
+                                  Text("\(gold.total)")
+                                      .font(.title2.bold())
+                                      .foregroundColor(.yellow)
+                              }
+                              
+                              Divider()
+                                  .background(Color.gray)
+                                  .frame(height: 40)
+                              
+                              VStack(spacing: 8) {
+                                  Text("Sell Value")
+                                      .font(.subheadline)
+                                      .foregroundColor(.gray)
+                                  Text("\(gold.sell)")
+                                      .font(.title2.bold())
+                                      .foregroundColor(.yellow)
+                              }
+                          }
+                          .padding(20)
+                          .background(
+                              RoundedRectangle(cornerRadius: 20)
+                                  .fill(Color.black.opacity(0.5))
+                                  .shadow(color: .black.opacity(0.2), radius: 10)
+                          )
+                      }
+                      
+                      // Recipe Sections
+                      if let from = item.from, !from.isEmpty {
+                          RecipeSection(title: "Built From", items: from.compactMap { items[$0] })
+                      }
+                      
+                      if let into = item.into, !into.isEmpty {
+                          RecipeSection(title: "Builds Into", items: into.compactMap { items[$0] })
+                      }
+                  }
+                  .padding()
+              }
+          }
+      }
+  }
 
-                                        LazyVGrid(columns: gridColumns, spacing: 10) {
-                                            ForEach(viewModel.filteredItems.keys.filter { itemIds.contains($0) }, id: \.self) { itemId in
-                                                if let item = viewModel.filteredItems[itemId] {
-                                                    NavigationLink(destination: ItemDetailView(item: item, items: viewModel.items)) {
-                                                        VStack(spacing: 4) {
-                                                            Image(item.id)
-                                                                .resizable()
-                                                                .scaledToFit()
-                                                                .frame(width: 50, height: 50)
-                                                                .cornerRadius(10)
-
-                                                            Text(item.cleanName())
-                                                                .font(.caption)
-                                                                .foregroundColor(.white)
-                                                        }
-                                                        .padding(5)
-                                                        .background(Color.black.opacity(0.8))
-                                                        .cornerRadius(8)
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        .padding(.horizontal)
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            .onAppear {
-                viewModel.fetchItemsAndCategories()
-            }
-        }
-    }
-}
-
-// Item Detail View
-struct ItemDetailView: View {
-    let item: ItemStruct
-    let items: [String: ItemStruct]
-
+struct RecipeSection: View {
+    let title: String
+    let items: [ItemStruct]
+    
     var body: some View {
-        ZStack {
-            Color("Background")
-                .ignoresSafeArea()
-
-            ScrollView {
-                VStack(spacing: 20) {
-                    // Card for Item Details
-                    VStack(spacing: 10) {
+        VStack(alignment: .leading, spacing: 16) {
+            Text(title)
+                .font(.title3.bold())
+                .foregroundColor(.white)
+            
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 80))], spacing: 16) {
+                // Create enumerated array to use index in identifier
+                ForEach(Array(zip(items.indices, items)), id: \.0) { index, item in
+                    VStack(spacing: 8) {
                         Image(item.id)
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 100, height: 100)
-                            .cornerRadius(10)
-
+                            .frame(width: 50, height: 50)
+                            .padding(8)
+                            .background(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .fill(Color.black.opacity(0.4))
+                            )
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .stroke(Color("Button").opacity(0.3), lineWidth: 1)
+                            )
+                        
                         Text(item.cleanName())
-                            .font(.title)
+                            .font(.caption)
                             .foregroundColor(.white)
-
-                        Text(item.cleanDescription)
-                            .foregroundColor(.white)
-                    }
-                    .padding()
-                    .background(Color.black.opacity(0.8))
-                    .cornerRadius(15)
-                    .shadow(radius: 10)
-
-                    // Card for Gold Details
-                    if let gold = item.gold {
-                        VStack(alignment: .leading, spacing: 10) {
-                            HStack {
-                                Text("Price: ")
-                                    .font(.headline)
-                                    .foregroundColor(.yellow)
-                                Text("\(gold.total)")
-                                    .font(.headline)
-                                    .foregroundColor(.yellow)
-                            }
-
-                            HStack {
-                                Text("Sell: ")
-                                    .font(.headline)
-                                    .foregroundColor(.yellow)
-                                Text("\(gold.sell)")
-                                    .font(.headline)
-                                    .foregroundColor(.yellow)
-                            }
-                        }
-                        .padding()
-                        .background(Color.black.opacity(0.8))
-                        .cornerRadius(15)
-                        .shadow(radius: 10)
-                    }
-
-                    // Built From Section inside a card
-                    if let from = item.from, !from.isEmpty {
-                        VStack(alignment: .leading, spacing: 10) {
-                            Text("Built From:")
-                                .font(.headline)
-                                .foregroundColor(.white)
-
-                            LazyVGrid(columns: [GridItem(.adaptive(minimum: 80))], spacing: 10) {
-                                ForEach(from.indices, id: \.self) { index in
-                                    let itemId = from[index]
-                                    if let fromItem = items[itemId] {
-                                        VStack {
-                                            Image(fromItem.id)
-                                                .resizable()
-                                                .scaledToFit()
-                                                .frame(width: 50, height: 50)
-
-                                            Text(fromItem.cleanName())
-                                                .font(.caption)
-                                                .foregroundColor(.white)
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        .padding()
-                        .background(Color.black.opacity(0.8))
-                        .cornerRadius(15)
-                        .shadow(radius: 10)
-                    }
-
-                    // Builds Into Section inside a card
-                    if let into = item.into, !into.isEmpty {
-                        VStack(alignment: .leading, spacing: 10) {
-                            Text("Builds Into:")
-                                .font(.headline)
-                                .foregroundColor(.white)
-
-                            LazyVGrid(columns: [GridItem(.adaptive(minimum: 80))], spacing: 10) {
-                                ForEach(into.indices, id: \.self) { index in
-                                    let itemId = into[index]
-                                    if let intoItem = items[itemId] {
-                                        VStack {
-                                            Image(intoItem.id)
-                                                .resizable()
-                                                .scaledToFit()
-                                                .frame(width: 50, height: 50)
-
-                                            Text(intoItem.cleanName())
-                                                .font(.caption)
-                                                .foregroundColor(.white)
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        .padding()
-                        .background(Color.black.opacity(0.8))
-                        .cornerRadius(15)
-                        .shadow(radius: 10)
+                            .multilineTextAlignment(.center)
+                            
+                       
                     }
                 }
-                .padding()
             }
         }
-        .navigationBarBackButtonHidden(false) // Ensures the back button is visible
+        .padding(20)
+        .background(
+            RoundedRectangle(cornerRadius: 20)
+                .fill(Color.black.opacity(0.5))
+                .shadow(color: .black.opacity(0.2), radius: 10)
+        )
+    }
+    
+    // Helper function to count occurrences of an item
+    private func countOccurrences(of item: ItemStruct, in items: [ItemStruct]) -> Int {
+        items.filter { $0.id == item.id }.count
     }
 }
