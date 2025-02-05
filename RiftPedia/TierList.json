@@ -2,65 +2,65 @@
   {
     "championId" : "Yorick",
     "tier" : "Iron",
-    "pickRate" : 5.98,
-    "winRate" : 54.5,
-    "banRate" : 10.93,
+    "pickRate" : 6.0,
+    "winRate" : 54.24,
+    "banRate" : 12.9,
     "role" : "Top",
     "championTier" : "Iron"
   },
   {
-    "winRate" : 51.32,
+    "winRate" : 53.09,
     "tier" : "Iron",
-    "championId" : "Teemo",
-    "pickRate" : 9.12,
-    "banRate" : 18.86,
+    "championId" : "Urgot",
+    "pickRate" : 4.4,
+    "banRate" : 3.5,
     "championTier" : "Iron",
     "role" : "Top"
   },
   {
     "tier" : "Iron",
-    "banRate" : 17.62,
-    "pickRate" : 12,
-    "winRate" : 50.72,
-    "championId" : "Mordekaiser",
+    "banRate" : 1.0,
+    "pickRate" : 2.7,
+    "winRate" : 52.91,
+    "championId" : "Sion",
     "role" : "Top",
     "championTier" : "Iron"
   },
   {
     "tier" : "Iron",
-    "winRate" : 52.87,
-    "pickRate" : 6.22,
+    "winRate" : 53.05,
+    "pickRate" : 5.2,
     "championTier" : "Iron",
     "championId" : "DrMundo",
     "role" : "Top",
-    "banRate" : 5.39
+    "banRate" : 6.1
   },
   {
     "championTier" : "Iron",
-    "winRate" : 50.66,
+    "winRate" : 52.26,
     "championId" : "Sett",
-    "pickRate" : 8.67,
+    "pickRate" : 10.3,
     "role" : "Top",
-    "banRate" : 3.6,
+    "banRate" : 4.8,
     "tier" : "Iron"
   },
   {
-    "pickRate" : 6.1,
+    "pickRate" : 6.2,
     "championId" : "Yorick",
-    "winRate" : 54.05,
+    "winRate" : 52.79,
     "championTier" : "Bronze",
     "tier" : "Bronze",
     "role" : "Top",
-    "banRate" : 10.42
+    "banRate" : 14.3
   },
   {
     "role" : "Top",
-    "banRate" : 15.3,
+    "banRate" : 2.9,
     "championTier" : "Bronze",
     "tier" : "Bronze",
-    "championId" : "Teemo",
-    "winRate" : 52.3,
-    "pickRate" : 7.7
+    "championId" : "Urgot",
+    "winRate" : 52.64,
+    "pickRate" : 4.5
   },
   {
     "winRate" : 52.87,
@@ -703,7 +703,7 @@
   },
   {
     "role" : "Jungle",
-    "championId" : "Fiddlesticks",
+    "championId" : "FiddleSticks",
     "tier" : "Emerald",
     "pickRate" : 2.6,
     "championTier" : "Emerald",

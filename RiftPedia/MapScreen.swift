@@ -340,30 +340,53 @@ struct MapScreen: View {
 }
 
 // MARK: - Region View
+// MARK: - Region View
 struct RegionView: View {
     let region: Region
+    @State private var isHovered = false
 
     var body: some View {
-        VStack {
+        VStack(spacing: 8) {
             Image(region.iconName)
                 .resizable()
                 .scaledToFit()
-                .frame(width: 28, height: 28) // Icon size
-                .background(Circle().fill(Color("Background")).frame(width: 50, height: 50)) // Larger circle than the icon
-                 // Circle border
-                 // Ensures the image stays within the circular border
+                .frame(width: 32, height: 32)
+                .background(
+                    Circle()
+                        .fill(Color("Background"))
+                        .frame(width: 56, height: 56)
+                        .overlay(
+                            Circle()
+                                .stroke(Color("Button").opacity(0.6), lineWidth: 2)
+                        )
+                        .shadow(color: Color("Button").opacity(0.3), radius: 8, x: 0, y: 4)
+                )
+                .overlay(
+                    Circle()
+                        .stroke(Color.white.opacity(0.2), lineWidth: 1)
+                        .frame(width: 54, height: 54)
+                )
             
             Text(region.name)
-                .font(.headline)
+                .font(.system(size: 14, weight: .semibold))
                 .foregroundColor(.white)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 6)
+                .background(
+                    Capsule()
+                        .fill(Color("Background").opacity(0.8))
+                        .shadow(color: .black.opacity(0.2), radius: 4, x: 0, y: 2)
+                )
+        }
+        .scaleEffect(isHovered ? 1.1 : 1.0)
+        .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isHovered)
+        .onHover { hovering in
+            isHovered = hovering
         }
     }
 }
+
 // MARK: - Champion List View
-
-
-
-
 struct ChampionListView: View {
     let region: Region
     let champions: [Champion]
@@ -372,77 +395,170 @@ struct ChampionListView: View {
     @StateObject private var viewModel = ChampionListViewModel()
 
     var body: some View {
-        VStack(spacing: 20) {
-            Text(region.name)
-                .font(.largeTitle)
-                .bold()
-                .foregroundColor(Color("Button"))
-                .padding(.top)
+        VStack(spacing: 0) {
+            // Enhanced Header
+            VStack(spacing: 12) {
+                Image(region.iconName)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 60, height: 60)
+                    .background(
+                        Circle()
+                            .fill(Color("Background"))
+                            .frame(width: 80, height: 80)
+                    )
+                    .overlay(
+                        Circle()
+                            .stroke(Color("Button"), lineWidth: 2)
+                            .frame(width: 78, height: 78)
+                    )
+                    .shadow(color: Color("Button").opacity(0.3), radius: 10, x: 0, y: 5)
+                
+                Text(region.name)
+                    .font(.system(size: 32, weight: .bold))
+                    .foregroundColor(Color("Button"))
+                    .shadow(color: Color("Button").opacity(0.3), radius: 2, x: 0, y: 2)
+            }
+            .padding(.vertical, 25)
+            .background(
+                LinearGradient(
+                    gradient: Gradient(colors: [
+                        Color("Background").opacity(0.9),
+                        Color("Background").opacity(0.5)
+                    ]),
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+            )
 
+            // Champions List
             ScrollView {
-                VStack(spacing: 15) {
+                LazyVStack(spacing: 16) {
                     ForEach(champions) { champion in
-                        VStack(alignment: .leading, spacing: 8) { // Dynamic vertical alignment
-                            HStack {
-                                Image(champion.iconName)
-                                    .resizable()
-                                    .frame(width: 60, height: 60)
-                                
-                                VStack(alignment: .leading, spacing: 4) {
-                                    Text(champion.name)
-                                        .font(.headline)
-                                        .foregroundColor(.white)
-                                    
-                                    if let details = viewModel.championDetails[champion.name] {
-                                        Text(details.title)
-                                            .font(.subheadline)
-                                            .foregroundColor(.gray)
-                                        
-                                        Text(details.tags.joined(separator: ", "))
-                                            .font(.subheadline)
-                                            .foregroundColor(.gray)
-                                    } else {
-                                        Text("Loading details...")
-                                            .font(.subheadline)
-                                            .foregroundColor(.gray)
-                                    }
-                                }
-                                Spacer()
-                            }
-
-                            if let details = viewModel.championDetails[champion.name] {
-                                Text(details.blurb)
-                                    .font(.footnote)
-                                    .foregroundColor(.gray)
-                                    .multilineTextAlignment(.leading) // Ensure multi-line rendering
-                            }
-                        }
-                        .padding()
-                        .background(Color.appBackground.opacity(10)) // Optional for better appearance
-                        .cornerRadius(10) // Rounded corners
-                        .shadow(color: .black.opacity(0.2), radius: 4, x: 0, y: 2)
+                        ChampionsCards(champion: champion, details: viewModel.championDetails[champion.name])
                     }
                 }
-                .padding(.horizontal)
+                .padding(.horizontal, 16)
+                .padding(.vertical, 20)
             }
 
-            Button(action: {
-                dismiss()
-            }) {
-                Text("Return")
-                    .font(.headline)
-                    .foregroundColor(.black)
-                    .padding()
-                    .background(Color("Button"))
-                    .cornerRadius(10)
+            // Enhanced Return Button
+            Button(action: { dismiss() }) {
+                HStack(spacing: 8) {
+                    Image(systemName: "arrow.left.circle.fill")
+                        .font(.title3)
+                    Text("Return to Map")
+                        .fontWeight(.semibold)
+                }
+                .foregroundColor(Color("Background"))
+                .padding(.horizontal, 24)
+                .padding(.vertical, 12)
+                .background(
+                    LinearGradient(
+                        gradient: Gradient(colors: [
+                            Color("Button"),
+                            Color("Button").opacity(0.8)
+                        ]),
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
+                .cornerRadius(20)
+                .shadow(color: Color("Button").opacity(0.3), radius: 8, x: 0, y: 4)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(Color.white.opacity(0.2), lineWidth: 1)
+                )
             }
-            .padding(.bottom)
+            .padding(.vertical, 20)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color("Background").ignoresSafeArea())
+        .background(
+            Color("Background")
+                .ignoresSafeArea()
+                .overlay(
+                    LinearGradient(
+                        gradient: Gradient(colors: [
+                            .black.opacity(0.3),
+                            .clear,
+                            .black.opacity(0.3)
+                        ]),
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                )
+        )
         .onAppear {
             viewModel.fetchChampionDetails(champions: champions)
         }
+    }
+}
+
+// MARK: - Champion Card View
+struct ChampionsCards: View {
+    let champion: Champion
+    let details: ChampionDetails?
+    @State private var isExpanded = false
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(spacing: 16) {
+                Image(champion.iconName)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 70, height: 70)
+                    .clipShape(RoundedRectangle(cornerRadius: 15))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 15)
+                            .stroke(Color("Button").opacity(0.3), lineWidth: 2)
+                    )
+                    .shadow(color: .black.opacity(0.2), radius: 5, x: 0, y: 3)
+
+                VStack(alignment: .leading, spacing: 6) {
+                    Text(champion.name)
+                        .font(.system(size: 20, weight: .bold))
+                        .foregroundColor(.white)
+                    
+                    if let details = details {
+                        Text(details.title)
+                            .font(.subheadline)
+                            .foregroundColor(Color("Button").opacity(0.8))
+                        
+                        HStack(spacing: 8) {
+                            ForEach(details.tags, id: \.self) { tag in
+                                Text(tag)
+                                    .font(.caption)
+                                    .fontWeight(.medium)
+                                    .foregroundColor(.white)
+                                    .padding(.horizontal, 8)
+                                    .padding(.vertical, 4)
+                                    .background(
+                                        Capsule()
+                                            .fill(Color("Button").opacity(0.2))
+                                    )
+                            }
+                        }
+                    }
+                }
+            }
+
+            if let details = details {
+                Text(details.blurb)
+                    .font(.system(size: 14))
+                    .foregroundColor(.gray)
+                    .lineSpacing(4)
+                    .padding(.horizontal, 4)
+            }
+        }
+        .padding(16)
+        .background(
+            RoundedRectangle(cornerRadius: 20)
+                .fill(Color("Background").opacity(0.8))
+                .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 20)
+                .stroke(Color("Button").opacity(0.1), lineWidth: 1)
+        )
     }
 }
 import Foundation
@@ -486,3 +602,6 @@ struct ChampionDetails: Codable {
     let tags: [String]
     let blurb: String // Champion description
 }
+
+
+
